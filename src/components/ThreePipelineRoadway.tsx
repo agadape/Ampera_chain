@@ -322,37 +322,19 @@ export default function ThreePipelineRoadway() {
     };
 
     const spinners: THREE.Mesh[] = [];
+    const textureLoader = new THREE.TextureLoader();
     
-    // Helper: Create a 3D Coin with Text Logo mapped as CanvasTexture
-    const createCoinLogo = (text: string, color: string, bgColor: string, radius: number = 3.5) => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 256;
-      canvas.height = 256;
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.fillStyle = bgColor;
-        ctx.fillRect(0, 0, 256, 256);
-        ctx.fillStyle = color;
-        ctx.font = '900 64px "Inter", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(text, 128, 128);
-        
-        // Inner circle ring for coin aesthetic
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 12;
-        ctx.beginPath();
-        ctx.arc(128, 128, 110, 0, Math.PI * 2);
-        ctx.stroke();
-      }
+    // Helper: Create a 3D Coin with Image Logo Texture
+    const createCoinLogo = (imagePath: string, sideColor: string, radius: number = 3.5) => {
+      const texture = textureLoader.load(imagePath);
+      texture.colorSpace = THREE.SRGBColorSpace;
       
-      const texture = new THREE.CanvasTexture(canvas);
       const coinGeo = new THREE.CylinderGeometry(radius, radius, 0.6, 32);
       
       const materials = [
-        new THREE.MeshStandardMaterial({ color: bgColor, metalness: 0.8, roughness: 0.2 }), // sides
-        new THREE.MeshStandardMaterial({ map: texture, metalness: 0.5, roughness: 0.4 }),   // top
-        new THREE.MeshStandardMaterial({ map: texture, metalness: 0.5, roughness: 0.4 })    // bottom
+        new THREE.MeshStandardMaterial({ color: sideColor, metalness: 0.8, roughness: 0.2 }), // sides
+        new THREE.MeshStandardMaterial({ map: texture, color: 0xffffff, metalness: 0.3, roughness: 0.4 }),   // top
+        new THREE.MeshStandardMaterial({ map: texture, color: 0xffffff, metalness: 0.3, roughness: 0.4 })    // bottom
       ];
       
       const coin = new THREE.Mesh(coinGeo, materials);
@@ -441,7 +423,7 @@ export default function ThreePipelineRoadway() {
         // Crypto Token Crystal -> AMP Token Logo
         const hex = new THREE.Mesh(new THREE.OctahedronGeometry(2, 0), new THREE.MeshStandardMaterial({ color: 0x7d39eb, metalness: 0.9, roughness: 0.1 }));
         hex.position.y = 3;
-        const ampLogo = createCoinLogo("AMP", "#ffffff", "#00804C", 3);
+        const ampLogo = createCoinLogo("/AMP.png", "#ffffff", 3);
         ampLogo.position.y = 8;
         stationGroup.add(hex, ampLogo);
         spinners.push(ampLogo);
@@ -449,7 +431,7 @@ export default function ThreePipelineRoadway() {
         // Eco Dex Platform -> IDX Carbon Logo
         const plat = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 1, 32), new THREE.MeshStandardMaterial({color: 0x1e488f}));
         plat.position.y = 1;
-        const idxLogo = createCoinLogo("IDX", "#1E488F", "#ffffff", 3);
+        const idxLogo = createCoinLogo("/IDX Carbon.png", "#ffffff", 3);
         idxLogo.position.y = 6;
         stationGroup.add(plat, idxLogo);
         spinners.push(idxLogo);
@@ -459,7 +441,7 @@ export default function ThreePipelineRoadway() {
         vault.position.y = 3;
         const door = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 0.5, 32), new THREE.MeshStandardMaterial({color: 0xdddddd}));
         door.position.set(0, 3, 3); door.rotation.x = Math.PI / 2;
-        const ojkLogo = createCoinLogo("OJK", "#ffffff", "#b71c1c", 3); // Crimson Red for OJK
+        const ojkLogo = createCoinLogo("/OJK_Logo.png", "#ffffff", 3);
         ojkLogo.position.set(0, 9, 0);
         stationGroup.add(vault, door, ojkLogo);
         spinners.push(ojkLogo);
