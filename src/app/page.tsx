@@ -23,6 +23,7 @@ import {
 
 import ThreeNusantaraGlobe from "@/components/ThreeNusantaraGlobe";
 import ThreeTurbineViewer from "@/components/ThreeTurbineViewer";
+import ThreePipelineRoadway from "@/components/ThreePipelineRoadway";
 
 export default function Home() {
   const [villageCount, setVillageCount] = useState<number>(12);
@@ -73,6 +74,7 @@ export default function Home() {
             {/* Nav Menu */}
             <ul className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-widest text-white/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] lg:flex">
               <li><a href="#globe" className="transition-colors hover:text-[#C6FF33]">Globe 3D</a></li>
+              <li><a href="#alur-kerja" className="transition-colors hover:text-[#C6FF33]">Jalan 3D</a></li>
               <li><a href="#hardware" className="transition-colors hover:text-[#C6FF33]">Turbin 3D</a></li>
               <li><a href="#pilar" className="transition-colors hover:text-[#C6FF33]">Tiga Pilar</a></li>
               <li><a href="#simulator" className="transition-colors hover:text-[#C6FF33]">Simulasi APY</a></li>
@@ -249,7 +251,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. THREE.JS 3D HARDWARE TURBINE SECTION */}
+      {/* 4. THREE.JS 3D PIPELINE HIGHWAY ROADWAY (HANS ROAD & STATIONS SUGGESTION) */}
+      <section id="alur-kerja" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
+        <div className="rounded-[1.5rem] bg-[#001F3F] p-6 md:rounded-[3rem] md:p-12 text-white shadow-2xl space-y-8">
+          
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#C6FF33] bg-[#C6FF33]/15 px-3 py-1 rounded-full border border-[#C6FF33]/30">
+                Visual 3D Highway · Dari Langit ke Colokan
+              </span>
+              <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl mt-3">
+                Jalan Energi: Alur Kerja 7 Stasiun
+              </h2>
+            </div>
+
+            <div className="text-xs font-mono text-white/60">
+              * Luncurkan kamera 3D menyusuri jalan energi dari satelit hingga colokan desa
+            </div>
+          </div>
+
+          <ThreePipelineRoadway />
+
+        </div>
+      </section>
+
+      {/* 5. THREE.JS 3D HARDWARE TURBINE SECTION */}
       <section id="hardware" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
         <div className="rounded-[1.5rem] bg-white border border-black/[0.08] p-6 md:rounded-[3rem] md:p-12 shadow-sm space-y-8">
           
