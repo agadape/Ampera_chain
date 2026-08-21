@@ -38,37 +38,40 @@ export default function Home() {
   return (
     <div className="rivr relative min-h-svh bg-[#F4F2EC] text-[#001F3F] antialiased selection:bg-[#C6FF33] selection:text-[#001F3F]">
       
-      {/* 1. HERO SECTION (RIVR FRAMED HERO WITH INVERTED NOTCH & FLOATING STATS) */}
+      {/* 1. HERO SECTION (RIVR FRAMED HERO WITH VIDEO LOOP & GLOSSY GLASS) */}
       <section id="home" data-slot="hero" className="flex min-h-dvh w-full items-stretch justify-center p-3 md:p-5">
-        <div className="group relative flex min-h-[640px] w-full max-w-[1536px] flex-col items-center justify-between overflow-hidden rounded-[1.5rem] bg-[#001F3F] md:rounded-[3rem]">
+        <div className="group relative flex min-h-[640px] w-full max-w-[1536px] flex-col items-center justify-between overflow-hidden rounded-[1.5rem] bg-[#001F3F] md:rounded-[3rem] shadow-[0_20px_60px_rgba(0,31,63,0.35)]">
           
-          {/* Background Aerial & Gradient Overlay (Crystal Clear & Vivid) */}
-          <div className="absolute inset-0 z-0 pointer-events-none">
-            <Image 
-              src="/hero_village.jpg" 
-              alt="Desa 3T Nusantara Aerial" 
-              fill
-              className="object-cover opacity-80 brightness-95 contrast-105 scale-105"
-              priority
+          {/* Background 15-Second Drone Video Loop with Glossy Filter */}
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <video 
+              src="/Landing_page_hero.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              className="absolute inset-0 h-full w-full object-cover scale-105 brightness-95 contrast-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#001F3F]/65 via-black/20 to-[#001F3F]/85" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#001F3F/60_100%)]" />
+            {/* Cinematic Glossy Glass Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#001F3F]/60 via-[#001F3F]/20 to-[#001F3F]/85" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,#001F3F/65_100%)]" />
+            <div className="absolute inset-0 backdrop-blur-[0.5px]" />
           </div>
 
-          {/* Top Navigation Bar */}
+          {/* Top Navigation Bar with Glossy Frosted Glass */}
           <nav data-slot="rivr-nav" className="relative z-20 flex w-full items-center justify-between gap-4 px-6 py-6 md:px-10">
             
             {/* Brand Logo */}
             <a href="#home" className="flex items-center gap-2.5 text-white" aria-label="Ampera home">
-              <div className="w-4 h-4 rounded-full bg-[#C6FF33] shadow-[0_0_14px_#C6FF33]" />
-              <span className="font-display text-2xl font-black tracking-tight text-white drop-shadow-md">ampera</span>
-              <span className="hidden sm:inline-block text-[10px] font-mono font-semibold uppercase tracking-wider text-[#C6FF33] bg-[#001F3F]/80 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-[#C6FF33]/40 shadow-sm">
+              <div className="w-4 h-4 rounded-full bg-[#C6FF33] shadow-[0_0_16px_#C6FF33] animate-pulse" />
+              <span className="font-display text-2xl font-black tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">ampera</span>
+              <span className="hidden sm:inline-block text-[10px] font-mono font-semibold uppercase tracking-wider text-[#C6FF33] bg-[#001F3F]/70 backdrop-blur-xl px-3 py-1 rounded-full border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
                 PLN ICE 2026
               </span>
             </a>
 
             {/* Nav Menu */}
-            <ul className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-widest text-white/90 drop-shadow-sm lg:flex">
+            <ul className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-widest text-white/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] lg:flex">
               <li><a href="#globe" className="transition-colors hover:text-[#C6FF33]">Globe 3D</a></li>
               <li><a href="#hardware" className="transition-colors hover:text-[#C6FF33]">Turbin 3D</a></li>
               <li><a href="#pilar" className="transition-colors hover:text-[#C6FF33]">Tiga Pilar</a></li>
@@ -79,7 +82,7 @@ export default function Home() {
             {/* CTA Button */}
             <a 
               href="#simulator" 
-              className="group inline-flex items-center gap-2.5 rounded-full py-1.5 pe-1.5 ps-5 text-xs font-bold uppercase tracking-wider transition-all bg-[#C6FF33] text-[#001F3F] hover:bg-white shadow-[0_4px_20px_rgba(198,255,51,0.5)]"
+              className="group inline-flex items-center gap-2.5 rounded-full py-1.5 pe-1.5 ps-5 text-xs font-bold uppercase tracking-wider transition-all bg-[#C6FF33] text-[#001F3F] hover:bg-white shadow-[0_4px_24px_rgba(198,255,51,0.5)] ring-1 ring-[#C6FF33]/40"
             >
               <span>Uji ROI Desa</span>
               <span className="flex size-7 items-center justify-center rounded-full bg-[#001F3F]/15 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
@@ -88,31 +91,31 @@ export default function Home() {
             </a>
           </nav>
 
-          {/* Centered Hero Content */}
+          {/* Centered Hero Content with Glossy Badges */}
           <div className="relative z-10 flex flex-col items-center justify-center px-6 py-12 text-center max-w-4xl">
             
-            {/* Floating Glass Pill Badge */}
-            <div data-slot="hero-badge" className="mx-auto mb-6 flex w-fit items-center gap-2 rounded-full border border-white/30 bg-[#001F3F]/60 px-4 py-2 backdrop-blur-md text-white shadow-lg">
-              <Sparkle size={16} className="text-[#C6FF33]" weight="fill" />
-              <span className="text-xs font-mono font-medium tracking-wide">
+            {/* Floating Glass Pill Badge with Glossy Rim */}
+            <div data-slot="hero-badge" className="mx-auto mb-6 flex w-fit items-center gap-2.5 rounded-full border border-white/30 bg-[#001F3F]/50 px-5 py-2 backdrop-blur-2xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/20">
+              <Sparkle size={16} className="text-[#C6FF33] animate-pulse" weight="fill" />
+              <span className="text-xs font-mono font-medium tracking-wide drop-shadow-sm">
                 10.068 Titik Desa 3T · RWA Crowd-Equity Platform
               </span>
             </div>
 
             {/* Giant Display Title */}
-            <h1 data-slot="hero-title" className="font-display mb-6 text-4xl font-black leading-[1.04] text-white sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+            <h1 data-slot="hero-title" className="font-display mb-6 text-4xl font-black leading-[1.04] text-white sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight drop-shadow-[0_6px_30px_rgba(0,0,0,0.85)]">
               Jembatan Modal & Energi Bersih untuk Nusantara.
             </h1>
 
             {/* Body */}
-            <p className="max-w-2xl text-base leading-relaxed text-white font-medium sm:text-lg mb-8 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+            <p className="max-w-2xl text-base leading-relaxed text-white/95 font-medium sm:text-lg mb-8 drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)]">
               Mendanai mikrogrid EBT terdesentralisasi bersama PLN melalui tokenisasi RWA patuh regulasi OJK, menghapus rugi operasional diesel 3T.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4">
               <a 
                 href="#globe" 
-                className="group inline-flex items-center gap-3 rounded-full bg-[#C6FF33] text-[#001F3F] px-8 py-4 text-xs font-bold uppercase tracking-wider hover:bg-white transition-all shadow-[0_4px_24px_rgba(198,255,51,0.4)]"
+                className="group inline-flex items-center gap-3 rounded-full bg-[#C6FF33] text-[#001F3F] px-8 py-4 text-xs font-bold uppercase tracking-wider hover:bg-white transition-all shadow-[0_4px_24px_rgba(198,255,51,0.5)] ring-1 ring-[#C6FF33]/50"
               >
                 <span>Buka 3D Nusantara Globe</span>
                 <div className="w-6 h-6 rounded-full bg-[#001F3F]/15 flex items-center justify-center group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform">
@@ -122,7 +125,7 @@ export default function Home() {
 
               <a 
                 href="#hardware" 
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-4 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md hover:bg-white/20 transition-all"
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-4 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xl hover:bg-white/20 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)] ring-1 ring-white/15"
               >
                 <Cube size={16} /> <span>CAD Turbin 3D</span>
               </a>
@@ -130,17 +133,17 @@ export default function Home() {
 
           </div>
 
-          {/* Bottom Floating Card: Left (Hero Stat Pill) */}
+          {/* Bottom Floating Card: Left (Glossy Hero Stat Pill) */}
           <div data-slot="hero-stat" className="relative z-10 w-full px-6 pb-6 md:px-10 md:pb-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
             
-            <div className="flex w-fit min-w-[200px] flex-col gap-2 rounded-[1.5rem] border border-white/20 bg-white/10 p-5 backdrop-blur-xl text-white">
+            <div className="flex w-fit min-w-[200px] flex-col gap-2 rounded-[1.5rem] border border-white/30 bg-[#001F3F]/50 p-5 backdrop-blur-2xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/20">
               <div className="flex flex-col">
-                <span className="font-display text-3xl font-black tracking-tight text-[#C6FF33]">10.068</span>
-                <span className="text-[10px] font-mono font-medium uppercase tracking-wider text-white/70">Desa 3T Menanti Terang</span>
+                <span className="font-display text-3xl font-black tracking-tight text-[#C6FF33] drop-shadow-md">10.068</span>
+                <span className="text-[10px] font-mono font-medium uppercase tracking-wider text-white/80">Desa 3T Menanti Terang</span>
               </div>
               <a 
                 href="#simulator" 
-                className="flex w-fit items-center gap-2 self-start rounded-full bg-white text-[#001F3F] py-1.5 pe-4 ps-1.5 text-xs font-bold tracking-wide transition-colors hover:bg-white/90"
+                className="flex w-fit items-center gap-2 self-start rounded-full bg-white text-[#001F3F] py-1.5 pe-4 ps-1.5 text-xs font-bold tracking-wide transition-all hover:bg-[#C6FF33] shadow-md"
               >
                 <span className="flex size-5 items-center justify-center rounded-full bg-[#001F3F]/10">
                   <ArrowUpRight size={12} weight="bold" />
@@ -150,7 +153,7 @@ export default function Home() {
             </div>
 
             {/* Bottom-Right Inverted Corner Notch Card (Rivr Signature Motif) */}
-            <div data-slot="hero-docs" className="relative flex items-center gap-4 rounded-ss-[2rem] bg-[#F4F2EC] p-4 ps-8 pt-5 md:rounded-ss-[3rem] md:p-6 md:ps-12 md:pt-7 text-[#001F3F]">
+            <div data-slot="hero-docs" className="relative flex items-center gap-4 rounded-ss-[2rem] bg-[#F4F2EC] p-4 ps-8 pt-5 md:rounded-ss-[3rem] md:p-6 md:ps-12 md:pt-7 text-[#001F3F] shadow-lg">
               
               {/* Inverted Top Corner SVG */}
               <div className="pointer-events-none absolute -top-[2rem] end-0 size-[2rem] text-[#F4F2EC] md:-top-[3rem] md:size-[3rem]">
@@ -166,7 +169,7 @@ export default function Home() {
                 </svg>
               </div>
 
-              <div className="flex size-12 items-center justify-center rounded-full border border-black/10 bg-black/5 text-[#00804C] shrink-0">
+              <div className="flex size-12 items-center justify-center rounded-full border border-black/10 bg-black/5 text-[#00804C] shrink-0 shadow-inner">
                 <ShieldCheck size={24} weight="duotone" />
               </div>
 
