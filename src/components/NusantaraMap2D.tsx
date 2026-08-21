@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, Marker, Graticule } from "react-simple-maps";
 import { Lightning } from "@phosphor-icons/react";
 
 // TopoJSON File from public folder
@@ -35,18 +35,21 @@ export default function NusantaraMap2D() {
         height={400}
         style={{ width: "100%", height: "100%" }}
       >
+        <Graticule stroke="#ffffff" strokeOpacity={0.05} />
+        
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map((geo) => (
               <Geography 
                 key={geo.rsmKey} 
                 geography={geo}
-                fill="#2E3C4D" 
-                stroke="#1A2433"
+                fill="rgba(255, 255, 255, 0.03)" 
+                stroke="#C6FF33"
                 strokeWidth={0.5}
+                strokeOpacity={0.3}
                 style={{
-                  default: { outline: "none", transition: "all 0.2s" },
-                  hover: { fill: "#3B4E63", outline: "none", opacity: 0.9 },
+                  default: { outline: "none", transition: "all 0.3s ease" },
+                  hover: { fill: "rgba(198, 255, 51, 0.15)", strokeOpacity: 0.8, outline: "none" },
                   pressed: { fill: "#C6FF33", outline: "none" },
                 }}
               />
@@ -63,10 +66,13 @@ export default function NusantaraMap2D() {
             onMouseLeave={() => setHovered(null)}
           >
             <g className="cursor-pointer">
-              {/* Outer Glow / Ping */}
-              <circle r={14} fill="#C6FF33" opacity="0.3" className="animate-ping" style={{ transformOrigin: "center" }} />
-              <circle r={6} fill="#00804C" stroke="#C6FF33" strokeWidth={2} />
-              <circle r={2} fill="#ffffff" />
+              {/* Smooth Pulse instead of aggressive animate-ping */}
+              <circle r={6} fill="#C6FF33">
+                <animate attributeName="r" from="6" to="20" dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="opacity" from="0.5" to="0" dur="2.5s" repeatCount="indefinite" />
+              </circle>
+              <circle r={5} fill="#00804C" stroke="#C6FF33" strokeWidth={1.5} />
+              <circle r={1.5} fill="#ffffff" />
             </g>
 
             {/* Hover Tooltip via foreignObject */}
