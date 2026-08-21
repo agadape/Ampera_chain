@@ -39,8 +39,8 @@ export default function Home() {
     <div className="rivr relative min-h-svh bg-[#F4F2EC] text-[#001F3F] antialiased selection:bg-[#C6FF33] selection:text-[#001F3F]">
       
       {/* 1. HERO SECTION (RIVR FRAMED HERO WITH VIDEO LOOP & GLOSSY GLASS) */}
-      <section id="home" data-slot="hero" className="flex h-[100svh] min-h-[640px] w-full items-stretch justify-center p-3 md:p-5 overflow-hidden">
-        <div className="group relative flex h-full w-full max-w-[1536px] flex-col items-center justify-between overflow-hidden rounded-[1.5rem] bg-[#001F3F] md:rounded-[3rem] shadow-[0_20px_60px_rgba(0,31,63,0.35)]">
+      <section id="home" data-slot="hero" className="flex min-h-dvh w-full items-stretch justify-center p-3 md:p-5">
+        <div className="group relative flex min-h-[640px] w-full max-w-[1536px] flex-col items-center justify-between overflow-hidden rounded-[1.5rem] bg-[#001F3F] md:rounded-[3rem] shadow-[0_20px_60px_rgba(0,31,63,0.35)]">
           
           {/* Background 15-Second Drone Video Loop with Glossy Filter */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -92,7 +92,7 @@ export default function Home() {
           </nav>
 
           {/* Centered Hero Content with Glossy Badges */}
-          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-8 text-center max-w-4xl shrink-0 mt-auto mb-auto">
+          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-12 text-center max-w-4xl">
             
             {/* Floating Glass Pill Badge with Glossy Rim */}
             <div data-slot="hero-badge" className="mx-auto mb-6 flex w-fit items-center gap-2.5 rounded-full border border-white/30 bg-[#001F3F]/50 px-5 py-2 backdrop-blur-2xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/20">
@@ -133,30 +133,27 @@ export default function Home() {
 
           </div>
 
-          {/* Bottom Floating Elements */}
-          <div className="relative z-10 w-full flex items-end justify-between mt-auto">
+          {/* Bottom Floating Card: Left (Glossy Hero Stat Pill) */}
+          <div data-slot="hero-stat" className="relative z-10 w-full px-6 pb-6 md:px-10 md:pb-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
             
-            {/* Left Glossy Stat Pill - Added padding to align with nav */}
-            <div className="px-6 pb-6 md:px-10 md:pb-10">
-              <div className="flex w-fit min-w-[200px] flex-col gap-2 rounded-[1.5rem] border border-white/30 bg-[#001F3F]/50 p-5 backdrop-blur-2xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/20">
-                <div className="flex flex-col">
-                  <span className="font-display text-3xl font-black tracking-tight text-[#C6FF33] drop-shadow-md">10.068</span>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-white/80">Desa 3T Menanti Terang</span>
-                </div>
-                <a 
-                  href="#simulator" 
-                  className="flex w-fit items-center gap-2 self-start rounded-full bg-white text-[#001F3F] py-1.5 pe-4 ps-1.5 text-xs font-bold tracking-wide transition-all hover:bg-[#C6FF33] shadow-md"
-                >
-                  <span className="flex size-5 items-center justify-center rounded-full bg-[#001F3F]/10">
-                    <ArrowUpRight size={12} weight="bold" />
-                  </span>
-                  <span>Hitung Dampak</span>
-                </a>
+            <div className="flex w-fit min-w-[200px] flex-col gap-2 rounded-[1.5rem] border border-white/30 bg-[#001F3F]/50 p-5 backdrop-blur-2xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/20">
+              <div className="flex flex-col">
+                <span className="font-display text-3xl font-black tracking-tight text-[#C6FF33] drop-shadow-md">10.068</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-white/80">Desa 3T Menanti Terang</span>
               </div>
+              <a 
+                href="#simulator" 
+                className="flex w-fit items-center gap-2 self-start rounded-full bg-white text-[#001F3F] py-1.5 pe-4 ps-1.5 text-xs font-bold tracking-wide transition-all hover:bg-[#C6FF33] shadow-md"
+              >
+                <span className="flex size-5 items-center justify-center rounded-full bg-[#001F3F]/10">
+                  <ArrowUpRight size={12} weight="bold" />
+                </span>
+                <span>Hitung Dampak</span>
+              </a>
             </div>
 
-            {/* Bottom-Right Inverted Corner Notch Card (Rivr Signature Motif) - Flushed perfectly to bottom right corner */}
-            <div data-slot="hero-docs" className="relative flex items-center gap-4 rounded-ss-[2rem] bg-[#F4F2EC] p-4 ps-8 pt-5 md:rounded-ss-[3rem] md:p-6 md:ps-12 md:pt-7 text-[#001F3F] shadow-lg self-end">
+            {/* Bottom-Right Inverted Corner Notch Card (Rivr Signature Motif) */}
+            <div data-slot="hero-docs" className="relative flex items-center gap-4 rounded-ss-[2rem] bg-[#F4F2EC] p-4 ps-8 pt-5 md:rounded-ss-[3rem] md:p-6 md:ps-12 md:pt-7 text-[#001F3F] shadow-lg">
               
               {/* Inverted Top Corner SVG */}
               <div className="pointer-events-none absolute -top-[2rem] end-0 size-[2rem] text-[#F4F2EC] md:-top-[3rem] md:size-[3rem]">
@@ -183,7 +180,6 @@ export default function Home() {
             </div>
             
           </div>
-
         </div>
       </section>
 
@@ -286,62 +282,77 @@ export default function Home() {
           
           {/* Card 1: Tall Left Card (Spans 2 Rows) */}
           <div className="group relative overflow-hidden rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[2.5rem] flex min-h-[28rem] flex-col justify-between md:row-span-2 md:p-10 shadow-sm transition-all hover:shadow-xl">
-            <span className="relative flex size-14 items-center justify-center rounded-2xl bg-[#00804C]/10 text-[#00804C]">
+            <div className="absolute inset-0 z-0">
+              <Image src="/pilar_ampera_flex.jpg" alt="Ampera Flex" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-white/10" />
+            </div>
+            
+            <span className="relative z-10 flex size-14 items-center justify-center rounded-2xl bg-white/70 backdrop-blur-md text-[#00804C] shadow-sm">
               <Leaf size={28} weight="duotone" />
             </span>
-            <div className="relative">
+            <div className="relative z-10 mt-32">
               <span className="text-[10px] font-mono text-[#00804C] uppercase tracking-widest font-bold block mb-1">
                 PILAR 01 · AMPERA FLEX
               </span>
               <h3 className="font-display text-2xl font-bold leading-snug text-[#001F3F] md:text-3xl">
                 Energi Bersih Agnostik 24/7
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-black/60">
+              <p className="mt-3 text-sm leading-relaxed text-[#001F3F]/80 font-medium">
                 Piko-hidro aliran sungai (23.0% APY), Surya PV + BESS (24.8% APY), dan Biomassa gasifikasi sawit (23.8% APY) dipilih secara otomatis oleh AI Tetrix sesuai kondisi geografis desa.
               </p>
             </div>
           </div>
 
           {/* Card 2: Wide Top Right Card (Spans 2 Columns) */}
-          <div className="group relative overflow-hidden rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[2.5rem] flex min-h-[14rem] flex-col justify-between md:col-span-2 md:p-10 shadow-sm transition-all hover:shadow-xl">
-            <span className="relative flex size-14 items-center justify-center rounded-2xl bg-[#1E488F]/10 text-[#1E488F]">
+          <div className="group relative overflow-hidden rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[2.5rem] flex min-h-[16rem] flex-col justify-between md:col-span-2 md:p-10 shadow-sm transition-all hover:shadow-xl">
+            <div className="absolute inset-0 z-0">
+              <Image src="/pilar_integrasi.jpg" alt="Integrasi PLN" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent" />
+            </div>
+
+            <span className="relative z-10 flex size-14 items-center justify-center rounded-2xl bg-white/70 backdrop-blur-md text-[#1E488F] shadow-sm">
               <Lightning size={28} weight="fill" />
             </span>
-            <div className="relative">
+            <div className="relative z-10 mt-12 max-w-lg">
               <span className="text-[10px] font-mono text-[#1E488F] uppercase tracking-widest font-bold block mb-1">
                 PILAR 02 · INTEGRASI PLN
               </span>
               <h3 className="font-display text-xl font-bold text-[#001F3F] md:text-2xl">
                 Off-Taker Terintegrasi & Penghemat Subsidi
               </h3>
-              <p className="mt-2 max-w-xl text-sm leading-relaxed text-black/60">
+              <p className="mt-2 text-sm leading-relaxed text-[#001F3F]/80 font-medium">
                 PLN bertindak sebagai pembeli tenaga listrik andal dan pengelola jaringan. Mengeliminasi kerugian subsidi diesel PLTD hingga Rp 135.000 per rumah tangga setiap bulan.
               </p>
             </div>
           </div>
 
           {/* Card 3: Bottom Middle Card */}
-          <div className="group relative overflow-hidden rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[2.5rem] flex flex-col justify-between shadow-sm transition-all hover:shadow-xl">
-            <span className="flex size-14 items-center justify-center rounded-2xl bg-[#7D39EB]/10 text-[#7D39EB]">
+          <div className="group relative overflow-hidden rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[2.5rem] flex min-h-[16rem] flex-col justify-between shadow-sm transition-all hover:shadow-xl">
+            <div className="absolute inset-0 z-0">
+              <Image src="/pilar_tokenisasi.jpg" alt="Tokenisasi RWA" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-white/20" />
+            </div>
+
+            <span className="relative z-10 flex size-14 items-center justify-center rounded-2xl bg-white/70 backdrop-blur-md text-[#7D39EB] shadow-sm">
               <HardDrives size={28} weight="duotone" />
             </span>
-            <div className="mt-4">
+            <div className="relative z-10 mt-auto">
               <span className="text-[10px] font-mono text-[#7D39EB] uppercase tracking-widest font-bold block mb-1">
                 PILAR 03 · RWA & DEFI
               </span>
               <h3 className="font-display text-xl font-bold text-[#001F3F]">Tokenisasi ERC-6909</h3>
-              <p className="mt-2 text-sm leading-relaxed text-black/60">
-                Setiap 1 $AMP merepresentasikan hak bagi hasil 1 kWh riil dengan proteksi likuiditas <i>Bid Wall Hook</i> Uniswap v4.
+              <p className="mt-2 text-sm leading-relaxed text-[#001F3F]/80 font-medium">
+                Setiap 1 $AMP merepresentasikan hak bagi hasil 1 kWh riil dengan proteksi likuiditas <i>Bid Wall Hook</i>.
               </p>
             </div>
           </div>
 
           {/* Card 4: Bottom Right Action Card */}
-          <div className="group relative overflow-hidden rounded-[1.5rem] bg-[#001F3F] p-8 md:rounded-[2.5rem] flex flex-col items-center justify-center gap-4 text-center text-white shadow-xl">
+          <div className="group relative overflow-hidden rounded-[1.5rem] bg-[#001F3F] p-8 md:rounded-[2.5rem] flex flex-col items-center justify-center gap-4 text-center text-white shadow-xl hover:bg-[#001429] transition-colors">
             <span className="flex size-16 items-center justify-center rounded-full bg-[#C6FF33] text-[#001F3F] transition-transform duration-300 group-hover:scale-110 shadow-lg">
               <ArrowUpRight size={28} weight="bold" />
             </span>
-            <div>
+            <div className="relative z-10">
               <h3 className="font-display text-xl font-bold text-white">Sertifikasi IDXCarbon</h3>
               <p className="mt-1 text-xs font-mono text-white/70">Metodologi UNFCCC AMS-I.L terdaftar.</p>
             </div>

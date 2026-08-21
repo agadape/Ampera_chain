@@ -350,8 +350,17 @@ export default function ThreeNusantaraGlobe() {
     // 12. Animation Loop (60 FPS)
     let animationFrameId: number;
     let clock = new THREE.Clock();
+    let isVisible = true;
+
+    const observer = new IntersectionObserver((entries) => {
+      isVisible = entries[0].isIntersecting;
+    }, { rootMargin: "200px" });
+    observer.observe(container);
 
     const animateLoop = () => {
+      animationFrameId = requestAnimationFrame(animateLoop);
+      if (!isVisible) return; // Pause GPU processing
+
       const elapsed = clock.getElapsedTime();
 
       // Idle Auto-Rotation
@@ -373,13 +382,13 @@ export default function ThreeNusantaraGlobe() {
       });
 
       renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(animateLoop);
     };
 
     animateLoop();
 
     // 13. Clean up
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(animationFrameId);
       container.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mousemove", onMouseMove);
