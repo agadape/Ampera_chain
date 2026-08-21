@@ -1,40 +1,33 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
 import { 
   ArrowUpRight, 
+  Sparkle, 
   Leaf, 
   Lightning, 
   HardDrives, 
-  SolarPanel, 
-  Drop, 
-  TreeEvergreen, 
-  CheckCircle, 
+  ShieldCheck, 
   CaretRight, 
-  GraduationCap,
-  Sparkle,
-  ShieldCheck,
+  Cube, 
   GlobeHemisphereEast,
-  Cpu,
-  Handshake,
   Coins,
-  TrendUp
+  Drop,
+  TreeEvergreen,
+  Users,
+  CheckCircle,
+  GraduationCap
 } from "@phosphor-icons/react";
 
 import ThreeNusantaraGlobe from "@/components/ThreeNusantaraGlobe";
 import ThreeTurbineViewer from "@/components/ThreeTurbineViewer";
 
 export default function Home() {
-  const { scrollYProgress } = useScroll();
-  const heroY = useTransform(scrollYProgress, [0, 0.5], [0, 120]);
-  
-  // Interactive Simulator State
   const [villageCount, setVillageCount] = useState<number>(12);
-  const [activeTab, setActiveTab] = useState<"hydro" | "solar" | "biomass">("hydro");
 
-  // Math variables
+  // Financial Math
   const apyRate = 24.8;
   const dieselSavingsPerVillagePerYear = 35_000_000;
   const totalInvestment = villageCount * 142_000_000;
@@ -42,179 +35,209 @@ export default function Home() {
   const totalCo2Avoided = (villageCount * 3.59).toFixed(1);
   const estimatedAnnualDividend = (totalInvestment * (apyRate / 100));
 
-  const energyProfiles = {
-    hydro: {
-      name: "Piko-Hidro Microgrid",
-      idealRegion: "Papua Pegunungan & Maluku",
-      capexPerKw: "Rp 2,5 - 5 Juta/kW",
-      capacityFactor: "85% (24/7 Base Load)",
-      apy: "23.0%",
-      carbonAvoided: "3.59 tCO₂e / kW / thn",
-      desc: "Memanfaatkan gravitasi dan aliran sungai pegunungan 3T untuk membangkitkan daya kontinu tanpa baterai kimia mahal."
-    },
-    solar: {
-      name: "Solar PV + BESS Microgrid",
-      idealRegion: "Nusa Tenggara Timur & Pesisir",
-      capexPerKw: "Rp 14 - 18 Juta/kW",
-      capacityFactor: "22% (Siang + Storage)",
-      apy: "24.8%",
-      carbonAvoided: "1.08 tCO₂e / kW / thn",
-      desc: "Fotovoltaik terdistribusi di atap komunal dengan edge telemetry untuk menangkap radiasi tinggi Indonesia timur."
-    },
-    biomass: {
-      name: "Biomassa Gasifikasi",
-      idealRegion: "Sumatra & Kalimantan Perkebunan",
-      capexPerKw: "Rp 9 - 14 Juta/kW",
-      capacityFactor: "70% (On-Demand Dispatch)",
-      apy: "23.8%",
-      carbonAvoided: "2.59 tCO₂e / kW / thn",
-      desc: "Mengubah limbah cangkang sawit dan biomassa kayu lokal menjadi gas sintetis bersih pengganti solar genset."
-    }
-  };
-
   return (
-    <main className="min-h-[100dvh] flex flex-col bg-paper text-black overflow-x-hidden selection:bg-lime selection:text-midnight">
+    <div className="rivr relative min-h-svh bg-[#F4F2EC] text-[#001F3F] antialiased selection:bg-[#C6FF33] selection:text-[#001F3F]">
       
-      {/* FLOATING GLASS PILL NAVBAR */}
-      <div className="fixed top-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
-        <header className="pointer-events-auto bg-midnight/85 backdrop-blur-xl border border-white/15 px-5 py-3 rounded-full shadow-[0_8px_32px_rgba(0,31,63,0.3)] flex items-center justify-between gap-4 md:gap-8 max-w-5xl w-full">
+      {/* 1. HERO SECTION (RIVR FRAMED HERO WITH INVERTED NOTCH & FLOATING STATS) */}
+      <section id="home" data-slot="hero" className="flex min-h-dvh w-full items-stretch justify-center p-3 md:p-5">
+        <div className="group relative flex min-h-[640px] w-full max-w-[1536px] flex-col items-center justify-between overflow-hidden rounded-[1.5rem] bg-[#001F3F] md:rounded-[3rem]">
           
-          <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full bg-lime shadow-[0_0_14px_rgba(198,255,51,0.9)] animate-pulse" />
-            <span className="font-display font-extrabold text-white text-xl tracking-tight">ampera</span>
-            <span className="hidden sm:inline-block text-[10px] font-mono font-semibold uppercase tracking-wider text-lime bg-lime/10 px-2.5 py-0.5 rounded-full border border-lime/20">
-              PLN ICE 2026
-            </span>
-          </div>
-
-          <nav className="hidden md:flex items-center gap-6 text-xs font-medium uppercase tracking-widest text-white/70">
-            <a href="#globe-3d" className="hover:text-lime transition-colors">Globe 3D</a>
-            <a href="#hardware-3d" className="hover:text-lime transition-colors">Turbin 3D</a>
-            <a href="#pilar" className="hover:text-lime transition-colors">Tiga Pilar</a>
-            <a href="#simulator" className="hover:text-lime transition-colors">Simulasi ROI</a>
-            <a href="#team" className="hover:text-lime transition-colors">Tim</a>
-          </nav>
-
-          <a 
-            href="#simulator"
-            className="group relative inline-flex items-center gap-2 bg-lime text-midnight text-xs uppercase font-bold tracking-wider px-4 py-2 rounded-full hover:bg-white transition-all shadow-[0_2px_12px_rgba(198,255,51,0.3)]"
-          >
-            <span>Simulasi</span>
-            <div className="w-5 h-5 rounded-full bg-midnight/10 flex items-center justify-center group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
-              <ArrowUpRight size={12} weight="bold" />
-            </div>
-          </a>
-        </header>
-      </div>
-
-      {/* HERO SECTION */}
-      <section className="relative w-full bg-midnight min-h-[100dvh] flex items-center justify-center pt-32 pb-24 px-6 overflow-hidden">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <motion.div style={{ y: heroY }} className="w-full h-full scale-105">
+          {/* Background Aerial & Gradient Overlay */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
             <Image 
               src="/hero_village.jpg" 
-              alt="Indonesian 3T Village Aerial" 
+              alt="Desa 3T Nusantara Aerial" 
               fill
-              className="object-cover opacity-25 mix-blend-luminosity"
+              className="object-cover opacity-35 mix-blend-luminosity scale-105"
               priority
             />
-          </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/80 to-transparent" />
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-brand-green/20 rounded-full blur-[140px] pointer-events-none" />
-        </div>
-
-        <div className="max-w-6xl w-full mx-auto relative z-10 text-center flex flex-col items-center">
-          
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md mb-8 text-white/90 text-xs font-mono">
-            <span className="w-2 h-2 rounded-full bg-lime shadow-[0_0_8px_#C6FF33] animate-ping" />
-            <span>10.068 Titik Desa 3T · RWA Crowd-Equity Platform</span>
+            <div className="absolute inset-0 bg-gradient-to-b from-[#001F3F]/80 via-[#001F3F]/30 to-[#001F3F]/75" />
           </div>
 
-          <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-[5.2rem] text-white tracking-tighter leading-[1.04] max-w-5xl mb-8">
-            Jembatan Modal & Energi Bersih untuk Nusantara.
-          </h1>
-
-          <p className="text-base sm:text-lg md:text-xl text-white/75 font-normal leading-relaxed max-w-2xl mb-12">
-            Mendanai mikrogrid EBT terdesentralisasi bersama PLN melalui tokenisasi RWA patuh regulasi OJK, menghapus rugi operasional diesel 3T.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <a 
-              href="#globe-3d"
-              className="group p-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/20 transition-all cursor-pointer"
-            >
-              <div className="bg-lime text-midnight px-7 py-3.5 rounded-full flex items-center gap-4 font-bold text-sm uppercase tracking-wider group-hover:bg-white transition-colors">
-                <span>Eksplorasi 3D Globe Nusantara</span>
-                <div className="w-7 h-7 rounded-full bg-midnight/15 flex items-center justify-center group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform">
-                  <ArrowUpRight size={16} weight="bold" />
-                </div>
-              </div>
-            </a>
-
-            <a 
-              href="#simulator"
-              className="px-6 py-3.5 text-white/80 hover:text-white text-sm font-medium tracking-wide transition-colors flex items-center gap-2"
-            >
-              Hitung Simulasi ROI <CaretRight size={16} />
-            </a>
-          </div>
-
-          <div className="mt-16 pt-8 border-t border-white/10 flex flex-wrap items-center justify-center gap-6 text-xs text-white/50 font-mono">
-            <span className="flex items-center gap-2"><CheckCircle size={16} className="text-lime" /> OJK POJK 17/2025 (ECF Pool)</span>
-            <span className="flex items-center gap-2"><CheckCircle size={16} className="text-lime" /> POJK 27/2024 (RWA Token)</span>
-            <span className="flex items-center gap-2"><CheckCircle size={16} className="text-lime" /> Metodologi Karbon AMS-I.L</span>
-          </div>
-
-        </div>
-      </section>
-
-      {/* BIG TELEMETRY STATS */}
-      <section className="bg-white py-20 border-b border-black/10">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Top Navigation Bar */}
+          <nav data-slot="rivr-nav" className="relative z-20 flex w-full items-center justify-between gap-4 px-6 py-6 md:px-10">
             
-            <div className="flex flex-col">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-black/50 mb-1">[ GAP NASIONAL ]</span>
-              <span className="font-body font-extrabold tabular-nums text-4xl md:text-5xl text-brand-green tracking-tight">10.068</span>
-              <span className="text-xs text-black/70 mt-1 font-medium">Desa 3T Menanti Listrik</span>
+            {/* Brand Logo */}
+            <a href="#home" className="flex items-center gap-2.5 text-white" aria-label="Ampera home">
+              <div className="w-4 h-4 rounded-full bg-[#C6FF33] shadow-[0_0_14px_#C6FF33]" />
+              <span className="font-display text-2xl font-black tracking-tight text-white">ampera</span>
+              <span className="hidden sm:inline-block text-[10px] font-mono font-semibold uppercase tracking-wider text-[#C6FF33] bg-[#C6FF33]/15 px-2.5 py-0.5 rounded-full border border-[#C6FF33]/30">
+                PLN ICE 2026
+              </span>
+            </a>
+
+            {/* Nav Menu */}
+            <ul className="hidden items-center gap-8 text-xs font-medium uppercase tracking-widest text-white/80 lg:flex">
+              <li><a href="#globe" className="transition-colors hover:text-[#C6FF33]">Globe 3D</a></li>
+              <li><a href="#hardware" className="transition-colors hover:text-[#C6FF33]">Turbin 3D</a></li>
+              <li><a href="#pilar" className="transition-colors hover:text-[#C6FF33]">Tiga Pilar</a></li>
+              <li><a href="#simulator" className="transition-colors hover:text-[#C6FF33]">Simulasi APY</a></li>
+              <li><a href="#tim" className="transition-colors hover:text-[#C6FF33]">Tim</a></li>
+            </ul>
+
+            {/* CTA Button */}
+            <a 
+              href="#simulator" 
+              className="group inline-flex items-center gap-2.5 rounded-full py-1.5 pe-1.5 ps-5 text-xs font-bold uppercase tracking-wider transition-all bg-[#C6FF33] text-[#001F3F] hover:bg-white shadow-[0_4px_20px_rgba(198,255,51,0.4)]"
+            >
+              <span>Uji ROI Desa</span>
+              <span className="flex size-7 items-center justify-center rounded-full bg-[#001F3F]/15 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                <ArrowUpRight size={14} weight="bold" />
+              </span>
+            </a>
+          </nav>
+
+          {/* Centered Hero Content */}
+          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-12 text-center max-w-4xl">
+            
+            {/* Floating Glass Pill Badge */}
+            <div data-slot="hero-badge" className="mx-auto mb-6 flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md text-white">
+              <Sparkle size={16} className="text-[#C6FF33]" weight="fill" />
+              <span className="text-xs font-mono font-medium tracking-wide">
+                10.068 Titik Desa 3T · RWA Crowd-Equity Platform
+              </span>
             </div>
 
-            <div className="flex flex-col">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-black/50 mb-1">[ DEFISIT CAPEX ]</span>
-              <span className="font-body font-extrabold tabular-nums text-4xl md:text-5xl text-nuit tracking-tight">Rp 50,01T</span>
-              <span className="text-xs text-black/70 mt-1 font-medium">Total Kebutuhan Investasi</span>
-            </div>
+            {/* Giant Display Title */}
+            <h1 data-slot="hero-title" className="font-display mb-6 text-4xl font-black leading-[1.04] text-white sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight">
+              Jembatan Modal & Energi Bersih untuk Nusantara.
+            </h1>
 
-            <div className="flex flex-col">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-black/50 mb-1">[ YIELD ARUS KAS ]</span>
-              <span className="font-body font-extrabold tabular-nums text-4xl md:text-5xl text-midnight tracking-tight">24,8%</span>
-              <span className="text-xs text-black/70 mt-1 font-medium">Proyeksi Rata-Rata APY</span>
-            </div>
+            {/* Body */}
+            <p className="max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg font-normal mb-8">
+              Mendanai mikrogrid EBT terdesentralisasi bersama PLN melalui tokenisasi RWA patuh regulasi OJK, menghapus rugi operasional diesel 3T.
+            </p>
 
-            <div className="flex flex-col">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-black/50 mb-1">[ INKLUSI FINANSIAL ]</span>
-              <span className="font-body font-extrabold tabular-nums text-4xl md:text-5xl text-violet tracking-tight">Rp 2.000</span>
-              <span className="text-xs text-black/70 mt-1 font-medium">Tiket Masuk Mikro-Investor</span>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <a 
+                href="#globe" 
+                className="group inline-flex items-center gap-3 rounded-full bg-[#C6FF33] text-[#001F3F] px-8 py-4 text-xs font-bold uppercase tracking-wider hover:bg-white transition-all shadow-[0_4px_24px_rgba(198,255,51,0.4)]"
+              >
+                <span>Buka 3D Nusantara Globe</span>
+                <div className="w-6 h-6 rounded-full bg-[#001F3F]/15 flex items-center justify-center group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform">
+                  <ArrowUpRight size={14} weight="bold" />
+                </div>
+              </a>
+
+              <a 
+                href="#hardware" 
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-4 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md hover:bg-white/20 transition-all"
+              >
+                <Cube size={16} /> <span>CAD Turbin 3D</span>
+              </a>
             </div>
 
           </div>
+
+          {/* Bottom Floating Card: Left (Hero Stat Pill) */}
+          <div data-slot="hero-stat" className="relative z-10 w-full px-6 pb-6 md:px-10 md:pb-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
+            
+            <div className="flex w-fit min-w-[200px] flex-col gap-2 rounded-[1.5rem] border border-white/20 bg-white/10 p-5 backdrop-blur-xl text-white">
+              <div className="flex flex-col">
+                <span className="font-display text-3xl font-black tracking-tight text-[#C6FF33]">10.068</span>
+                <span className="text-[10px] font-mono font-medium uppercase tracking-wider text-white/70">Desa 3T Menanti Terang</span>
+              </div>
+              <a 
+                href="#simulator" 
+                className="flex w-fit items-center gap-2 self-start rounded-full bg-white text-[#001F3F] py-1.5 pe-4 ps-1.5 text-xs font-bold tracking-wide transition-colors hover:bg-white/90"
+              >
+                <span className="flex size-5 items-center justify-center rounded-full bg-[#001F3F]/10">
+                  <ArrowUpRight size={12} weight="bold" />
+                </span>
+                <span>Hitung Dampak</span>
+              </a>
+            </div>
+
+            {/* Bottom-Right Inverted Corner Notch Card (Rivr Signature Motif) */}
+            <div data-slot="hero-docs" className="relative flex items-center gap-4 rounded-ss-[2rem] bg-[#F4F2EC] p-4 ps-8 pt-5 md:rounded-ss-[3rem] md:p-6 md:ps-12 md:pt-7 text-[#001F3F]">
+              
+              {/* Inverted Top Corner SVG */}
+              <div className="pointer-events-none absolute -top-[2rem] end-0 size-[2rem] text-[#F4F2EC] md:-top-[3rem] md:size-[3rem]">
+                <svg width="100%" height="100%" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M56 56V0C56 30.9279 30.9279 56 0 56H56Z" fill="currentColor" />
+                </svg>
+              </div>
+
+              {/* Inverted Left Corner SVG */}
+              <div className="pointer-events-none absolute bottom-0 -start-[2rem] size-[2rem] text-[#F4F2EC] md:-start-[3rem] md:size-[3rem]">
+                <svg width="100%" height="100%" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M56 56H0C30.9279 56 56 30.9279 56 0V56Z" fill="currentColor" />
+                </svg>
+              </div>
+
+              <div className="flex size-12 items-center justify-center rounded-full border border-black/10 bg-black/5 text-[#00804C] shrink-0">
+                <ShieldCheck size={24} weight="duotone" />
+              </div>
+
+              <div className="flex flex-col">
+                <span className="text-base font-bold text-[#001F3F] leading-tight">Dokumentasi Pitch</span>
+                <span className="text-xs font-mono text-black/60">PLN ICE 2026 Innovation</span>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </section>
 
-      {/* THREE.JS 3D NUSANTARA GLOBE */}
-      <section id="globe-3d" className="py-28 bg-midnight relative overflow-hidden border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
+      {/* 2. METRICS SECTION (RIVR BORDER-SEPARATED 4-COLUMN RAIL) */}
+      <section data-slot="metrics" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
+        <div className="rounded-[1.5rem] border border-black/[0.08] bg-white p-8 md:rounded-[3rem] md:p-14 shadow-sm">
+          <dl className="grid grid-cols-2 md:grid-cols-4">
+            
+            <div className="flex flex-col gap-2 p-4 md:p-6">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-black/50">[ GAP NASIONAL ]</span>
+              <dt className="font-display text-4xl font-extrabold tracking-tight text-[#00804C] tabular-nums md:text-5xl">
+                10.068
+              </dt>
+              <dd className="text-xs font-mono text-black/60">Desa 3T Menanti Listrik</dd>
+            </div>
+
+            <div className="flex flex-col gap-2 p-4 md:p-6 border-s border-black/10">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-black/50">[ DEFISIT CAPEX ]</span>
+              <dt className="font-display text-4xl font-extrabold tracking-tight text-[#1E488F] tabular-nums md:text-5xl">
+                Rp 50,01T
+              </dt>
+              <dd className="text-xs font-mono text-black/60">Total Kebutuhan Investasi</dd>
+            </div>
+
+            <div className="flex flex-col gap-2 p-4 md:p-6 border-t border-black/10 md:border-s md:border-t-0">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-black/50">[ YIELD ARUS KAS ]</span>
+              <dt className="font-display text-4xl font-extrabold tracking-tight text-[#001F3F] tabular-nums md:text-5xl">
+                24,8%
+              </dt>
+              <dd className="text-xs font-mono text-black/60">Proyeksi Rata-Rata APY</dd>
+            </div>
+
+            <div className="flex flex-col gap-2 p-4 md:p-6 border-s border-t border-black/10 md:border-t-0">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-black/50">[ INKLUSI MIKRO ]</span>
+              <dt className="font-display text-4xl font-extrabold tracking-tight text-[#7D39EB] tabular-nums md:text-5xl">
+                Rp 2.000
+              </dt>
+              <dd className="text-xs font-mono text-black/60">Tiket Masuk Mikro-Investor</dd>
+            </div>
+
+          </dl>
+        </div>
+      </section>
+
+      {/* 3. THREE.JS 3D NUSANTARA GLOBE SECTION */}
+      <section id="globe" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
+        <div className="rounded-[1.5rem] bg-[#001F3F] p-6 md:rounded-[3rem] md:p-12 text-white shadow-2xl space-y-8">
           
-          <div className="max-w-2xl mb-12">
-            <span className="text-xs font-mono uppercase tracking-widest text-lime bg-lime/10 px-3 py-1 rounded-full border border-lime/20">
-              Three.js 3D WebGL Engine · Sentinel-2 Orbit
-            </span>
-            <h2 className="font-display font-black text-4xl md:text-5xl text-white tracking-tight mt-4">
-              Peta 3D Sebaran Energi 3T Nusantara.
-            </h2>
-            <p className="text-white/70 text-sm md:text-base mt-3 leading-relaxed">
-              Model bola bumi 3D interaktif yang dipetakan dengan orbit satelit Sentinel-2 (786 km). Putar globe dengan mouse dan klik pilar cahaya simpul desa 3T untuk membaca telemetri real-time.
-            </p>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#C6FF33] bg-[#C6FF33]/15 px-3 py-1 rounded-full border border-[#C6FF33]/30">
+                Three.js 3D WebGL Engine
+              </span>
+              <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl mt-3">
+                Peta 3D Sebaran Energi 3T Nusantara
+              </h2>
+            </div>
+
+            <div className="text-xs font-mono text-white/60">
+              * Putar bola 3D dengan kursor & klik simpul desa untuk audit real-time
+            </div>
           </div>
 
           <ThreeNusantaraGlobe />
@@ -222,20 +245,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* THREE.JS 3D HARDWARE TURBINE EXPLORER */}
-      <section id="hardware-3d" className="py-28 bg-white border-b border-black/10">
-        <div className="max-w-6xl mx-auto px-6 space-y-12">
+      {/* 4. THREE.JS 3D HARDWARE TURBINE SECTION */}
+      <section id="hardware" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
+        <div className="rounded-[1.5rem] bg-white border border-black/[0.08] p-6 md:rounded-[3rem] md:p-12 shadow-sm space-y-8">
           
-          <div className="max-w-2xl">
-            <span className="text-xs font-mono uppercase tracking-widest text-brand-green bg-brand-green/10 px-3 py-1 rounded-full border border-brand-green/20">
-              Three.js 3D CAD Hardware Explorer
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
+                Hardware Engineering CAD
+              </span>
+              <h2 className="font-display text-3xl font-bold tracking-tight text-[#001F3F] sm:text-4xl md:text-5xl mt-3">
+                Eksplorasi Perangkat Piko-Hidro 5.0 kW
+              </h2>
+            </div>
+
+            <span className="text-xs font-mono text-black/50">
+              Runner Pelton 12-Spoon · 100Hz Telemetry
             </span>
-            <h2 className="font-display font-black text-4xl md:text-5xl text-midnight tracking-tight mt-3">
-              Eksplorasi Perangkat Piko-Hidro 5.0 kW
-            </h2>
-            <p className="text-black/60 text-sm mt-2">
-              Visualisasi 3D runner turbin Pelton dengan 12 mangkok sendok penangkap energi air. Putar model dalam 360° dan uji perubahan debit aliran (L/s).
-            </p>
           </div>
 
           <ThreeTurbineViewer />
@@ -243,121 +269,122 @@ export default function Home() {
         </div>
       </section>
 
-      {/* GAPLESS BENTO GRID — Three Pillars of Ampera */}
-      <section id="pilar" className="py-28 bg-paper border-b border-black/10">
-        <div className="max-w-6xl mx-auto px-6">
-          
-          <div className="max-w-2xl mb-14">
-            <span className="text-xs font-mono uppercase tracking-widest text-brand-green bg-brand-green/10 px-3 py-1 rounded-full border border-brand-green/20">
+      {/* 5. ASYMMETRIC BENTO GRID (RIVR FEATURE SUITE) */}
+      <section id="pilar" data-slot="features" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
+        
+        {/* Section Header */}
+        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between md:mb-12">
+          <div className="max-w-2xl">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
               Closed-Loop Ecosystem
             </span>
-            <h2 className="font-display font-black text-4xl md:text-5xl text-midnight tracking-tight mt-4">
+            <h2 className="font-display text-3xl font-bold leading-tight text-[#001F3F] sm:text-4xl md:text-5xl mt-3">
               Satu Jembatan, Tiga Pilar Solusi.
             </h2>
-            <p className="text-black/60 text-base mt-3">
-              Kombinasi multi-energi agnostik, integrasi offtake PLN, dan lapisan likuiditas on-chain teregulasi.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 grid-flow-dense">
-            
-            {/* Pilar 1: Ampera Flex */}
-            <div className="md:col-span-8 p-2 rounded-[2rem] bg-black/5 border border-black/10">
-              <div className="relative h-full min-h-[420px] rounded-[calc(2rem-0.5rem)] bg-midnight overflow-hidden p-8 md:p-12 flex flex-col justify-end text-white shadow-xl">
-                <Image 
-                  src="/flex_solar.jpg" 
-                  alt="Ampera Flex Solar and Microgrid" 
-                  fill 
-                  className="object-cover opacity-45 mix-blend-luminosity group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/60 to-transparent" />
-                
-                <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime text-midnight text-xs font-mono font-bold uppercase mb-4">
-                    <Leaf size={14} weight="bold" /> Pilar 01 · Multi-Energy
-                  </div>
-                  <h3 className="font-display font-bold text-3xl md:text-4xl text-white mb-3 tracking-tight">
-                    Ampera Flex: Energi Agnostik 24/7
-                  </h3>
-                  <p className="text-white/80 text-sm md:text-base leading-relaxed max-w-xl">
-                    AI Tetrix menganalisis topografi dan radiasi secara dinamis untuk memilih pembangkit paling optimal: Piko-Hidro (23.0% APY), Surya (24.8% APY), atau Biomassa (23.8% APY).
-                  </p>
-                </div>
-              </div>
+          <a 
+            href="#simulator" 
+            className="group inline-flex items-center gap-2.5 rounded-full py-2 pe-2 ps-6 text-xs font-bold uppercase tracking-wider transition-all border border-black/10 bg-white text-[#001F3F] shadow-sm hover:bg-[#001F3F] hover:text-white shrink-0"
+          >
+            <span>Hitung Simulasi APY</span>
+            <span className="flex size-7 items-center justify-center rounded-full bg-black/5 group-hover:bg-white/20">
+              <ArrowUpRight size={14} weight="bold" />
+            </span>
+          </a>
+        </div>
+
+        {/* Asymmetric Bento Grid (Rivr 3x2 Layout) */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:grid-rows-2 md:gap-5">
+          
+          {/* Card 1: Tall Left Card (Spans 2 Rows) */}
+          <div className="group relative overflow-hidden rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[2.5rem] flex min-h-[28rem] flex-col justify-between md:row-span-2 md:p-10 shadow-sm transition-all hover:shadow-xl">
+            <span className="relative flex size-14 items-center justify-center rounded-2xl bg-[#00804C]/10 text-[#00804C]">
+              <Leaf size={28} weight="duotone" />
+            </span>
+            <div className="relative">
+              <span className="text-[10px] font-mono text-[#00804C] uppercase tracking-widest font-bold block mb-1">
+                PILAR 01 · AMPERA FLEX
+              </span>
+              <h3 className="font-display text-2xl font-bold leading-snug text-[#001F3F] md:text-3xl">
+                Energi Bersih Agnostik 24/7
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-black/60">
+                Piko-hidro aliran sungai (23.0% APY), Surya PV + BESS (24.8% APY), dan Biomassa gasifikasi sawit (23.8% APY) dipilih secara otomatis oleh AI Tetrix sesuai kondisi geografis desa.
+              </p>
             </div>
+          </div>
 
-            {/* Pilar 2: Ampera x PLN */}
-            <div className="md:col-span-4 p-2 rounded-[2rem] bg-black/5 border border-black/10">
-              <div className="h-full min-h-[240px] rounded-[calc(2rem-0.5rem)] bg-nuit p-8 flex flex-col justify-between text-white shadow-xl">
-                <div className="flex items-center justify-between">
-                  <div className="p-2.5 rounded-full bg-white/10 text-lime">
-                    <Lightning size={24} weight="fill" />
-                  </div>
-                  <span className="text-xs font-mono text-white/60">Pilar 02</span>
-                </div>
-                <div className="mt-8">
-                  <h3 className="font-display font-bold text-2xl text-white mb-2">Ampera × PLN</h3>
-                  <p className="text-white/75 text-sm leading-relaxed">
-                    PLN sebagai off-taker dan pengelola grid. Mengeliminasi kerugian subsidi diesel hingga Rp 135.000/rumah tangga/bulan.
-                  </p>
-                </div>
-              </div>
+          {/* Card 2: Wide Top Right Card (Spans 2 Columns) */}
+          <div className="group relative overflow-hidden rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[2.5rem] flex min-h-[14rem] flex-col justify-between md:col-span-2 md:p-10 shadow-sm transition-all hover:shadow-xl">
+            <span className="relative flex size-14 items-center justify-center rounded-2xl bg-[#1E488F]/10 text-[#1E488F]">
+              <Lightning size={28} weight="fill" />
+            </span>
+            <div className="relative">
+              <span className="text-[10px] font-mono text-[#1E488F] uppercase tracking-widest font-bold block mb-1">
+                PILAR 02 · INTEGRASI PLN
+              </span>
+              <h3 className="font-display text-xl font-bold text-[#001F3F] md:text-2xl">
+                Off-Taker Terintegrasi & Penghemat Subsidi
+              </h3>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-black/60">
+                PLN bertindak sebagai pembeli tenaga listrik andal dan pengelola jaringan. Mengeliminasi kerugian subsidi diesel PLTD hingga Rp 135.000 per rumah tangga setiap bulan.
+              </p>
             </div>
+          </div>
 
-            {/* Pilar 3: Earth & DeFi */}
-            <div className="md:col-span-12 p-2 rounded-[2rem] bg-black/5 border border-black/10">
-              <div className="rounded-[calc(2rem-0.5rem)] bg-white p-8 md:p-10 border border-black/5 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-                <div className="max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet/10 text-violet text-xs font-mono font-bold uppercase mb-3">
-                    <HardDrives size={14} weight="bold" /> Pilar 03 · Tokenisasi & Karbon
-                  </div>
-                  <h3 className="font-display font-bold text-2xl md:text-3xl text-midnight tracking-tight mb-2">
-                    Ampera Earth & DeFi Uniswap v4
-                  </h3>
-                  <p className="text-black/70 text-sm md:text-base leading-relaxed">
-                    Setiap kilowatt-hour di-attestasi on-chain menjadi token aset riil ($AMP). Dilengkapi mekanisme <i>Bid Wall</i> pelindung harga lantai bagi mikro-investor dan akuntansi kredit karbon AMS-I.L terhubung ke IDXCarbon.
-                  </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-                  <div className="p-4 rounded-xl bg-paper border border-black/5 text-center min-w-[140px]">
-                    <div className="text-xs font-mono text-black/50">PROTEKSI</div>
-                    <div className="text-lg font-bold text-midnight font-display mt-1">Bid Wall Hook</div>
-                  </div>
-                  <div className="p-4 rounded-xl bg-paper border border-black/5 text-center min-w-[140px]">
-                    <div className="text-xs font-mono text-black/50">STANDAR</div>
-                    <div className="text-lg font-bold text-brand-green font-display mt-1">ERC-6909</div>
-                  </div>
-                </div>
-              </div>
+          {/* Card 3: Bottom Middle Card */}
+          <div className="group relative overflow-hidden rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[2.5rem] flex flex-col justify-between shadow-sm transition-all hover:shadow-xl">
+            <span className="flex size-14 items-center justify-center rounded-2xl bg-[#7D39EB]/10 text-[#7D39EB]">
+              <HardDrives size={28} weight="duotone" />
+            </span>
+            <div className="mt-4">
+              <span className="text-[10px] font-mono text-[#7D39EB] uppercase tracking-widest font-bold block mb-1">
+                PILAR 03 · RWA & DEFI
+              </span>
+              <h3 className="font-display text-xl font-bold text-[#001F3F]">Tokenisasi ERC-6909</h3>
+              <p className="mt-2 text-sm leading-relaxed text-black/60">
+                Setiap 1 $AMP merepresentasikan hak bagi hasil 1 kWh riil dengan proteksi likuiditas <i>Bid Wall Hook</i> Uniswap v4.
+              </p>
             </div>
+          </div>
 
+          {/* Card 4: Bottom Right Action Card */}
+          <div className="group relative overflow-hidden rounded-[1.5rem] bg-[#001F3F] p-8 md:rounded-[2.5rem] flex flex-col items-center justify-center gap-4 text-center text-white shadow-xl">
+            <span className="flex size-16 items-center justify-center rounded-full bg-[#C6FF33] text-[#001F3F] transition-transform duration-300 group-hover:scale-110 shadow-lg">
+              <ArrowUpRight size={28} weight="bold" />
+            </span>
+            <div>
+              <h3 className="font-display text-xl font-bold text-white">Sertifikasi IDXCarbon</h3>
+              <p className="mt-1 text-xs font-mono text-white/70">Metodologi UNFCCC AMS-I.L terdaftar.</p>
+            </div>
           </div>
 
         </div>
       </section>
 
-      {/* INTERACTIVE CALCULATOR (Simulasi Imbal Hasil) */}
-      <section id="simulator" className="py-28 bg-white border-b border-black/10">
-        <div className="max-w-6xl mx-auto px-6">
+      {/* 6. INTERACTIVE ROI CALCULATOR SECTION */}
+      <section id="simulator" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
+        <div className="rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[3rem] md:p-14 shadow-sm">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
+            {/* Left Controller */}
             <div className="lg:col-span-5 space-y-6">
-              <span className="text-xs font-mono uppercase tracking-widest text-brand-green bg-brand-green/10 px-3 py-1 rounded-full border border-brand-green/20">
-                Unit Economics Engine
+              <span className="text-xs font-mono uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
+                Unit Economics Simulator
               </span>
-              <h2 className="font-display font-black text-4xl md:text-5xl text-midnight tracking-tight leading-[1.1]">
-                Simulasi Dampak & Imbal Hasil Desa
+              <h2 className="font-display text-3xl md:text-5xl font-bold text-[#001F3F] tracking-tight leading-[1.1]">
+                Simulasi Imbal Hasil & Dampak Desa
               </h2>
-              <p className="text-black/70 text-sm md:text-base leading-relaxed">
-                Geser jumlah desa 3T untuk melihat kalkulasi real-time dividen mikro-investor, penghematan beban subsidi diesel PLN, dan kredit karbon yang tercipta.
+              <p className="text-black/60 text-sm md:text-base leading-relaxed">
+                Uji skala elektrifikasi untuk memproyeksikan arus kas dividen investor dan beban subsidi APBN yang dihematkan ke PLN.
               </p>
 
-              <div className="p-6 rounded-2xl bg-paper border border-black/10 shadow-sm space-y-4">
+              <div className="p-6 rounded-2xl bg-[#F4F2EC] border border-black/5 space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-bold text-midnight">Skala Elektrifikasi:</span>
-                  <span className="text-2xl font-black text-brand-green font-mono">{villageCount} Desa</span>
+                  <span className="text-sm font-bold text-[#001F3F]">Skala Elektrifikasi:</span>
+                  <span className="text-2xl font-black text-[#00804C] font-mono">{villageCount} Desa</span>
                 </div>
                 
                 <input 
@@ -366,7 +393,7 @@ export default function Home() {
                   max={100} 
                   value={villageCount}
                   onChange={(e) => setVillageCount(Number(e.target.value))}
-                  className="w-full h-2 bg-black/10 rounded-lg appearance-none cursor-pointer accent-brand-green"
+                  className="w-full h-2.5 bg-black/10 rounded-lg appearance-none cursor-pointer accent-[#00804C]"
                 />
 
                 <div className="flex justify-between text-[11px] font-mono text-black/50">
@@ -377,43 +404,40 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="lg:col-span-7 p-2 rounded-[2.5rem] bg-black/5 border border-black/10">
-              <div className="rounded-[calc(2.5rem-0.5rem)] bg-midnight p-8 md:p-12 text-white shadow-2xl">
+            {/* Right Display Board */}
+            <div className="lg:col-span-7 p-8 md:p-12 rounded-[2rem] bg-[#001F3F] text-white shadow-2xl">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  
-                  <div className="border-b sm:border-b-0 sm:border-r border-white/10 pb-6 sm:pb-0 sm:pr-6">
-                    <span className="text-[11px] font-mono uppercase tracking-widest text-lime">[ ARUS KAS DIVIDEN ]</span>
-                    <div className="text-3xl md:text-4xl font-black font-mono text-white mt-2">
-                      Rp {(estimatedAnnualDividend / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 1 })} Juta
-                    </div>
-                    <p className="text-xs text-white/60 mt-2">Dividen tahunan rata-rata (APY 24,8%) bagi subscriber.</p>
+                <div className="border-b sm:border-b-0 sm:border-r border-white/10 pb-6 sm:pb-0 sm:pr-6">
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-[#C6FF33]">[ ARUS KAS DIVIDEN ]</span>
+                  <div className="text-3xl md:text-4xl font-black font-mono text-white mt-2">
+                    Rp {(estimatedAnnualDividend / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 1 })} Juta
                   </div>
+                  <p className="text-xs text-white/60 mt-2">Dividen tahunan rata-rata (APY 24,8%) bagi subscriber.</p>
+                </div>
 
-                  <div>
-                    <span className="text-[11px] font-mono uppercase tracking-widest text-spring">[ HEMAT OPERASIONAL PLN ]</span>
-                    <div className="text-3xl md:text-4xl font-black font-mono text-lime mt-2">
-                      Rp {(totalDieselSavings / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 0 })} Juta
-                    </div>
-                    <p className="text-xs text-white/60 mt-2">Subsidi diesel PLTD per tahun yang dihemat PLN.</p>
+                <div>
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-[#74C365]">[ HEMAT DIESEL PLN ]</span>
+                  <div className="text-3xl md:text-4xl font-black font-mono text-[#C6FF33] mt-2">
+                    Rp {(totalDieselSavings / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 0 })} Juta
                   </div>
+                  <p className="text-xs text-white/60 mt-2">Beban biaya PLTD per tahun yang dihemat PLN.</p>
+                </div>
 
-                  <div className="border-t border-white/10 pt-6">
-                    <span className="text-[11px] font-mono uppercase tracking-widest text-white/50">[ CAPEX TOTAL ]</span>
-                    <div className="text-2xl font-bold font-mono text-white mt-1">
-                      Rp {(totalInvestment / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 0 })} Juta
-                    </div>
-                    <p className="text-[11px] text-white/50 mt-1">Crowd-equity tanpa CapEx negara.</p>
+                <div className="border-t border-white/10 pt-6">
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-white/50">[ TOTAL CAPEX ]</span>
+                  <div className="text-2xl font-bold font-mono text-white mt-1">
+                    Rp {(totalInvestment / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 0 })} Juta
                   </div>
+                  <p className="text-[11px] text-white/50 mt-1">Crowd-equity mandiri tanpa APBN.</p>
+                </div>
 
-                  <div className="border-t border-white/10 pt-6">
-                    <span className="text-[11px] font-mono uppercase tracking-widest text-white/50">[ MITIGASI EMISI ]</span>
-                    <div className="text-2xl font-bold font-mono text-mantis mt-1">
-                      {totalCo2Avoided} tCO₂e / thn
-                    </div>
-                    <p className="text-[11px] text-white/50 mt-1">Sertifikasi IDXCarbon AMS-I.L.</p>
+                <div className="border-t border-white/10 pt-6">
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-white/50">[ EMISI DIHINDARI ]</span>
+                  <div className="text-2xl font-bold font-mono text-[#74C365] mt-1">
+                    {totalCo2Avoided} tCO₂e / thn
                   </div>
-
+                  <p className="text-[11px] text-white/50 mt-1">Standar UNFCCC AMS-I.L.</p>
                 </div>
 
               </div>
@@ -424,147 +448,186 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TEAM & GOVERNANCE — Slide 17 "The People Behind the Bridge" */}
-      <section id="team" className="py-28 bg-paper border-b border-black/10">
-        <div className="max-w-6xl mx-auto px-6">
+      {/* 7. TEAM SECTION */}
+      <section id="tim" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
+        <div className="rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[3rem] md:p-14 shadow-sm space-y-10">
           
-          <div className="max-w-2xl mb-14">
-            <span className="text-xs font-mono uppercase tracking-widest text-brand-green bg-brand-green/10 px-3 py-1 rounded-full border border-brand-green/20">
-              Tim & Tata Kelola Berlapis
+          <div className="max-w-2xl">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
+              Tim & Tata Kelola
             </span>
-            <h2 className="font-display font-black text-4xl md:text-5xl text-midnight tracking-tight mt-4">
-              Bukan Satu Nama. Banyak Disiplin, Satu Jembatan.
+            <h2 className="font-display text-3xl font-bold tracking-tight text-[#001F3F] sm:text-4xl md:text-5xl mt-3">
+              Bukan Satu Nama. Banyak Disiplin.
             </h2>
-            <p className="text-black/70 text-base mt-3">
-              Ampera dibangun oleh tim lintas disiplin strategis, teknologi AI, pemasaran dampak sosial, dan keuangan terstruktur.
-            </p>
           </div>
 
-          {/* Team Stage Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            {/* Hans Gunawan */}
-            <div className="p-2 rounded-[2rem] bg-white border border-black/10 shadow-md flex flex-col justify-between">
-              <div className="p-6 text-center">
-                <div className="w-20 h-20 rounded-full bg-midnight text-lime mx-auto flex items-center justify-center font-display font-extrabold text-2xl border-2 border-lime shadow-lg mb-4">
+            {/* Hans */}
+            <div className="p-6 rounded-[2rem] bg-[#F4F2EC] border border-black/5 text-center flex flex-col justify-between min-h-[220px]">
+              <div>
+                <div className="w-16 h-16 rounded-full bg-[#001F3F] text-[#C6FF33] mx-auto flex items-center justify-center font-display font-extrabold text-xl mb-3 shadow-md">
                   HG
                 </div>
-                <h3 className="font-display font-bold text-xl text-midnight">Hans Gunawan</h3>
-                <div className="text-xs font-mono text-brand-green font-bold uppercase mt-1">CEO & Co-Founder</div>
-                <div className="text-[11px] text-black/60 mt-3 leading-relaxed">
-                  Kepemimpinan strategi, kemitraan institusi PLN & ESDM, perancangan ekosistem multi-energi.
-                </div>
+                <h3 className="font-display font-bold text-lg text-[#001F3F]">Hans Gunawan</h3>
+                <div className="text-[11px] font-mono text-[#00804C] font-bold uppercase">CEO & Co-Founder</div>
               </div>
-              <div className="p-3 bg-paper rounded-xl border border-black/5 text-[10px] font-mono text-black/60 text-center">
-                Strategy & Partnerships Lead
-              </div>
+              <span className="text-[10px] font-mono text-black/50">Strategy & Partnerships</span>
             </div>
 
-            {/* Natalie Netania Sulistio */}
-            <div className="p-2 rounded-[2rem] bg-white border border-black/10 shadow-md flex flex-col justify-between">
-              <div className="p-6 text-center">
-                <div className="w-20 h-20 rounded-full bg-nuit text-white mx-auto flex items-center justify-center font-display font-extrabold text-2xl border-2 border-white/40 shadow-lg mb-4">
+            {/* Natalie */}
+            <div className="p-6 rounded-[2rem] bg-[#F4F2EC] border border-black/5 text-center flex flex-col justify-between min-h-[220px]">
+              <div>
+                <div className="w-16 h-16 rounded-full bg-[#1E488F] text-white mx-auto flex items-center justify-center font-display font-extrabold text-xl mb-3 shadow-md">
                   NS
                 </div>
-                <h3 className="font-display font-bold text-xl text-midnight">Natalie Netania S.</h3>
-                <div className="text-xs font-mono text-nuit font-bold uppercase mt-1">CMO & Co-Founder</div>
-                <div className="text-[11px] text-black/60 mt-3 leading-relaxed">
-                  Pemasaran produk, ekspansi komunitas lokal desa 3T, dan kampanye dampak lingkungan berkelanjutan.
-                </div>
+                <h3 className="font-display font-bold text-lg text-[#001F3F]">Natalie Netania S.</h3>
+                <div className="text-[11px] font-mono text-[#1E488F] font-bold uppercase">CMO & Co-Founder</div>
               </div>
-              <div className="p-3 bg-paper rounded-xl border border-black/5 text-[10px] font-mono text-black/60 text-center">
-                Brand & Village Community Lead
-              </div>
+              <span className="text-[10px] font-mono text-black/50">Brand & Village Community</span>
             </div>
 
-            {/* Dave Aryanda Agape */}
-            <div className="p-2 rounded-[2rem] bg-white border border-black/10 shadow-md flex flex-col justify-between">
-              <div className="p-6 text-center">
-                <div className="w-20 h-20 rounded-full bg-midnight text-lime mx-auto flex items-center justify-center font-display font-extrabold text-2xl border-2 border-lime shadow-lg mb-4">
+            {/* Dave */}
+            <div className="p-6 rounded-[2rem] bg-[#F4F2EC] border border-black/5 text-center flex flex-col justify-between min-h-[220px]">
+              <div>
+                <div className="w-16 h-16 rounded-full bg-[#001F3F] text-[#C6FF33] mx-auto flex items-center justify-center font-display font-extrabold text-xl mb-3 shadow-md">
                   DA
                 </div>
-                <h3 className="font-display font-bold text-xl text-midnight">Dave Aryanda Agape</h3>
-                <div className="text-xs font-mono text-violet font-bold uppercase mt-1">CTO & Co-Founder</div>
-                <div className="text-[11px] text-black/60 mt-3 leading-relaxed">
-                  Arsitektur AI Tetrix (Sentinel-2 & YOLOv8), telemetry edge node ESP32, dan smart contract RWA.
-                </div>
+                <h3 className="font-display font-bold text-lg text-[#001F3F]">Dave Aryanda Agape</h3>
+                <div className="text-[11px] font-mono text-[#7D39EB] font-bold uppercase">CTO & Co-Founder</div>
               </div>
-              <div className="p-3 bg-paper rounded-xl border border-black/5 text-[10px] font-mono text-black/60 text-center">
-                AI & Systems Architecture Lead
-              </div>
+              <span className="text-[10px] font-mono text-black/50">AI & Smart Contracts</span>
             </div>
 
-            {/* Dex Bennet */}
-            <div className="p-2 rounded-[2rem] bg-white border border-black/10 shadow-md flex flex-col justify-between">
-              <div className="p-6 text-center">
-                <div className="w-20 h-20 rounded-full bg-midnight text-white mx-auto flex items-center justify-center font-display font-extrabold text-2xl border-2 border-white/40 shadow-lg mb-4">
+            {/* Dex */}
+            <div className="p-6 rounded-[2rem] bg-[#F4F2EC] border border-black/5 text-center flex flex-col justify-between min-h-[220px]">
+              <div>
+                <div className="w-16 h-16 rounded-full bg-[#001F3F] text-white mx-auto flex items-center justify-center font-display font-extrabold text-xl mb-3 shadow-md">
                   DB
                 </div>
-                <h3 className="font-display font-bold text-xl text-midnight">Dex Bennet</h3>
-                <div className="text-xs font-mono text-midnight font-bold uppercase mt-1">CFO & Co-Founder</div>
-                <div className="text-[11px] text-black/60 mt-3 leading-relaxed">
-                  Kepatuhan regulasi OJK (POJK 17/2025 ECF & POJK 27/2024), struktur keuangan RWA, dan audit arus kas.
-                </div>
+                <h3 className="font-display font-bold text-lg text-[#001F3F]">Dex Bennet</h3>
+                <div className="text-[11px] font-mono text-[#001F3F] font-bold uppercase">CFO & Co-Founder</div>
               </div>
-              <div className="p-3 bg-paper rounded-xl border border-black/5 text-[10px] font-mono text-black/60 text-center">
-                Finance & OJK Compliance Lead
-              </div>
+              <span className="text-[10px] font-mono text-black/50">Finance & OJK Compliance</span>
             </div>
 
-          </div>
-
-          {/* Governance Layer Banner */}
-          <div className="mt-8 p-6 rounded-2xl bg-white border border-black/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-black/70">
-            <div className="flex items-center gap-3">
-              <GraduationCap size={24} className="text-brand-green shrink-0" />
-              <span><strong>Tata Kelola Berlapis:</strong> Didampingi Penasihat Akademik untuk validasi metodologi karbon AMS-I.L & audit kelayakan EBT.</span>
-            </div>
-            <div className="text-nuit font-bold shrink-0">
-              [ 5 Rubrik Kriteria PLN Terpenuhi ]
-            </div>
           </div>
 
         </div>
       </section>
 
-      {/* FOOTER CTA & THE ASK */}
-      <footer className="bg-midnight text-white py-24 border-b-8 border-brand-green">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col items-center text-center">
+      {/* 8. RIVR FRAMED BOTTOM CTA SECTION */}
+      <section data-slot="cta" className="flex w-full items-center justify-center p-3 md:p-5">
+        <div className="relative flex min-h-[560px] w-full max-w-[1536px] items-center justify-center overflow-hidden rounded-[1.5rem] bg-[#001F3F] p-8 md:min-h-[640px] md:rounded-[3rem] shadow-2xl">
           
-          <div className="w-4 h-4 rounded-full bg-lime shadow-[0_0_18px_rgba(198,255,51,0.9)] mb-6 animate-pulse" />
-          
-          <span className="text-xs font-mono uppercase tracking-widest text-lime mb-2">PLN ICE 2026 Innovation Acceleration</span>
-          
-          <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-white tracking-tighter max-w-3xl mb-6">
-            Mari Menyalakan Terang untuk Nusantara.
-          </h2>
-          
-          <p className="text-white/75 text-base max-w-2xl mb-10 leading-relaxed">
-            Ampera siap menguji pilot 1 desa Piko-Hidro (Q1 2027) melalui pendanaan akselerasi Rp 50 Juta PLN ICE 2026 dan kemitraan off-taker bersama PT PLN (Persero).
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
-            <a 
-              href="mailto:contact@ampera.energy"
-              className="group p-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/20 transition-all cursor-pointer"
-            >
-              <div className="bg-lime text-midnight px-8 py-4 rounded-full flex items-center gap-3 font-bold text-sm uppercase tracking-wider group-hover:bg-white transition-colors">
-                <span>Hubungi Tim Ampera</span>
-                <div className="w-6 h-6 rounded-full bg-midnight/15 flex items-center justify-center group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform">
-                  <ArrowUpRight size={14} weight="bold" />
-                </div>
-              </div>
-            </a>
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            <Image 
+              src="/hero_village.jpg" 
+              alt="Desa 3T" 
+              fill
+              className="object-cover opacity-25 mix-blend-luminosity"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#001F3F]/90 via-[#001F3F]/70 to-[#001F3F]/60" />
           </div>
+
+          <div className="relative z-10 flex max-w-2xl flex-col items-center gap-6 text-center text-white">
+            
+            <div className="w-4 h-4 rounded-full bg-[#C6FF33] shadow-[0_0_16px_#C6FF33] animate-pulse" />
+
+            <span className="text-xs font-mono uppercase tracking-widest text-[#C6FF33]">
+              PLN Innovation & Clean Energy (ICE) 2026
+            </span>
+
+            <h2 className="font-display text-4xl font-black leading-[1.05] text-white sm:text-5xl md:text-6xl tracking-tight">
+              Mari Menyalakan Terang untuk Nusantara.
+            </h2>
+
+            <p className="text-sm md:text-base text-white/80 max-w-lg leading-relaxed">
+              Ampera siap menguji pilot 1 desa Piko-Hidro (Q1 2027) melalui pendanaan akselerasi Rp 50 Juta PLN ICE 2026 dan kemitraan off-taker bersama PT PLN (Persero).
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+              <a 
+                href="mailto:contact@ampera.energy" 
+                className="group inline-flex items-center gap-2.5 rounded-full bg-[#C6FF33] py-2 pe-2 ps-6 text-xs font-bold uppercase tracking-wider text-[#001F3F] transition-all hover:bg-white shadow-[0_4px_24px_rgba(198,255,51,0.4)]"
+              >
+                <span>Hubungi Tim Ampera</span>
+                <span className="flex size-7 items-center justify-center rounded-full bg-[#001F3F]/15 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                  <ArrowUpRight size={14} weight="bold" />
+                </span>
+              </a>
+
+              <a 
+                href="#globe" 
+                className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md transition-colors hover:bg-white/20"
+              >
+                Kembali ke Atas
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 9. CLEAN RIVR FOOTER */}
+      <footer data-slot="footer" className="border-t border-black/10 bg-[#F4F2EC] text-[#001F3F]">
+        <div className="mx-auto w-full max-w-[1536px] px-6 py-16 md:px-10 md:py-20">
           
-          <div className="mt-20 pt-8 border-t border-white/10 w-full flex flex-col sm:flex-row justify-between items-center text-xs text-white/50 font-mono gap-4">
-            <div>&copy; 2026 AMPERA — PLN Innovation & Clean Energy (ICE) Hackathon.</div>
-            <div className="text-lime">Subtema #5: Sustainability & Green Innovation</div>
+          <div className="flex flex-col gap-12 md:flex-row md:justify-between">
+            
+            <div className="max-w-xs">
+              <a href="#home" className="flex items-center gap-2 text-[#001F3F]" aria-label="Ampera home">
+                <div className="w-3 h-3 rounded-full bg-[#00804C]" />
+                <span className="font-display text-xl font-bold tracking-tight">ampera</span>
+              </a>
+              <p className="mt-4 text-xs font-mono text-black/60 leading-relaxed">
+                Platform crowd-equity & tokenisasi aset dunia nyata (RWA) untuk elektrifikasi 10.068 desa 3T Indonesia.
+              </p>
+            </div>
+
+            <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:gap-16 text-xs font-mono">
+              <div>
+                <h3 className="font-bold text-[#001F3F] uppercase tracking-wider mb-4">Solusi</h3>
+                <ul className="flex flex-col gap-2.5 text-black/60">
+                  <li><a href="#globe" className="hover:text-[#001F3F]">Globe 3D</a></li>
+                  <li><a href="#hardware" className="hover:text-[#001F3F]">Turbin 3D</a></li>
+                  <li><a href="#pilar" className="hover:text-[#001F3F]">Ampera Flex</a></li>
+                  <li><a href="#simulator" className="hover:text-[#001F3F]">Simulasi ROI</a></li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-[#001F3F] uppercase tracking-wider mb-4">Regulasi</h3>
+                <ul className="flex flex-col gap-2.5 text-black/60">
+                  <li><span>POJK 17/2025 ECF</span></li>
+                  <li><span>POJK 27/2024 RWA</span></li>
+                  <li><span>UNFCCC AMS-I.L</span></li>
+                  <li><span>IDXCarbon BEI</span></li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-[#001F3F] uppercase tracking-wider mb-4">Kompetisi</h3>
+                <ul className="flex flex-col gap-2.5 text-black/60">
+                  <li><span>PLN ICE 2026</span></li>
+                  <li><span>Subtema #5 Green</span></li>
+                  <li><span>Pilot Q1 2027</span></li>
+                  <li><span>1 Desa Terbukti</span></li>
+                </ul>
+              </div>
+            </nav>
+
+          </div>
+
+          <div className="mt-12 border-t border-black/10 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs font-mono text-black/50 gap-4">
+            <div>&copy; 2026 AMPERA — PLN Innovation & Clean Energy (ICE).</div>
+            <div className="text-[#00804C] font-bold">Jembatan Energi untuk Nusantara.</div>
           </div>
 
         </div>
       </footer>
 
-    </main>
+    </div>
   );
 }
