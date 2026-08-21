@@ -22,7 +22,6 @@ import {
 } from "@phosphor-icons/react";
 
 import ThreeNusantaraGlobe from "@/components/ThreeNusantaraGlobe";
-import ThreeTurbineViewer from "@/components/ThreeTurbineViewer";
 import ThreePipelineRoadway from "@/components/ThreePipelineRoadway";
 
 export default function Home() {
@@ -75,7 +74,6 @@ export default function Home() {
             <ul className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-widest text-white/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] lg:flex">
               <li><a href="#globe" className="transition-colors hover:text-[#C6FF33]">Globe 3D</a></li>
               <li><a href="#alur-kerja" className="transition-colors hover:text-[#C6FF33]">Jalan 3D</a></li>
-              <li><a href="#hardware" className="transition-colors hover:text-[#C6FF33]">Turbin 3D</a></li>
               <li><a href="#pilar" className="transition-colors hover:text-[#C6FF33]">Tiga Pilar</a></li>
               <li><a href="#simulator" className="transition-colors hover:text-[#C6FF33]">Simulasi APY</a></li>
               <li><a href="#tim" className="transition-colors hover:text-[#C6FF33]">Tim</a></li>
@@ -126,10 +124,10 @@ export default function Home() {
               </a>
 
               <a 
-                href="#hardware" 
+                href="#alur-kerja" 
                 className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-4 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xl hover:bg-white/20 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)] ring-1 ring-white/15"
               >
-                <Cube size={16} /> <span>CAD Turbin 3D</span>
+                <span>Jelajahi Alur 3D</span>
               </a>
             </div>
 
@@ -274,31 +272,6 @@ export default function Home() {
 
         </div>
       </section>
-
-      {/* 5. THREE.JS 3D HARDWARE TURBINE SECTION */}
-      <section id="hardware" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
-        <div className="rounded-[1.5rem] bg-white border border-black/[0.08] p-6 md:rounded-[3rem] md:p-12 shadow-sm space-y-8">
-          
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-            <div className="max-w-2xl">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
-                Hardware Engineering CAD
-              </span>
-              <h2 className="font-display text-3xl font-bold tracking-tight text-[#001F3F] sm:text-4xl md:text-5xl mt-3">
-                Eksplorasi Perangkat Piko-Hidro 5.0 kW
-              </h2>
-            </div>
-
-            <span className="text-xs font-mono text-black/50">
-              Runner Pelton 12-Spoon · 100Hz Telemetry
-            </span>
-          </div>
-
-          <ThreeTurbineViewer />
-
-        </div>
-      </section>
-
       {/* 5. ASYMMETRIC BENTO GRID (RIVR FEATURE SUITE) */}
       <section id="pilar" data-slot="features" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
         
@@ -621,7 +594,7 @@ export default function Home() {
                 <h3 className="font-bold text-[#001F3F] uppercase tracking-wider mb-4">Solusi</h3>
                 <ul className="flex flex-col gap-2.5 text-black/60">
                   <li><a href="#globe" className="hover:text-[#001F3F]">Globe 3D</a></li>
-                  <li><a href="#hardware" className="hover:text-[#001F3F]">Turbin 3D</a></li>
+                  <li><a href="#alur-kerja" className="hover:text-[#001F3F]">Jalan 3D</a></li>
                   <li><a href="#pilar" className="hover:text-[#001F3F]">Ampera Flex</a></li>
                   <li><a href="#simulator" className="hover:text-[#001F3F]">Simulasi ROI</a></li>
                 </ul>
