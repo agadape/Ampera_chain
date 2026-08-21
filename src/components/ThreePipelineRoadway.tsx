@@ -460,10 +460,35 @@ export default function ThreePipelineRoadway() {
       stationObjects.push(stationGroup);
     });
 
-    // 6. Traveling Energy Capsule (Driven by scroll)
-    const capsuleGeo = new THREE.SphereGeometry(2.5, 16, 16);
-    const capsuleMat = new THREE.MeshBasicMaterial({ color: 0x00804c });
-    const capsuleMesh = new THREE.Mesh(capsuleGeo, capsuleMat);
+    // 6. Traveling Energy Capsule (Driven by scroll) -> Changed to High-Tech Energy Core
+    const capsuleMesh = new THREE.Group();
+    
+    // Core
+    const coreGeo = new THREE.OctahedronGeometry(1.5, 0);
+    const coreMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
+    const core = new THREE.Mesh(coreGeo, coreMat);
+    capsuleMesh.add(core);
+
+    // Outer Wireframe Shell
+    const shellGeo = new THREE.IcosahedronGeometry(2.5, 1);
+    const shellMat = new THREE.MeshBasicMaterial({ color: 0x00804c, wireframe: true, transparent: true, opacity: 0.6 });
+    const shell = new THREE.Mesh(shellGeo, shellMat);
+    capsuleMesh.add(shell);
+
+    // Spinning Ring 1
+    const ring1Geo = new THREE.TorusGeometry(3.5, 0.1, 16, 32);
+    const ring1Mat = new THREE.MeshBasicMaterial({ color: 0xc6ff33, transparent: true, opacity: 0.8 });
+    const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+    ring1.rotation.x = Math.PI / 2;
+    capsuleMesh.add(ring1);
+
+    // Spinning Ring 2
+    const ring2Geo = new THREE.TorusGeometry(4.5, 0.05, 16, 32);
+    const ring2Mat = new THREE.MeshBasicMaterial({ color: 0x001f3f, transparent: true, opacity: 0.8 });
+    const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+    ring2.rotation.y = Math.PI / 2;
+    capsuleMesh.add(ring2);
+
     scene.add(capsuleMesh);
 
     // 6.5 Atmospheric Particles (Darker blue for light theme)
@@ -488,7 +513,6 @@ export default function ThreePipelineRoadway() {
     const currentLookAt = lookAtCurve.getPointAt(0);
     camera.lookAt(currentLookAt);
 
-    // 7. Animation Loop (Scrollytelling Interpolation)
     let animationFrameId: number;
     let clock = new THREE.Clock();
     let isVisible = true;
@@ -550,6 +574,13 @@ export default function ThreePipelineRoadway() {
       updatableRotors.forEach(rotor => {
         rotor.rotation.z = elapsed * 1.5;
       });
+
+      // Rotate High-Tech Energy Drone parts
+      core.rotation.y = elapsed * 1.5;
+      core.rotation.x = elapsed * 0.8;
+      shell.rotation.y = -elapsed * 0.5;
+      ring1.rotation.z = elapsed * 1.2;
+      ring2.rotation.x = elapsed * 0.9;
 
       // Rotate 3D Logos (OJK, IDX, AMP)
       spinners.forEach(spinner => {
