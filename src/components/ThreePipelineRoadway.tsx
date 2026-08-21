@@ -183,7 +183,7 @@ export default function ThreePipelineRoadway() {
     // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xF4F2EC);
-    scene.fog = new THREE.FogExp2(0xF4F2EC, 0.005);
+    scene.fog = new THREE.Fog(0xF4F2EC, 40, 160);
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     
@@ -238,7 +238,7 @@ export default function ThreePipelineRoadway() {
     const environmentGroup = new THREE.Group();
 
     // Helper: Create a low-poly tree
-    const createTree = (x: number, z: number, scale: number) => {
+    const createTree = (x: number, y: number, z: number, scale: number) => {
       const tree = new THREE.Group();
       const trunk = new THREE.Mesh(
         new THREE.CylinderGeometry(0.4, 0.6, 2, 8),
@@ -251,7 +251,7 @@ export default function ThreePipelineRoadway() {
       );
       leaves.position.y = 3;
       tree.add(trunk, leaves);
-      tree.position.set(x, 0, z);
+      tree.position.set(x, y, z);
       tree.scale.set(scale, scale, scale);
       return tree;
     };
@@ -261,7 +261,8 @@ export default function ThreePipelineRoadway() {
       const t = i / 60;
       const pos = roadCurve.getPointAt(t);
       const sideOffset = (Math.random() > 0.5 ? 1 : -1) * (15 + Math.random() * 20);
-      environmentGroup.add(createTree(pos.x + sideOffset, pos.y - 4, pos.z + (Math.random() - 0.5) * 10));
+      const randomScale = 0.8 + Math.random() * 0.8;
+      environmentGroup.add(createTree(pos.x + sideOffset, pos.y - 4, pos.z + (Math.random() - 0.5) * 10, randomScale));
     }
     scene.add(environmentGroup);
 
@@ -471,12 +472,11 @@ export default function ThreePipelineRoadway() {
     <div ref={scrollContainerRef} className="relative w-full bg-[#F4F2EC]" style={{ height: "800vh" }}>
       
       {/* Sticky 3D Background */}
-      <div className="sticky top-0 w-full h-screen overflow-hidden z-0 border-y border-black/5">
+      <div className="sticky top-0 w-full h-screen overflow-hidden z-0">
         <div ref={mountRef} className="absolute inset-0" />
-        {/* Soft Vignette Gradient to blend with page smoothly */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#F4F2EC_100%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#F4F2EC] via-[#F4F2EC]/20 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F4F2EC] via-[#F4F2EC]/20 to-transparent pointer-events-none" />
+        {/* Soft edge blend */}
+        <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#F4F2EC] to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#F4F2EC] to-transparent pointer-events-none" />
       </div>
 
       {/* 8 Scrollable Overlays (One for each station) */}
