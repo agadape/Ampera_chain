@@ -40,6 +40,24 @@ export default function NusantaraMap2D() {
       >
         <Graticule stroke="#ffffff" strokeOpacity={0.03} />
         
+        {/* Decorative Radar in Indian Ocean (Bottom Left) */}
+        <Marker coordinates={[100, -8]}>
+          <circle r={80} fill="none" stroke="#C6FF33" strokeOpacity={0.1} strokeWidth={1} strokeDasharray="4 4" />
+          <circle r={40} fill="none" stroke="#C6FF33" strokeOpacity={0.1} strokeWidth={1} />
+          <line x1={-80} y1={0} x2={80} y2={0} stroke="#C6FF33" strokeOpacity={0.1} strokeWidth={1} />
+          <line x1={0} y1={-80} x2={0} y2={80} stroke="#C6FF33" strokeOpacity={0.1} strokeWidth={1} />
+          <path d="M 0 0 L 56.5 -56.5" stroke="#C6FF33" strokeOpacity={0.3} strokeWidth={2}>
+            <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite" />
+          </path>
+        </Marker>
+
+        {/* Decorative Crosshairs in Pacific Ocean (Top Right) */}
+        <Marker coordinates={[135, 4]}>
+          <path d="M -10 0 L 10 0 M 0 -10 L 0 10" stroke="#ffffff" strokeOpacity={0.3} strokeWidth={1} />
+          <circle r={15} fill="none" stroke="#ffffff" strokeOpacity={0.1} strokeWidth={1} />
+          <text x={20} y={4} fill="#ffffff" opacity={0.3} fontSize={8} fontFamily="monospace">135°E 4°N</text>
+        </Marker>
+
         {/* SHADOW / FAKE 3D DEPTH LAYER */}
         <Geographies geography={geoUrl} transform="translate(0, 8)">
           {({ geographies }) =>
@@ -202,8 +220,77 @@ export default function NusantaraMap2D() {
             </div>
           </div>
         </div>
-
       </div>
+
+      {/* TOP LEFT BADGE */}
+      <div className="absolute top-4 left-4 md:top-8 md:left-8 flex items-center gap-2 bg-[#001329]/80 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full z-20 pointer-events-none">
+        <div className="w-2 h-2 rounded-full bg-[#C6FF33] animate-pulse" />
+        <span className="text-[9px] md:text-[10px] font-mono text-white tracking-widest uppercase">
+          SAT-LINK: SECURE
+        </span>
+      </div>
+
+      {/* TOP RIGHT DASHBOARD */}
+      <div className="absolute top-4 right-4 md:top-8 md:right-8 flex flex-col gap-2 pointer-events-none z-20 text-right">
+        <div className="bg-[#001329]/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-2xl">
+          <div className="text-[10px] font-mono text-[#C6FF33] uppercase tracking-widest mb-1">
+            Tokenisasi Aset
+          </div>
+          <div className="text-2xl font-black text-white leading-none mb-1">
+            4.2M AMP
+          </div>
+          <div className="text-[10px] text-white/60 font-mono">
+            Total Nilai (Estimated)
+          </div>
+          
+          <div className="mt-4 pt-4 border-t border-white/10 flex items-end justify-end gap-1">
+            {/* Fake bar chart */}
+            {[40, 70, 45, 90, 60, 100, 80].map((h, i) => (
+              <div key={i} className="w-1.5 bg-[#C6FF33]/80 rounded-t-sm" style={{ height: `${h * 0.4}px` }} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* BOTTOM RIGHT DASHBOARD */}
+      <div className="absolute bottom-0 right-4 md:bottom-8 md:right-8 flex flex-col pointer-events-none z-20 text-right">
+        <div className="bg-[#001329]/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 md:p-5 shadow-2xl w-48 md:w-56">
+          <div className="text-[10px] font-mono text-white/60 uppercase tracking-widest mb-3">
+            Bauran Energi
+          </div>
+          
+          <div className="space-y-3">
+            <div>
+              <div className="flex justify-between text-[10px] font-bold text-white mb-1">
+                <span>Surya PV</span>
+                <span className="text-[#C6FF33]">45%</span>
+              </div>
+              <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                <div className="bg-[#C6FF33] h-full w-[45%]" />
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between text-[10px] font-bold text-white mb-1">
+                <span>Piko-Hidro</span>
+                <span className="text-[#00a2e9]">35%</span>
+              </div>
+              <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                <div className="bg-[#00a2e9] h-full w-[35%]" />
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between text-[10px] font-bold text-white mb-1">
+                <span>Biomassa</span>
+                <span className="text-[#ff9900]">20%</span>
+              </div>
+              <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                <div className="bg-[#ff9900] h-full w-[20%]" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
