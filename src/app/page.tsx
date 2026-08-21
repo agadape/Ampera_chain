@@ -251,7 +251,7 @@ export default function Home() {
       </section>
 
       {/* 4. THREE.JS 3D PIPELINE HIGHWAY ROADWAY (SCROLLYTELLING) */}
-      <section id="alur-kerja" className="w-full bg-[#001329] relative z-10">
+      <section id="alur-kerja" className="w-full bg-[#F4F2EC] relative z-10">
         <ThreePipelineRoadway />
       </section>
       {/* 5. ASYMMETRIC BENTO GRID (RIVR FEATURE SUITE) */}

@@ -182,8 +182,8 @@ export default function ThreePipelineRoadway() {
 
     // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x001329);
-    scene.fog = new THREE.FogExp2(0x001329, 0.005);
+    scene.background = new THREE.Color(0xF4F2EC);
+    scene.fog = new THREE.FogExp2(0xF4F2EC, 0.005);
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     
@@ -192,15 +192,15 @@ export default function ThreePipelineRoadway() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // 2. Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    // 2. Lighting (Daylight aesthetic to match F4F2EC background)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xc6ff33, 1.8);
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.0);
     dirLight1.position.set(50, 100, 50);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x1e488f, 2.0);
+    const dirLight2 = new THREE.DirectionalLight(0xc6ff33, 1.0);
     dirLight2.position.set(-50, -20, -50);
     scene.add(dirLight2);
 
@@ -219,126 +219,137 @@ export default function ThreePipelineRoadway() {
     // 4. Build Road Mesh
     const roadGeo = new THREE.TubeGeometry(roadCurve, 256, 3.5, 8, false);
     const roadMat = new THREE.MeshStandardMaterial({
-      color: 0x001f3f,
-      roughness: 0.3,
-      metalness: 0.8
+      color: 0xffffff,
+      roughness: 0.1,
+      metalness: 0.1
     });
     const roadMesh = new THREE.Mesh(roadGeo, roadMat);
     scene.add(roadMesh);
 
-    // Glowing Neon Rails
+    // Glowing Neon Rails (PLN Green for high contrast on light bg)
     const railGeo = new THREE.TubeGeometry(roadCurve, 256, 0.6, 6, false);
-    const railMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
+    const railMat = new THREE.MeshBasicMaterial({ color: 0x00804c });
     const railMesh = new THREE.Mesh(railGeo, railMat);
     railMesh.position.y += 1.5;
     scene.add(railMesh);
 
-    // 5. Procedural Stations
+    // 5. Procedural Stations & Environment
     const stationObjects: THREE.Group[] = [];
+    const environmentGroup = new THREE.Group();
+
+    // Helper: Create a low-poly tree
+    const createTree = (x: number, z: number, scale: number) => {
+      const tree = new THREE.Group();
+      const trunk = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.4, 0.6, 2, 8),
+        new THREE.MeshStandardMaterial({ color: 0x4a3728, roughness: 0.9 })
+      );
+      trunk.position.y = 1;
+      const leaves = new THREE.Mesh(
+        new THREE.ConeGeometry(2, 4, 8),
+        new THREE.MeshStandardMaterial({ color: 0x00804c, roughness: 0.8 })
+      );
+      leaves.position.y = 3;
+      tree.add(trunk, leaves);
+      tree.position.set(x, 0, z);
+      tree.scale.set(scale, scale, scale);
+      return tree;
+    };
+
+    // Sprinkle random trees along the road
+    for (let i = 0; i < 60; i++) {
+      const t = i / 60;
+      const pos = roadCurve.getPointAt(t);
+      const sideOffset = (Math.random() > 0.5 ? 1 : -1) * (15 + Math.random() * 20);
+      environmentGroup.add(createTree(pos.x + sideOffset, pos.y - 4, pos.z + (Math.random() - 0.5) * 10));
+    }
+    scene.add(environmentGroup);
 
     STATIONS.forEach((st, idx) => {
       const stationGroup = new THREE.Group();
       stationGroup.position.set(st.pos[0], st.pos[1], st.pos[2]);
 
       // Base Pad
-      const padGeo = new THREE.CylinderGeometry(9, 10, 2, 32);
+      const padGeo = new THREE.CylinderGeometry(10, 11, 1.5, 32);
       const padMat = new THREE.MeshStandardMaterial({
-        color: idx % 2 === 0 ? 0x00804c : 0x1e488f,
-        metalness: 0.6,
-        roughness: 0.3
+        color: 0xffffff,
+        metalness: 0.2,
+        roughness: 0.8
       });
       const padMesh = new THREE.Mesh(padGeo, padMat);
       stationGroup.add(padMesh);
 
       // Glowing Ring
-      const ringGeo = new THREE.TorusGeometry(8.5, 0.4, 16, 32);
-      const ringMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
+      const ringGeo = new THREE.TorusGeometry(9, 0.3, 16, 64);
+      const ringMat = new THREE.MeshBasicMaterial({ color: idx % 2 === 0 ? 0x00804c : 0x1e488f });
       const ringMesh = new THREE.Mesh(ringGeo, ringMat);
       ringMesh.rotation.x = Math.PI / 2;
-      ringMesh.position.y = 1.2;
+      ringMesh.position.y = 0.8;
       stationGroup.add(ringMesh);
 
-      // Station Props (Simplified procedural representation)
+      // Enhanced Station Props
       if (st.id === 0) {
-        const postGeo = new THREE.BoxGeometry(1.5, 8, 1.5);
-        const postMat = new THREE.MeshStandardMaterial({ color: 0x74c365 });
-        const post1 = new THREE.Mesh(postGeo, postMat);
-        post1.position.set(-4, 4, 0);
-        const post2 = new THREE.Mesh(postGeo, postMat);
-        post2.position.set(4, 4, 0);
-        const beamGeo = new THREE.BoxGeometry(10, 1.5, 1.5);
-        const beam = new THREE.Mesh(beamGeo, postMat);
-        beam.position.set(0, 8, 0);
-        stationGroup.add(post1, post2, beam);
+        // Gateway / Arch
+        const mat = new THREE.MeshStandardMaterial({ color: 0x1e488f, metalness: 0.5 });
+        const post = new THREE.CylinderGeometry(1, 1, 12, 16);
+        const p1 = new THREE.Mesh(post, mat); p1.position.set(-5, 6, 0);
+        const p2 = new THREE.Mesh(post, mat); p2.position.set(5, 6, 0);
+        const beam = new THREE.Mesh(new THREE.BoxGeometry(14, 2, 2), mat); beam.position.set(0, 12, 0);
+        const core = new THREE.Mesh(new THREE.SphereGeometry(2, 16, 16), new THREE.MeshBasicMaterial({color: 0xc6ff33}));
+        core.position.set(0, 12, 0);
+        stationGroup.add(p1, p2, beam, core);
       } else if (st.id === 1) {
-        const satGeo = new THREE.BoxGeometry(3, 1.5, 2);
-        const satMat = new THREE.MeshStandardMaterial({ color: 0x7d39eb, metalness: 0.8 });
-        const sat = new THREE.Mesh(satGeo, satMat);
-        sat.position.set(0, 10, 0);
-        const coneGeo = new THREE.ConeGeometry(5, 10, 16, 1, true);
-        const coneMat = new THREE.MeshBasicMaterial({ color: 0x7d39eb, transparent: true, opacity: 0.25, side: THREE.DoubleSide });
-        const cone = new THREE.Mesh(coneGeo, coneMat);
-        cone.position.set(0, 5, 0);
-        stationGroup.add(sat, cone);
+        // Satellite
+        const dish = new THREE.Mesh(new THREE.SphereGeometry(4, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.4), new THREE.MeshStandardMaterial({color: 0xdddddd, side: THREE.DoubleSide}));
+        dish.position.y = 8; dish.rotation.x = -Math.PI / 4;
+        const base = new THREE.Mesh(new THREE.CylinderGeometry(1, 2, 6), new THREE.MeshStandardMaterial({color: 0x888888}));
+        base.position.y = 3;
+        stationGroup.add(dish, base);
       } else if (st.id === 2) {
-        const mastGeo = new THREE.CylinderGeometry(0.5, 0.8, 12, 16);
-        const mastMat = new THREE.MeshStandardMaterial({ color: 0x00804c });
-        const mast = new THREE.Mesh(mastGeo, mastMat);
-        mast.position.y = 6;
-        const boxGeo = new THREE.BoxGeometry(2.5, 2, 2);
-        const boxMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
-        const box = new THREE.Mesh(boxGeo, boxMat);
-        box.position.y = 10;
-        stationGroup.add(mast, box);
+        // AI Server Rack
+        const rackGeo = new THREE.BoxGeometry(4, 10, 4);
+        const rackMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
+        const rack = new THREE.Mesh(rackGeo, rackMat);
+        rack.position.y = 5;
+        const lights = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.5, 4.2), new THREE.MeshBasicMaterial({color: 0xc6ff33}));
+        lights.position.y = 7;
+        stationGroup.add(rack, lights);
       } else if (st.id === 3) {
-        const hubGeo = new THREE.CylinderGeometry(2, 2, 4, 16);
-        const hubMat = new THREE.MeshStandardMaterial({ color: 0x00804c });
-        const hub = new THREE.Mesh(hubGeo, hubMat);
-        hub.position.y = 4;
-        hub.rotation.x = Math.PI / 2;
-        stationGroup.add(hub);
+        // Smart Grid Tower
+        const towerMat = new THREE.MeshStandardMaterial({ color: 0x777777, wireframe: true });
+        const tower = new THREE.Mesh(new THREE.CylinderGeometry(1, 4, 14, 4), towerMat);
+        tower.position.y = 7;
+        stationGroup.add(tower);
       } else if (st.id === 4) {
-        const hexGeo = new THREE.OctahedronGeometry(3.5, 0);
-        const hexMat = new THREE.MeshStandardMaterial({ color: 0x7d39eb, metalness: 0.9, roughness: 0.1 });
-        const hex = new THREE.Mesh(hexGeo, hexMat);
-        hex.position.y = 5;
-        stationGroup.add(hex);
+        // Crypto Token Crystal
+        const hex = new THREE.Mesh(new THREE.OctahedronGeometry(3.5, 0), new THREE.MeshStandardMaterial({ color: 0x7d39eb, metalness: 0.9, roughness: 0.1 }));
+        hex.position.y = 7;
+        const glow = new THREE.Mesh(new THREE.OctahedronGeometry(4, 0), new THREE.MeshBasicMaterial({ color: 0x7d39eb, wireframe: true, transparent: true, opacity: 0.3 }));
+        glow.position.y = 7;
+        stationGroup.add(hex, glow);
       } else if (st.id === 5) {
-        const trunkGeo = new THREE.CylinderGeometry(0.8, 1.2, 8, 8);
-        const trunkMat = new THREE.MeshStandardMaterial({ color: 0x00804c });
-        const trunk = new THREE.Mesh(trunkGeo, trunkMat);
-        trunk.position.y = 4;
-        const foliageGeo = new THREE.DodecahedronGeometry(3.5);
-        const foliageMat = new THREE.MeshStandardMaterial({ color: 0x74c365 });
-        const foliage = new THREE.Mesh(foliageGeo, foliageMat);
-        foliage.position.y = 8;
-        stationGroup.add(trunk, foliage);
+        // Eco Dex Platform
+        const plat = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 1, 32), new THREE.MeshStandardMaterial({color: 0x1e488f}));
+        plat.position.y = 1;
+        const coin = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 0.5, 32), new THREE.MeshBasicMaterial({color: 0xc6ff33}));
+        coin.position.y = 4; coin.rotation.x = Math.PI / 2;
+        stationGroup.add(plat, coin);
       } else if (st.id === 6) {
-        const vaultGeo = new THREE.CylinderGeometry(4, 4, 3, 16);
-        const vaultMat = new THREE.MeshStandardMaterial({ color: 0x1e488f, metalness: 0.7 });
-        const vault = new THREE.Mesh(vaultGeo, vaultMat);
-        vault.position.y = 2.5;
-        const coinGeo = new THREE.CylinderGeometry(1.2, 1.2, 0.4, 16);
-        const coinMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
-        const coin = new THREE.Mesh(coinGeo, coinMat);
-        coin.position.set(0, 6, 0);
-        coin.rotation.z = Math.PI / 4;
-        stationGroup.add(vault, coin);
+        // Vault
+        const vault = new THREE.Mesh(new THREE.BoxGeometry(6, 6, 6), new THREE.MeshStandardMaterial({color: 0x555555, metalness: 0.8}));
+        vault.position.y = 3;
+        const door = new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 0.5, 32), new THREE.MeshStandardMaterial({color: 0xdddddd}));
+        door.position.set(0, 3, 3); door.rotation.x = Math.PI / 2;
+        stationGroup.add(vault, door);
       } else if (st.id === 7) {
-        const hutGeo = new THREE.BoxGeometry(5, 4, 5);
-        const hutMat = new THREE.MeshStandardMaterial({ color: 0x001f3f });
-        const hut = new THREE.Mesh(hutGeo, hutMat);
-        hut.position.y = 3;
-        const roofGeo = new THREE.ConeGeometry(4.5, 3, 4);
-        const roofMat = new THREE.MeshStandardMaterial({ color: 0x00804c });
-        const roof = new THREE.Mesh(roofGeo, roofMat);
-        roof.position.y = 6.5;
-        roof.rotation.y = Math.PI / 4;
-        const lampGeo = new THREE.SphereGeometry(1.2, 16, 16);
-        const lampMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
-        const lamp = new THREE.Mesh(lampGeo, lampMat);
-        lamp.position.set(0, 9, 0);
-        stationGroup.add(hut, roof, lamp);
+        // Village House
+        const hut = new THREE.Mesh(new THREE.BoxGeometry(6, 4, 6), new THREE.MeshStandardMaterial({ color: 0xdddddd }));
+        hut.position.y = 2;
+        const roof = new THREE.Mesh(new THREE.ConeGeometry(5.5, 4, 4), new THREE.MeshStandardMaterial({ color: 0x001f3f }));
+        roof.position.y = 6; roof.rotation.y = Math.PI / 4;
+        const solar = new THREE.Mesh(new THREE.BoxGeometry(3, 0.2, 4), new THREE.MeshStandardMaterial({ color: 0x1e488f }));
+        solar.position.set(0, 6.2, 1.5); solar.rotation.x = -Math.PI / 6;
+        stationGroup.add(hut, roof, solar);
       }
 
       scene.add(stationGroup);
@@ -347,11 +358,11 @@ export default function ThreePipelineRoadway() {
 
     // 6. Traveling Energy Capsule (Driven by scroll)
     const capsuleGeo = new THREE.SphereGeometry(2.5, 16, 16);
-    const capsuleMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
+    const capsuleMat = new THREE.MeshBasicMaterial({ color: 0x00804c });
     const capsuleMesh = new THREE.Mesh(capsuleGeo, capsuleMat);
     scene.add(capsuleMesh);
 
-    // 6.5 Atmospheric Particles
+    // 6.5 Atmospheric Particles (Darker blue for light theme)
     const particleGeo = new THREE.BufferGeometry();
     const particleCount = 400;
     const particlePositions = new Float32Array(particleCount * 3);
@@ -360,10 +371,10 @@ export default function ThreePipelineRoadway() {
     }
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
     const particleMat = new THREE.PointsMaterial({
-      color: 0xc6ff33,
-      size: 0.5,
+      color: 0x1e488f,
+      size: 0.8,
       transparent: true,
-      opacity: 0.4
+      opacity: 0.3
     });
     const particlesMesh = new THREE.Points(particleGeo, particleMat);
     scene.add(particlesMesh);
@@ -457,21 +468,15 @@ export default function ThreePipelineRoadway() {
 
   return (
     // Scrollytelling Container (800vh to give 100vh per station scroll space)
-    <div ref={scrollContainerRef} className="relative w-full bg-[#001329]" style={{ height: "800vh" }}>
+    <div ref={scrollContainerRef} className="relative w-full bg-[#F4F2EC]" style={{ height: "800vh" }}>
       
       {/* Sticky 3D Background */}
-      <div className="sticky top-0 w-full h-screen overflow-hidden z-0 shadow-2xl">
+      <div className="sticky top-0 w-full h-screen overflow-hidden z-0 border-y border-black/5">
         <div ref={mountRef} className="absolute inset-0" />
-        {/* Soft Vignette Gradient to ensure text readability */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#001329_100%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#001329] via-transparent to-transparent pointer-events-none" />
-        
-        {/* Helper Hint Overlay */}
-        <div className="absolute bottom-10 w-full flex justify-center pointer-events-none z-10">
-          <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-md text-white/70 text-xs font-mono animate-bounce">
-            <span className="w-2 h-2 rounded-full bg-[#C6FF33]" /> Scroll untuk meluncur di jalan 3D
-          </div>
-        </div>
+        {/* Soft Vignette Gradient to blend with page smoothly */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#F4F2EC_100%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#F4F2EC] via-[#F4F2EC]/20 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F4F2EC] via-[#F4F2EC]/20 to-transparent pointer-events-none" />
       </div>
 
       {/* 8 Scrollable Overlays (One for each station) */}
@@ -482,7 +487,7 @@ export default function ThreePipelineRoadway() {
             <div key={st.id} className="h-screen w-full flex items-center justify-start px-6 md:px-20 max-w-[1536px] mx-auto pointer-events-none">
               
               {/* Glass Card Overlay */}
-              <div className="pointer-events-auto w-full max-w-md md:max-w-lg p-6 md:p-10 rounded-[2.5rem] bg-[#001329]/80 border border-white/15 backdrop-blur-3xl shadow-[0_16px_60px_rgba(0,0,0,0.6)] transition-all hover:bg-[#001329]/90 hover:scale-[1.01] hover:border-white/30">
+              <div className="pointer-events-auto w-full max-w-md md:max-w-lg p-6 md:p-10 rounded-[2.5rem] bg-[#001329]/95 border border-white/20 backdrop-blur-3xl shadow-[0_32px_80px_rgba(0,19,41,0.15)] transition-all hover:scale-[1.02] hover:border-white/40">
                 
                 <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-5 mb-5">
                   <div>
