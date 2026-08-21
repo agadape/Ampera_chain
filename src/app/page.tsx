@@ -39,8 +39,8 @@ export default function Home() {
     <div className="rivr relative min-h-svh bg-[#F4F2EC] text-[#001F3F] antialiased selection:bg-[#C6FF33] selection:text-[#001F3F]">
       
       {/* 1. HERO SECTION (RIVR FRAMED HERO WITH VIDEO LOOP & GLOSSY GLASS) */}
-      <section id="home" data-slot="hero" className="flex min-h-dvh w-full items-stretch justify-center p-3 md:p-5">
-        <div className="group relative flex min-h-[640px] w-full max-w-[1536px] flex-col items-center justify-between overflow-hidden rounded-[1.5rem] bg-[#001F3F] md:rounded-[3rem] shadow-[0_20px_60px_rgba(0,31,63,0.35)]">
+      <section id="home" data-slot="hero" className="flex h-[100svh] min-h-[640px] w-full items-stretch justify-center p-3 md:p-5 overflow-hidden">
+        <div className="group relative flex h-full w-full max-w-[1536px] flex-col items-center justify-between overflow-hidden rounded-[1.5rem] bg-[#001F3F] md:rounded-[3rem] shadow-[0_20px_60px_rgba(0,31,63,0.35)]">
           
           {/* Background 15-Second Drone Video Loop with Glossy Filter */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -65,7 +65,7 @@ export default function Home() {
             <a href="#home" className="flex items-center gap-2.5 text-white" aria-label="Ampera home">
               <div className="w-4 h-4 rounded-full bg-[#C6FF33] shadow-[0_0_16px_#C6FF33] animate-pulse" />
               <span className="font-display text-2xl font-black tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">ampera</span>
-              <span className="hidden sm:inline-block text-[10px] font-mono font-semibold uppercase tracking-wider text-[#C6FF33] bg-[#001F3F]/70 backdrop-blur-xl px-3 py-1 rounded-full border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
+              <span className="hidden sm:inline-block text-[11px] font-mono font-bold uppercase tracking-widest text-[#C6FF33] bg-[#001F3F]/70 backdrop-blur-xl px-3 py-1 rounded-full border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
                 PLN ICE 2026
               </span>
             </a>
@@ -92,18 +92,18 @@ export default function Home() {
           </nav>
 
           {/* Centered Hero Content with Glossy Badges */}
-          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-12 text-center max-w-4xl">
+          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-8 text-center max-w-4xl shrink-0 mt-auto mb-auto">
             
             {/* Floating Glass Pill Badge with Glossy Rim */}
             <div data-slot="hero-badge" className="mx-auto mb-6 flex w-fit items-center gap-2.5 rounded-full border border-white/30 bg-[#001F3F]/50 px-5 py-2 backdrop-blur-2xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/20">
               <Sparkle size={16} className="text-[#C6FF33] animate-pulse" weight="fill" />
-              <span className="text-xs font-mono font-medium tracking-wide drop-shadow-sm">
+              <span className="text-[11px] font-mono font-bold uppercase tracking-wider drop-shadow-sm">
                 10.068 Titik Desa 3T · RWA Crowd-Equity Platform
               </span>
             </div>
 
             {/* Giant Display Title */}
-            <h1 data-slot="hero-title" className="font-display mb-6 text-4xl font-black leading-[1.04] text-white sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight drop-shadow-[0_6px_30px_rgba(0,0,0,0.85)]">
+            <h1 data-slot="hero-title" className="font-display mb-6 text-4xl font-black leading-[1.04] text-white sm:text-5xl md:text-6xl lg:text-[76px] tracking-tight drop-shadow-[0_6px_30px_rgba(0,0,0,0.85)]">
               Jembatan Modal & Energi Bersih untuk Nusantara.
             </h1>
 
@@ -133,27 +133,30 @@ export default function Home() {
 
           </div>
 
-          {/* Bottom Floating Card: Left (Glossy Hero Stat Pill) */}
-          <div data-slot="hero-stat" className="relative z-10 w-full px-6 pb-6 md:px-10 md:pb-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
+          {/* Bottom Floating Elements */}
+          <div className="relative z-10 w-full flex items-end justify-between mt-auto">
             
-            <div className="flex w-fit min-w-[200px] flex-col gap-2 rounded-[1.5rem] border border-white/30 bg-[#001F3F]/50 p-5 backdrop-blur-2xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/20">
-              <div className="flex flex-col">
-                <span className="font-display text-3xl font-black tracking-tight text-[#C6FF33] drop-shadow-md">10.068</span>
-                <span className="text-[10px] font-mono font-medium uppercase tracking-wider text-white/80">Desa 3T Menanti Terang</span>
+            {/* Left Glossy Stat Pill - Added padding to align with nav */}
+            <div className="px-6 pb-6 md:px-10 md:pb-10">
+              <div className="flex w-fit min-w-[200px] flex-col gap-2 rounded-[1.5rem] border border-white/30 bg-[#001F3F]/50 p-5 backdrop-blur-2xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.37)] ring-1 ring-white/20">
+                <div className="flex flex-col">
+                  <span className="font-display text-3xl font-black tracking-tight text-[#C6FF33] drop-shadow-md">10.068</span>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-white/80">Desa 3T Menanti Terang</span>
+                </div>
+                <a 
+                  href="#simulator" 
+                  className="flex w-fit items-center gap-2 self-start rounded-full bg-white text-[#001F3F] py-1.5 pe-4 ps-1.5 text-xs font-bold tracking-wide transition-all hover:bg-[#C6FF33] shadow-md"
+                >
+                  <span className="flex size-5 items-center justify-center rounded-full bg-[#001F3F]/10">
+                    <ArrowUpRight size={12} weight="bold" />
+                  </span>
+                  <span>Hitung Dampak</span>
+                </a>
               </div>
-              <a 
-                href="#simulator" 
-                className="flex w-fit items-center gap-2 self-start rounded-full bg-white text-[#001F3F] py-1.5 pe-4 ps-1.5 text-xs font-bold tracking-wide transition-all hover:bg-[#C6FF33] shadow-md"
-              >
-                <span className="flex size-5 items-center justify-center rounded-full bg-[#001F3F]/10">
-                  <ArrowUpRight size={12} weight="bold" />
-                </span>
-                <span>Hitung Dampak</span>
-              </a>
             </div>
 
-            {/* Bottom-Right Inverted Corner Notch Card (Rivr Signature Motif) */}
-            <div data-slot="hero-docs" className="relative flex items-center gap-4 rounded-ss-[2rem] bg-[#F4F2EC] p-4 ps-8 pt-5 md:rounded-ss-[3rem] md:p-6 md:ps-12 md:pt-7 text-[#001F3F] shadow-lg">
+            {/* Bottom-Right Inverted Corner Notch Card (Rivr Signature Motif) - Flushed perfectly to bottom right corner */}
+            <div data-slot="hero-docs" className="relative flex items-center gap-4 rounded-ss-[2rem] bg-[#F4F2EC] p-4 ps-8 pt-5 md:rounded-ss-[3rem] md:p-6 md:ps-12 md:pt-7 text-[#001F3F] shadow-lg self-end">
               
               {/* Inverted Top Corner SVG */}
               <div className="pointer-events-none absolute -top-[2rem] end-0 size-[2rem] text-[#F4F2EC] md:-top-[3rem] md:size-[3rem]">
@@ -175,10 +178,10 @@ export default function Home() {
 
               <div className="flex flex-col">
                 <span className="text-base font-bold text-[#001F3F] leading-tight">Dokumentasi Pitch</span>
-                <span className="text-xs font-mono text-black/60">PLN ICE 2026 Innovation</span>
+                <span className="text-xs font-mono font-bold text-black/60">PLN ICE 2026 Innovation</span>
               </div>
             </div>
-
+            
           </div>
 
         </div>
@@ -231,11 +234,11 @@ export default function Home() {
           
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <div className="max-w-2xl">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#C6FF33] bg-[#C6FF33]/15 px-3 py-1 rounded-full border border-[#C6FF33]/30">
+              <span className="text-sm font-mono font-bold uppercase tracking-widest text-[#C6FF33] bg-[#C6FF33]/15 px-3 py-1 rounded-full border border-[#C6FF33]/30">
                 Three.js 3D WebGL Engine
               </span>
-              <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl mt-3">
-                Peta 3D Sebaran Energi 3T Nusantara
+              <h2 className="font-display text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl mt-4">
+                Pemetaan Potensi Nusantara
               </h2>
             </div>
 
@@ -259,10 +262,10 @@ export default function Home() {
         {/* Section Header */}
         <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between md:mb-12">
           <div className="max-w-2xl">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
+            <span className="text-sm font-mono font-bold uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
               Closed-Loop Ecosystem
             </span>
-            <h2 className="font-display text-3xl font-bold leading-tight text-[#001F3F] sm:text-4xl md:text-5xl mt-3">
+            <h2 className="font-display text-4xl font-black leading-tight text-[#001F3F] sm:text-5xl md:text-6xl mt-4">
               Satu Jembatan, Tiga Pilar Solusi.
             </h2>
           </div>
@@ -355,10 +358,10 @@ export default function Home() {
             
             {/* Left Controller */}
             <div className="lg:col-span-5 space-y-6">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
+              <span className="text-sm font-mono font-bold uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
                 Unit Economics Simulator
               </span>
-              <h2 className="font-display text-3xl md:text-5xl font-bold text-[#001F3F] tracking-tight leading-[1.1]">
+              <h2 className="font-display text-4xl font-black text-[#001F3F] sm:text-5xl md:text-6xl tracking-tight leading-[1.1]">
                 Simulasi Imbal Hasil & Dampak Desa
               </h2>
               <p className="text-black/60 text-sm md:text-base leading-relaxed">
@@ -437,10 +440,10 @@ export default function Home() {
         <div className="rounded-[1.5rem] bg-white border border-black/[0.08] p-8 md:rounded-[3rem] md:p-14 shadow-sm space-y-10">
           
           <div className="max-w-2xl">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
+            <span className="text-sm font-mono font-bold uppercase tracking-widest text-[#00804C] bg-[#00804C]/10 px-3 py-1 rounded-full border border-[#00804C]/20">
               Tim & Tata Kelola
             </span>
-            <h2 className="font-display text-3xl font-bold tracking-tight text-[#001F3F] sm:text-4xl md:text-5xl mt-3">
+            <h2 className="font-display text-4xl font-black tracking-tight text-[#001F3F] sm:text-5xl md:text-6xl mt-4">
               Bukan Satu Nama. Banyak Disiplin.
             </h2>
           </div>

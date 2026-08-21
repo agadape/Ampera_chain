@@ -351,6 +351,23 @@ export default function ThreePipelineRoadway() {
     const capsuleMesh = new THREE.Mesh(capsuleGeo, capsuleMat);
     scene.add(capsuleMesh);
 
+    // 6.5 Atmospheric Particles
+    const particleGeo = new THREE.BufferGeometry();
+    const particleCount = 400;
+    const particlePositions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount * 3; i++) {
+      particlePositions[i] = (Math.random() - 0.5) * 300;
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    const particleMat = new THREE.PointsMaterial({
+      color: 0xc6ff33,
+      size: 0.5,
+      transparent: true,
+      opacity: 0.4
+    });
+    const particlesMesh = new THREE.Points(particleGeo, particleMat);
+    scene.add(particlesMesh);
+
     // Initial positioning
     camera.position.copy(camCurve.getPointAt(0));
     const currentLookAt = lookAtCurve.getPointAt(0);
@@ -359,8 +376,18 @@ export default function ThreePipelineRoadway() {
     // 7. Animation Loop (Scrollytelling Interpolation)
     let animationFrameId: number;
     let clock = new THREE.Clock();
+    let isVisible = true;
+
+    // Optimize: Intersection Observer to pause rendering when out of viewport
+    const observer = new IntersectionObserver((entries) => {
+      isVisible = entries[0].isIntersecting;
+    }, { rootMargin: "200px" });
+    if (scrollEl) observer.observe(scrollEl);
 
     const animate = () => {
+      animationFrameId = requestAnimationFrame(animate);
+      if (!isVisible) return; // Pause GPU processing
+
       const elapsed = clock.getElapsedTime();
 
       // Calculate scroll progress (0 to 1) based on the 800vh container
@@ -401,8 +428,10 @@ export default function ThreePipelineRoadway() {
         grp.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
       });
 
+      // Slowly rotate atmosphere
+      particlesMesh.rotation.y = elapsed * 0.02;
+
       renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
@@ -418,6 +447,7 @@ export default function ThreePipelineRoadway() {
     return () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
