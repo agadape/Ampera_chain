@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { 
   Handshake, 
@@ -11,9 +11,6 @@ import {
   ShieldCheck, 
   Users, 
   LightbulbFilament,
-  CaretRight,
-  CaretLeft,
-  ArrowUpRight,
   Sparkle
 } from "@phosphor-icons/react";
 
@@ -47,7 +44,7 @@ const STATIONS: StationData[] = [
       "Regulasi: Surat perjanjian hak pakai BUMDes aman"
     ],
     icon: Handshake,
-    pos: [-110, 8, 15]
+    pos: [-140, 8, 15]
   },
   {
     id: 1,
@@ -64,7 +61,7 @@ const STATIONS: StationData[] = [
       "Katalog 10.068 kandidat mikrogrid siap bangun"
     ],
     icon: Broadcast,
-    pos: [-78, 12, -8]
+    pos: [-100, 12, -8]
   },
   {
     id: 2,
@@ -81,7 +78,7 @@ const STATIONS: StationData[] = [
       "Konektivitas LoRa Sub-GHz transmisi 15 km"
     ],
     icon: Cpu,
-    pos: [-46, 10, 12]
+    pos: [-60, 10, 15]
   },
   {
     id: 3,
@@ -98,7 +95,7 @@ const STATIONS: StationData[] = [
       "Biomassa: 261,7 Juta ton limbah sawit termanfaatkan"
     ],
     icon: Leaf,
-    pos: [-14, 14, -10]
+    pos: [-20, 14, -12]
   },
   {
     id: 4,
@@ -115,7 +112,7 @@ const STATIONS: StationData[] = [
       "✓ HAK BAGI HASIL proporsional atas dividen kWh riil"
     ],
     icon: HardDrives,
-    pos: [18, 12, 10]
+    pos: [20, 12, 12]
   },
   {
     id: 5,
@@ -132,7 +129,7 @@ const STATIONS: StationData[] = [
       "Sertifikasi otomatis terintegrasi API bursa"
     ],
     icon: ShieldCheck,
-    pos: [50, 10, -8]
+    pos: [60, 10, -10]
   },
   {
     id: 6,
@@ -149,7 +146,7 @@ const STATIONS: StationData[] = [
       "Nilai wajar dihitung agen AI, zero token spekulasi"
     ],
     icon: Users,
-    pos: [82, 12, 12]
+    pos: [100, 12, 15]
   },
   {
     id: 7,
@@ -167,41 +164,35 @@ const STATIONS: StationData[] = [
       "4. Insentif ESG & Green Certificate"
     ],
     icon: LightbulbFilament,
-    pos: [114, 15, -6]
+    pos: [140, 15, -6]
   }
 ];
 
 export default function ThreePipelineRoadway() {
   const mountRef = useRef<HTMLDivElement | null>(null);
-  const [selectedStation, setSelectedStation] = useState<number>(0);
-  const activeStation = STATIONS[selectedStation];
-
-  // Camera Target Ref for smooth animation
-  const targetCamPos = useRef(new THREE.Vector3(-110, 26, 60));
-  const targetLookAt = useRef(new THREE.Vector3(-110, 8, 15));
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const container = mountRef.current;
-    if (!container) return;
+    const scrollEl = scrollContainerRef.current;
+    if (!container || !scrollEl) return;
 
     const width = container.clientWidth;
     const height = container.clientHeight;
 
-    // 1. Scene & Camera
+    // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x001329);
     scene.fog = new THREE.FogExp2(0x001329, 0.005);
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(-110, 26, 60);
-
-    // 2. WebGL Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // 3. Lighting
+    // 2. Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambientLight);
 
@@ -213,10 +204,20 @@ export default function ThreePipelineRoadway() {
     dirLight2.position.set(-50, -20, -50);
     scene.add(dirLight2);
 
-    // 4. Stylized Winding 3D Road Track (Energy Highway)
-    const curvePoints = STATIONS.map(s => new THREE.Vector3(s.pos[0], s.pos[1] - 4, s.pos[2]));
-    const roadCurve = new THREE.CatmullRomCurve3(curvePoints);
-    const roadGeo = new THREE.TubeGeometry(roadCurve, 128, 3.5, 8, false);
+    // 3. 3D Splines (Road, Camera Path, LookAt Path)
+    const roadPoints = STATIONS.map(s => new THREE.Vector3(s.pos[0], s.pos[1] - 4, s.pos[2]));
+    const roadCurve = new THREE.CatmullRomCurve3(roadPoints);
+    
+    // Offset camera slightly to the right (Z) and up (Y) for cinematic angle
+    const camPoints = STATIONS.map(s => new THREE.Vector3(s.pos[0] + 8, s.pos[1] + 14, s.pos[2] + 45));
+    const camCurve = new THREE.CatmullRomCurve3(camPoints);
+
+    // Look directly at the stations
+    const lookAtPoints = STATIONS.map(s => new THREE.Vector3(s.pos[0], s.pos[1] + 4, s.pos[2]));
+    const lookAtCurve = new THREE.CatmullRomCurve3(lookAtPoints);
+
+    // 4. Build Road Mesh
+    const roadGeo = new THREE.TubeGeometry(roadCurve, 256, 3.5, 8, false);
     const roadMat = new THREE.MeshStandardMaterial({
       color: 0x001f3f,
       roughness: 0.3,
@@ -225,24 +226,21 @@ export default function ThreePipelineRoadway() {
     const roadMesh = new THREE.Mesh(roadGeo, roadMat);
     scene.add(roadMesh);
 
-    // Glowing Neon Road Rail (Lime Stripe)
-    const railGeo = new THREE.TubeGeometry(roadCurve, 128, 0.6, 6, false);
-    const railMat = new THREE.MeshBasicMaterial({
-      color: 0xc6ff33,
-      wireframe: false
-    });
+    // Glowing Neon Rails
+    const railGeo = new THREE.TubeGeometry(roadCurve, 256, 0.6, 6, false);
+    const railMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
     const railMesh = new THREE.Mesh(railGeo, railMat);
     railMesh.position.y += 1.5;
     scene.add(railMesh);
 
-    // 5. Procedural 3D Physical Stations along the Road
+    // 5. Procedural Stations
     const stationObjects: THREE.Group[] = [];
 
     STATIONS.forEach((st, idx) => {
       const stationGroup = new THREE.Group();
       stationGroup.position.set(st.pos[0], st.pos[1], st.pos[2]);
 
-      // Base Station Platform Pad
+      // Base Pad
       const padGeo = new THREE.CylinderGeometry(9, 10, 2, 32);
       const padMat = new THREE.MeshStandardMaterial({
         color: idx % 2 === 0 ? 0x00804c : 0x1e488f,
@@ -252,7 +250,7 @@ export default function ThreePipelineRoadway() {
       const padMesh = new THREE.Mesh(padGeo, padMat);
       stationGroup.add(padMesh);
 
-      // Glowing Station Beacon Ring
+      // Glowing Ring
       const ringGeo = new THREE.TorusGeometry(8.5, 0.4, 16, 32);
       const ringMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
       const ringMesh = new THREE.Mesh(ringGeo, ringMat);
@@ -260,9 +258,8 @@ export default function ThreePipelineRoadway() {
       ringMesh.position.y = 1.2;
       stationGroup.add(ringMesh);
 
-      // Station Pillar / Object representation
+      // Station Props (Simplified procedural representation)
       if (st.id === 0) {
-        // Station 0: 3D Gate Arch
         const postGeo = new THREE.BoxGeometry(1.5, 8, 1.5);
         const postMat = new THREE.MeshStandardMaterial({ color: 0x74c365 });
         const post1 = new THREE.Mesh(postGeo, postMat);
@@ -274,7 +271,6 @@ export default function ThreePipelineRoadway() {
         beam.position.set(0, 8, 0);
         stationGroup.add(post1, post2, beam);
       } else if (st.id === 1) {
-        // Station 1: 3D Satellite & Laser Scan Cone
         const satGeo = new THREE.BoxGeometry(3, 1.5, 2);
         const satMat = new THREE.MeshStandardMaterial({ color: 0x7d39eb, metalness: 0.8 });
         const sat = new THREE.Mesh(satGeo, satMat);
@@ -285,7 +281,6 @@ export default function ThreePipelineRoadway() {
         cone.position.set(0, 5, 0);
         stationGroup.add(sat, cone);
       } else if (st.id === 2) {
-        // Station 2: 3D Telemetry Mast Pole
         const mastGeo = new THREE.CylinderGeometry(0.5, 0.8, 12, 16);
         const mastMat = new THREE.MeshStandardMaterial({ color: 0x00804c });
         const mast = new THREE.Mesh(mastGeo, mastMat);
@@ -296,7 +291,6 @@ export default function ThreePipelineRoadway() {
         box.position.y = 10;
         stationGroup.add(mast, box);
       } else if (st.id === 3) {
-        // Station 3: 3D Pelton Turbine & Solar Array
         const hubGeo = new THREE.CylinderGeometry(2, 2, 4, 16);
         const hubMat = new THREE.MeshStandardMaterial({ color: 0x00804c });
         const hub = new THREE.Mesh(hubGeo, hubMat);
@@ -304,14 +298,12 @@ export default function ThreePipelineRoadway() {
         hub.rotation.x = Math.PI / 2;
         stationGroup.add(hub);
       } else if (st.id === 4) {
-        // Station 4: 3D Blockchain Crystal Block
         const hexGeo = new THREE.OctahedronGeometry(3.5, 0);
         const hexMat = new THREE.MeshStandardMaterial({ color: 0x7d39eb, metalness: 0.9, roughness: 0.1 });
         const hex = new THREE.Mesh(hexGeo, hexMat);
         hex.position.y = 5;
         stationGroup.add(hex);
       } else if (st.id === 5) {
-        // Station 5: 3D Carbon Tree / Tower
         const trunkGeo = new THREE.CylinderGeometry(0.8, 1.2, 8, 8);
         const trunkMat = new THREE.MeshStandardMaterial({ color: 0x00804c });
         const trunk = new THREE.Mesh(trunkGeo, trunkMat);
@@ -322,7 +314,6 @@ export default function ThreePipelineRoadway() {
         foliage.position.y = 8;
         stationGroup.add(trunk, foliage);
       } else if (st.id === 6) {
-        // Station 6: 3D Crowd Vault Pool
         const vaultGeo = new THREE.CylinderGeometry(4, 4, 3, 16);
         const vaultMat = new THREE.MeshStandardMaterial({ color: 0x1e488f, metalness: 0.7 });
         const vault = new THREE.Mesh(vaultGeo, vaultMat);
@@ -334,7 +325,6 @@ export default function ThreePipelineRoadway() {
         coin.rotation.z = Math.PI / 4;
         stationGroup.add(vault, coin);
       } else if (st.id === 7) {
-        // Station 7: 3D Illuminated Village Hut & Power Substation
         const hutGeo = new THREE.BoxGeometry(5, 4, 5);
         const hutMat = new THREE.MeshStandardMaterial({ color: 0x001f3f });
         const hut = new THREE.Mesh(hutGeo, hutMat);
@@ -355,35 +345,61 @@ export default function ThreePipelineRoadway() {
       stationObjects.push(stationGroup);
     });
 
-    // 6. Traveling Energy Capsule along Road
-    const capsuleGeo = new THREE.SphereGeometry(1.8, 16, 16);
+    // 6. Traveling Energy Capsule (Driven by scroll)
+    const capsuleGeo = new THREE.SphereGeometry(2.5, 16, 16);
     const capsuleMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
     const capsuleMesh = new THREE.Mesh(capsuleGeo, capsuleMat);
     scene.add(capsuleMesh);
 
-    // 7. Animation Loop with Smooth Camera Dolly Lerp
+    // Initial positioning
+    camera.position.copy(camCurve.getPointAt(0));
+    const currentLookAt = lookAtCurve.getPointAt(0);
+    camera.lookAt(currentLookAt);
+
+    // 7. Animation Loop (Scrollytelling Interpolation)
     let animationFrameId: number;
     let clock = new THREE.Clock();
-
-    const currentLookAt = new THREE.Vector3(-110, 8, 15);
 
     const animate = () => {
       const elapsed = clock.getElapsedTime();
 
-      // Energy Capsule traveling loop along curve
-      const t = (elapsed * 0.08) % 1;
-      const capPos = roadCurve.getPointAt(t);
-      capsuleMesh.position.copy(capPos).add(new THREE.Vector3(0, 2, 0));
+      // Calculate scroll progress (0 to 1) based on the 800vh container
+      const rect = scrollEl.getBoundingClientRect();
+      const scrollMax = rect.height - window.innerHeight;
+      let progress = 0;
+      if (scrollMax > 0) {
+        progress = -rect.top / scrollMax;
+        progress = Math.max(0, Math.min(1, progress));
+      }
 
-      // Rotate Station Objects slightly
+      // Move camera and lookAt smoothly along the splines based on scroll progress
+      const targetCamPos = camCurve.getPointAt(progress);
+      const targetLookPos = lookAtCurve.getPointAt(progress);
+
+      // Lerp for buttery smoothness
+      camera.position.lerp(targetCamPos, 0.05);
+      currentLookAt.lerp(targetLookPos, 0.05);
+      camera.lookAt(currentLookAt);
+
+      // Energy Capsule leads the way exactly at scroll progress
+      const capPos = roadCurve.getPointAt(progress);
+      capsuleMesh.position.copy(capPos).add(new THREE.Vector3(0, 3, 0));
+      
+      // Pulse capsule slightly
+      const pulse = 1 + Math.sin(elapsed * 5) * 0.1;
+      capsuleMesh.scale.set(pulse, pulse, pulse);
+
+      // Rotate Station Objects slightly, pop up the active one
       stationObjects.forEach((grp, idx) => {
         grp.rotation.y = elapsed * 0.3 + idx;
+        
+        // Highlight logic based on proximity
+        const expectedProgress = idx / (STATIONS.length - 1);
+        const dist = Math.abs(progress - expectedProgress);
+        // Pop scale when close to the station
+        const targetScale = dist < 0.1 ? 1.2 : 1.0;
+        grp.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
       });
-
-      // Smooth Camera & LookAt Interpolation (Lerp)
-      camera.position.lerp(targetCamPos.current, 0.05);
-      currentLookAt.lerp(targetLookAt.current, 0.05);
-      camera.lookAt(currentLookAt);
 
       renderer.render(scene, camera);
       animationFrameId = requestAnimationFrame(animate);
@@ -391,7 +407,16 @@ export default function ThreePipelineRoadway() {
 
     animate();
 
+    const handleResize = () => {
+      if (!container) return;
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    };
+    window.addEventListener("resize", handleResize);
+
     return () => {
+      window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -400,133 +425,74 @@ export default function ThreePipelineRoadway() {
     };
   }, []);
 
-  // Update target camera position when active station changes
-  useEffect(() => {
-    const st = STATIONS[selectedStation];
-    targetCamPos.current.set(st.pos[0] + 8, st.pos[1] + 16, st.pos[2] + 42);
-    targetLookAt.current.set(st.pos[0], st.pos[1] + 4, st.pos[2]);
-  }, [selectedStation]);
-
-  const handleNext = () => {
-    setSelectedStation((prev) => (prev < STATIONS.length - 1 ? prev + 1 : 0));
-  };
-
-  const handlePrev = () => {
-    setSelectedStation((prev) => (prev > 0 ? prev - 1 : STATIONS.length - 1));
-  };
-
   return (
-    <div className="w-full space-y-6">
+    // Scrollytelling Container (800vh to give 100vh per station scroll space)
+    <div ref={scrollContainerRef} className="relative w-full bg-[#001329]" style={{ height: "800vh" }}>
       
-      {/* 3D Viewport with Stepper Overlay */}
-      <div className="p-2 rounded-[2rem] bg-black/60 border border-white/15 backdrop-blur-2xl shadow-2xl overflow-hidden relative">
+      {/* Sticky 3D Background */}
+      <div className="sticky top-0 w-full h-screen overflow-hidden z-0 shadow-2xl">
+        <div ref={mountRef} className="absolute inset-0" />
+        {/* Soft Vignette Gradient to ensure text readability */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#001329_100%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#001329] via-transparent to-transparent pointer-events-none" />
         
-        {/* Top Floating Station Stepper Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 text-xs font-mono text-white/80 bg-[#001329]/80 backdrop-blur-md">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#C6FF33] animate-ping" />
-            <span className="font-bold text-white tracking-wider">3D ENERGY PIPELINE HIGHWAY</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handlePrev}
-              className="p-2 rounded-full bg-white/10 text-white hover:bg-[#C6FF33] hover:text-[#001F3F] transition-all"
-              aria-label="Previous Station"
-            >
-              <CaretLeft size={16} weight="bold" />
-            </button>
-            <span className="text-[11px] font-bold text-[#C6FF33] px-2">
-              STASIUN {activeStation.id} / 7
-            </span>
-            <button
-              onClick={handleNext}
-              className="p-2 rounded-full bg-white/10 text-white hover:bg-[#C6FF33] hover:text-[#001F3F] transition-all"
-              aria-label="Next Station"
-            >
-              <CaretRight size={16} weight="bold" />
-            </button>
+        {/* Helper Hint Overlay */}
+        <div className="absolute bottom-10 w-full flex justify-center pointer-events-none z-10">
+          <div className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-black/40 border border-white/10 backdrop-blur-md text-white/70 text-xs font-mono animate-bounce">
+            <span className="w-2 h-2 rounded-full bg-[#C6FF33]" /> Scroll untuk meluncur di jalan 3D
           </div>
         </div>
+      </div>
 
-        {/* 8 Station Quick Switcher Buttons */}
-        <div className="grid grid-cols-4 sm:grid-cols-8 gap-1.5 p-3 bg-black/40 border-b border-white/10">
-          {STATIONS.map((st) => {
-            const isSelected = selectedStation === st.id;
-            const IconComp = st.icon;
-            return (
-              <button
-                key={st.id}
-                onClick={() => setSelectedStation(st.id)}
-                className={`p-2.5 rounded-xl border text-left transition-all flex flex-col justify-between ${
-                  isSelected 
-                    ? "bg-[#C6FF33] text-[#001F3F] border-[#C6FF33] font-bold shadow-lg scale-[1.02]" 
-                    : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10"
-                }`}
-              >
-                <div className="flex items-center justify-between text-[10px] font-mono">
-                  <span>#{st.id}</span>
-                  <IconComp size={14} weight="bold" />
+      {/* 8 Scrollable Overlays (One for each station) */}
+      <div className="relative z-10 w-full -mt-[100vh]">
+        {STATIONS.map((st, i) => {
+          const IconComp = st.icon;
+          return (
+            <div key={st.id} className="h-screen w-full flex items-center justify-start px-6 md:px-20 max-w-[1536px] mx-auto pointer-events-none">
+              
+              {/* Glass Card Overlay */}
+              <div className="pointer-events-auto w-full max-w-md md:max-w-lg p-6 md:p-10 rounded-[2.5rem] bg-[#001329]/80 border border-white/15 backdrop-blur-3xl shadow-[0_16px_60px_rgba(0,0,0,0.6)] transition-all hover:bg-[#001329]/90 hover:scale-[1.01] hover:border-white/30">
+                
+                <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-5 mb-5">
+                  <div>
+                    <span className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-[#C6FF33] bg-[#C6FF33]/15 px-3 py-1.5 rounded-full border border-[#C6FF33]/30">
+                      <IconComp size={14} weight="bold" />
+                      TAHAP #{st.id} · {st.category}
+                    </span>
+                    <h3 className="font-display font-black text-2xl md:text-3xl text-white mt-3 leading-tight">
+                      {st.name}
+                    </h3>
+                  </div>
+
+                  <div className="p-3 md:p-4 rounded-2xl bg-white/5 border border-white/10 text-right font-mono shrink-0">
+                    <span className="text-[9px] md:text-[10px] text-white/50 uppercase block">{st.badgeLabel}</span>
+                    <span className="text-xl md:text-2xl font-black text-[#C6FF33] mt-0.5 block">{st.badge}</span>
+                  </div>
                 </div>
-                <span className="text-[11px] truncate font-display font-bold mt-1">
-                  {st.name.split(":")[0]}
-                </span>
-              </button>
-            );
-          })}
-        </div>
 
-        {/* Three.js 3D Viewport */}
-        <div 
-          ref={mountRef} 
-          className="w-full aspect-[16/8] bg-[#001329] relative overflow-hidden select-none"
-        >
-          <div className="absolute top-4 left-6 text-[10px] font-mono text-[#C6FF33] bg-black/60 px-3 py-1.5 rounded-xl border border-white/10 pointer-events-none">
-            KAMERA GLIDE: {activeStation.codename}
-          </div>
+                <div className="text-xs font-mono text-white/60 mb-4 bg-white/5 p-3 rounded-xl border border-white/5">
+                  Aktor Kunci: <strong className="text-white">{st.actor}</strong>
+                </div>
 
-          <div className="absolute bottom-4 right-6 text-[10px] font-mono text-white/50 bg-black/60 px-3 py-1.5 rounded-xl border border-white/10 pointer-events-none">
-            * Klik tombol stasiun untuk meluncurkan kamera 3D ke lokasi stasiun
-          </div>
-        </div>
+                <p className="text-sm md:text-base text-white/90 leading-relaxed font-medium mb-6">
+                  {st.desc}
+                </p>
 
-        {/* Active Station Detail Glass Card */}
-        <div className="p-6 md:p-8 bg-[#001329] border-t border-white/10 text-white space-y-6">
-          
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
-            <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#C6FF33] bg-[#C6FF33]/15 px-3 py-1 rounded-full border border-[#C6FF33]/30">
-                TAHAP #{activeStation.id} · {activeStation.category.toUpperCase()}
-              </span>
-              <h3 className="font-display font-black text-2xl md:text-3xl text-white mt-2">
-                {activeStation.name}
-              </h3>
-              <div className="text-xs font-mono text-white/60 mt-1">
-                Aktor Kunci: <strong className="text-white">{activeStation.actor}</strong>
+                <div className="space-y-3">
+                  {st.keyPoints.map((point, idx) => (
+                    <div key={idx} className="p-3.5 rounded-xl bg-white/5 border border-white/10 text-[11px] md:text-xs font-mono text-white flex items-start gap-3">
+                      <Sparkle size={14} className="text-[#C6FF33] mt-0.5 shrink-0" weight="fill" />
+                      <span className="leading-relaxed">{point}</span>
+                    </div>
+                  ))}
+                </div>
+
               </div>
+
             </div>
-
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-right font-mono shrink-0">
-              <span className="text-[10px] text-white/50 uppercase block">{activeStation.badgeLabel}</span>
-              <span className="text-2xl font-black text-[#C6FF33] mt-0.5 block">{activeStation.badge}</span>
-            </div>
-          </div>
-
-          <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-3xl">
-            {activeStation.desc}
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-            {activeStation.keyPoints.map((point, idx) => (
-              <div key={idx} className="p-3 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-white/85 flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C6FF33] mt-1.5 shrink-0" />
-                <span>{point}</span>
-              </div>
-            ))}
-          </div>
-
-        </div>
-
+          );
+        })}
       </div>
 
     </div>

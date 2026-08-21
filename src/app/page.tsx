@@ -249,28 +249,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. THREE.JS 3D PIPELINE HIGHWAY ROADWAY (HANS ROAD & STATIONS SUGGESTION) */}
-      <section id="alur-kerja" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
-        <div className="rounded-[1.5rem] bg-[#001F3F] p-6 md:rounded-[3rem] md:p-12 text-white shadow-2xl space-y-8">
-          
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-            <div className="max-w-2xl">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#C6FF33] bg-[#C6FF33]/15 px-3 py-1 rounded-full border border-[#C6FF33]/30">
-                Visual 3D Highway · Dari Langit ke Colokan
-              </span>
-              <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl mt-3">
-                Jalan Energi: Alur Kerja 7 Stasiun
-              </h2>
-            </div>
-
-            <div className="text-xs font-mono text-white/60">
-              * Luncurkan kamera 3D menyusuri jalan energi dari satelit hingga colokan desa
-            </div>
-          </div>
-
-          <ThreePipelineRoadway />
-
-        </div>
+      {/* 4. THREE.JS 3D PIPELINE HIGHWAY ROADWAY (SCROLLYTELLING) */}
+      <section id="alur-kerja" className="w-full bg-[#001329] relative z-10">
+        <ThreePipelineRoadway />
       </section>
       {/* 5. ASYMMETRIC BENTO GRID (RIVR FEATURE SUITE) */}
       <section id="pilar" data-slot="features" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
