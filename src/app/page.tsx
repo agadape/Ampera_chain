@@ -62,8 +62,10 @@ export default function Home() {
           <nav data-slot="rivr-nav" className="relative z-20 flex w-full items-center justify-between gap-4 px-6 py-6 md:px-10">
             
             {/* Brand Logo */}
-            <a href="#home" className="flex items-center gap-2.5 text-white" aria-label="Ampera home">
-              <div className="w-4 h-4 rounded-full bg-[#C6FF33] shadow-[0_0_16px_#C6FF33] animate-pulse" />
+            <a href="#home" className="flex items-center gap-3 text-white" aria-label="Ampera home">
+              <div className="relative w-8 h-8 md:w-10 md:h-10">
+                <Image src="/logo.png" alt="Ampera Logo" fill className="object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)]" />
+              </div>
               <span className="font-display text-2xl font-black tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">ampera</span>
               <span className="hidden sm:inline-block text-[11px] font-mono font-bold uppercase tracking-widest text-[#C6FF33] bg-[#001F3F]/70 backdrop-blur-xl px-3 py-1 rounded-full border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
                 PLN ICE 2026
@@ -576,9 +578,11 @@ export default function Home() {
           <div className="flex flex-col gap-12 md:flex-row md:justify-between">
             
             <div className="max-w-xs">
-              <a href="#home" className="flex items-center gap-2 text-[#001F3F]" aria-label="Ampera home">
-                <div className="w-3 h-3 rounded-full bg-[#00804C]" />
-                <span className="font-display text-xl font-bold tracking-tight">ampera</span>
+              <a href="#home" className="flex items-center gap-3 text-[#001F3F]" aria-label="Ampera home">
+                <div className="relative w-8 h-8 md:w-10 md:h-10">
+                  <Image src="/logo.png" alt="Ampera Logo" fill className="object-contain" />
+                </div>
+                <span className="font-display text-2xl font-black tracking-tight">ampera</span>
               </a>
               <p className="mt-4 text-xs font-mono text-black/60 leading-relaxed">
                 Platform crowd-equity & tokenisasi aset dunia nyata (RWA) untuk elektrifikasi 10.068 desa 3T Indonesia.
