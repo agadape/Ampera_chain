@@ -523,9 +523,10 @@ export default function Home() {
               src="/hero_village.jpg" 
               alt="Desa 3T" 
               fill
-              className="object-cover opacity-25 mix-blend-luminosity"
+              className="object-cover opacity-60"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#001F3F]/90 via-[#001F3F]/70 to-[#001F3F]/60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#001F3F] via-[#001F3F]/60 to-transparent" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,31,63,0.4)_0%,rgba(0,31,63,0)_100%)]" />
           </div>
 
           <div className="relative z-10 flex max-w-2xl flex-col items-center gap-6 text-center text-white">
@@ -536,7 +537,7 @@ export default function Home() {
               PLN Innovation & Clean Energy (ICE) 2026
             </span>
 
-            <h2 className="font-display text-4xl font-black leading-[1.05] text-white sm:text-5xl md:text-6xl tracking-tight">
+            <h2 className="font-display text-4xl font-black leading-[1.05] text-white sm:text-5xl md:text-6xl tracking-tight drop-shadow-lg">
               Mari Menyalakan Terang untuk Nusantara.
             </h2>
 
