@@ -525,10 +525,10 @@ export default function Home() {
               src="/hero_village.jpg" 
               alt="Desa 3T" 
               fill
-              className="object-cover opacity-60"
+              className="object-cover opacity-100"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#001F3F] via-[#001F3F]/60 to-transparent" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,31,63,0.4)_0%,rgba(0,31,63,0)_100%)]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#001F3F] via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,31,63,0.4)_0%,transparent_60%)]" />
           </div>
 
           <div className="relative z-10 flex max-w-2xl flex-col items-center gap-6 text-center text-white">
@@ -543,7 +543,7 @@ export default function Home() {
               Mari Menyalakan Terang untuk Nusantara.
             </h2>
 
-            <p className="text-sm md:text-base text-white/80 max-w-lg leading-relaxed">
+            <p className="text-sm md:text-base text-white/90 max-w-lg leading-relaxed drop-shadow-md font-medium">
               Ampera siap menguji pilot 1 desa Piko-Hidro (Q1 2027) melalui pendanaan akselerasi Rp 50 Juta PLN ICE 2026 dan kemitraan off-taker bersama PT PLN (Persero).
             </p>
 
