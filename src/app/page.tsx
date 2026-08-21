@@ -42,16 +42,17 @@ export default function Home() {
       <section id="home" data-slot="hero" className="flex min-h-dvh w-full items-stretch justify-center p-3 md:p-5">
         <div className="group relative flex min-h-[640px] w-full max-w-[1536px] flex-col items-center justify-between overflow-hidden rounded-[1.5rem] bg-[#001F3F] md:rounded-[3rem]">
           
-          {/* Background Aerial & Gradient Overlay */}
+          {/* Background Aerial & Gradient Overlay (Crystal Clear & Vivid) */}
           <div className="absolute inset-0 z-0 pointer-events-none">
             <Image 
               src="/hero_village.jpg" 
               alt="Desa 3T Nusantara Aerial" 
               fill
-              className="object-cover opacity-35 mix-blend-luminosity scale-105"
+              className="object-cover opacity-80 brightness-95 contrast-105 scale-105"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#001F3F]/80 via-[#001F3F]/30 to-[#001F3F]/75" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#001F3F]/65 via-black/20 to-[#001F3F]/85" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#001F3F/60_100%)]" />
           </div>
 
           {/* Top Navigation Bar */}
@@ -60,14 +61,14 @@ export default function Home() {
             {/* Brand Logo */}
             <a href="#home" className="flex items-center gap-2.5 text-white" aria-label="Ampera home">
               <div className="w-4 h-4 rounded-full bg-[#C6FF33] shadow-[0_0_14px_#C6FF33]" />
-              <span className="font-display text-2xl font-black tracking-tight text-white">ampera</span>
-              <span className="hidden sm:inline-block text-[10px] font-mono font-semibold uppercase tracking-wider text-[#C6FF33] bg-[#C6FF33]/15 px-2.5 py-0.5 rounded-full border border-[#C6FF33]/30">
+              <span className="font-display text-2xl font-black tracking-tight text-white drop-shadow-md">ampera</span>
+              <span className="hidden sm:inline-block text-[10px] font-mono font-semibold uppercase tracking-wider text-[#C6FF33] bg-[#001F3F]/80 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-[#C6FF33]/40 shadow-sm">
                 PLN ICE 2026
               </span>
             </a>
 
             {/* Nav Menu */}
-            <ul className="hidden items-center gap-8 text-xs font-medium uppercase tracking-widest text-white/80 lg:flex">
+            <ul className="hidden items-center gap-8 text-xs font-semibold uppercase tracking-widest text-white/90 drop-shadow-sm lg:flex">
               <li><a href="#globe" className="transition-colors hover:text-[#C6FF33]">Globe 3D</a></li>
               <li><a href="#hardware" className="transition-colors hover:text-[#C6FF33]">Turbin 3D</a></li>
               <li><a href="#pilar" className="transition-colors hover:text-[#C6FF33]">Tiga Pilar</a></li>
@@ -78,7 +79,7 @@ export default function Home() {
             {/* CTA Button */}
             <a 
               href="#simulator" 
-              className="group inline-flex items-center gap-2.5 rounded-full py-1.5 pe-1.5 ps-5 text-xs font-bold uppercase tracking-wider transition-all bg-[#C6FF33] text-[#001F3F] hover:bg-white shadow-[0_4px_20px_rgba(198,255,51,0.4)]"
+              className="group inline-flex items-center gap-2.5 rounded-full py-1.5 pe-1.5 ps-5 text-xs font-bold uppercase tracking-wider transition-all bg-[#C6FF33] text-[#001F3F] hover:bg-white shadow-[0_4px_20px_rgba(198,255,51,0.5)]"
             >
               <span>Uji ROI Desa</span>
               <span className="flex size-7 items-center justify-center rounded-full bg-[#001F3F]/15 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
@@ -91,7 +92,7 @@ export default function Home() {
           <div className="relative z-10 flex flex-col items-center justify-center px-6 py-12 text-center max-w-4xl">
             
             {/* Floating Glass Pill Badge */}
-            <div data-slot="hero-badge" className="mx-auto mb-6 flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md text-white">
+            <div data-slot="hero-badge" className="mx-auto mb-6 flex w-fit items-center gap-2 rounded-full border border-white/30 bg-[#001F3F]/60 px-4 py-2 backdrop-blur-md text-white shadow-lg">
               <Sparkle size={16} className="text-[#C6FF33]" weight="fill" />
               <span className="text-xs font-mono font-medium tracking-wide">
                 10.068 Titik Desa 3T · RWA Crowd-Equity Platform
@@ -99,12 +100,12 @@ export default function Home() {
             </div>
 
             {/* Giant Display Title */}
-            <h1 data-slot="hero-title" className="font-display mb-6 text-4xl font-black leading-[1.04] text-white sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight">
+            <h1 data-slot="hero-title" className="font-display mb-6 text-4xl font-black leading-[1.04] text-white sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
               Jembatan Modal & Energi Bersih untuk Nusantara.
             </h1>
 
             {/* Body */}
-            <p className="max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg font-normal mb-8">
+            <p className="max-w-2xl text-base leading-relaxed text-white font-medium sm:text-lg mb-8 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
               Mendanai mikrogrid EBT terdesentralisasi bersama PLN melalui tokenisasi RWA patuh regulasi OJK, menghapus rugi operasional diesel 3T.
             </p>
 
