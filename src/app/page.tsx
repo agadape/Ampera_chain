@@ -119,7 +119,7 @@ export default function Home() {
                 href="#globe" 
                 className="group inline-flex items-center gap-3 rounded-full bg-[#C6FF33] text-[#001F3F] px-8 py-4 text-xs font-bold uppercase tracking-wider hover:bg-white transition-all shadow-[0_4px_24px_rgba(198,255,51,0.5)] ring-1 ring-[#C6FF33]/50"
               >
-                <span>Buka 3D Nusantara Globe</span>
+                <span>Buka Peta Interaktif Nusantara</span>
                 <div className="w-6 h-6 rounded-full bg-[#001F3F]/15 flex items-center justify-center group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform">
                   <ArrowUpRight size={14} weight="bold" />
                 </div>
@@ -226,14 +226,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. THREE.JS 3D NUSANTARA GLOBE SECTION */}
+      {/* 3. DYNAMIC 2D NUSANTARA MAP SECTION */}
       <section id="globe" className="mx-auto w-full max-w-[1536px] px-3 py-6 md:px-5 md:py-12">
         <div className="rounded-[1.5rem] bg-[#001F3F] p-6 md:rounded-[3rem] md:p-12 text-white shadow-2xl space-y-8">
           
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <div className="max-w-2xl">
               <span className="text-sm font-mono font-bold uppercase tracking-widest text-[#C6FF33] bg-[#C6FF33]/15 px-3 py-1 rounded-full border border-[#C6FF33]/30">
-                Three.js 3D WebGL Engine
+                Geospatial Data Engine
               </span>
               <h2 className="font-display text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl mt-4">
                 Pemetaan Potensi Nusantara
