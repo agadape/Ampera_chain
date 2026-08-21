@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-black: #000000;
+  --color-violet: #7D39EB;
+  --color-lime: #C6FF33;
+  --color-white: #FFFFFF;
+  --color-paper: #F6F7ED;
+  --color-spring: #DBE64C;
+  --color-midnight: #001F3F;
+  --color-mantis: #74C365;
+  --color-brand-green: #00804C;
+  --color-nuit: #1E488F;
+  
+  --font-display: var(--font-plus-jakarta-sans);
+  --font-body: var(--font-inter);
+}
+
+@layer utilities {
+  .bg-grad-trust {
+    background: linear-gradient(135deg, var(--color-midnight) 0%, var(--color-nuit) 100%);
+  }
+  .bg-grad-energy {
+    background: linear-gradient(135deg, var(--color-brand-green) 0%, var(--color-mantis) 60%, var(--color-lime) 100%);
+  }
+  .bg-grad-ai {
+    background: linear-gradient(135deg, var(--color-violet) 0%, var(--color-nuit) 100%);
+  }
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-black);
+}

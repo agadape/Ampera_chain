@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Proposal Ampera — PLN ICE 2026</title>
+<style>
+  @page { size: A4; margin: 15mm 14mm 17mm 14mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family:"Inter","Segoe UI","Helvetica Neue",Arial,sans-serif; font-size:9.7pt; line-height:1.5; color:#1a2330; margin:0; }
+  h1,h2,h3,h4 { font-family:"Inter","Segoe UI",Arial,sans-serif; color:#0a2540; line-height:1.24; page-break-after:avoid; }
+  h2 { font-size:14.5pt; margin:18px 0 7px 0; padding-bottom:5px; border-bottom:2.5px solid #00A2B9; }
+  h3 { font-size:11.8pt; margin:14px 0 5px 0; color:#0b6b7a; }
+  h4 { font-size:10.5pt; margin:11px 0 4px 0; color:#114b5f; }
+  p { margin:5px 0; text-align:justify; }
+  ul,ol { margin:4px 0 8px 0; padding-left:19px; }
+  li { margin:2.5px 0; }
+  .cover { text-align:center; padding:16mm 6mm 6mm 6mm; page-break-after:always; }
+  .cover .badge { display:inline-block; background:#0a2540; color:#fff; font-size:8.5pt; letter-spacing:2px; padding:5px 14px; border-radius:20px; margin-bottom:20px; }
+  .cover .logo { font-size:46pt; font-weight:800; color:#0a2540; letter-spacing:3px; margin:6px 0 2px; }
+  .cover .logo span { color:#00A2B9; }
+  .cover .tagline { font-size:14pt; color:#114b5f; font-style:italic; margin:4px 0 20px; }
+  .cover .sub { font-size:12pt; color:#445; }
+  .cover .meta { margin-top:30px; font-size:9.5pt; color:#556; line-height:1.8; }
+  .cover .rule { width:80px; height:3px; background:#F9D616; margin:15px auto; }
+  .toc { page-break-after:always; }
+  .toc h2 { border:none; }
+  .toc ol { font-size:10pt; padding-left:22px; }
+  .toc li { margin:5px 0; }
+  .toc .num { color:#00A2B9; font-weight:700; }
+  .kpi-grid { display:flex; flex-wrap:wrap; gap:7px; margin:10px 0; }
+  .kpi { flex:1 1 21%; background:#f3fbfc; border:1px solid #cfeef2; border-left:4px solid #00A2B9; border-radius:5px; padding:7px 9px; }
+  .kpi .v { font-size:13pt; font-weight:800; color:#0a2540; }
+  .kpi .l { font-size:8pt; color:#447; }
+  table { width:100%; border-collapse:collapse; margin:8px 0; font-size:8.9pt; }
+  th { background:#0a2540; color:#fff; text-align:left; padding:5px 7px; font-weight:600; }
+  td { border:1px solid #d3dde6; padding:4px 7px; vertical-align:top; }
+  tr:nth-child(even) td { background:#f5f8fa; }
+  .callout { background:#fff8e1; border:1px solid #f3d98a; border-left:4px solid #F9D616; border-radius:5px; padding:8px 11px; margin:10px 0; font-size:9.4pt; }
+  .callout.teal { background:#f0fbfd; border-color:#bfe9ef; border-left-color:#00A2B9; }
+  .callout.blue { background:#eef3fb; border-color:#c3d4ec; border-left-color:#1f6feb; }
+  .callout.red { background:#fdecea; border-color:#f0c0b8; border-left-color:#c0392b; }
+  .src { font-size:7.9pt; color:#7a8794; margin:2px 0 0 0; font-style:italic; }
+  .pill { display:inline-block; background:#e6f7f9; color:#0b6b7a; font-size:8pt; padding:2px 7px; border-radius:10px; margin:2px 2px; }
+  .footer-note { font-size:7.6pt; color:#8a96a3; text-align:center; margin-top:8px; }
+  .lede { font-size:10.3pt; color:#0a2540; font-weight:500; }
+  strong { color:#0a2540; }
+
+  /* ---------- Diagrams ---------- */
+  .diag { margin:11px 0; }
+  .flow-h { display:flex; align-items:stretch; gap:7px; }
+  .flow-h .box { flex:1; border:1.5px solid #00A2B9; border-radius:7px; padding:9px 8px; text-align:center; background:#f3fbfc; font-size:8.8pt; }
+  .flow-h .box b { display:block; color:#0a2540; font-size:9.4pt; margin-bottom:2px; }
+  .flow-h .conn { display:flex; align-items:center; color:#00A2B9; font-weight:800; font-size:11pt; }
+  .arch { display:flex; gap:9px; align-items:stretch; }
+  .arch .col { flex:1; border:1.5px solid #0a2540; border-radius:8px; padding:9px; background:#fff; }
+  .arch .col h4 { margin-top:0; color:#0a2540; text-align:center; border-bottom:2px solid #00A2B9; padding-bottom:4px; }
+  .arch .col .sub2 { font-size:8pt; color:#447; text-align:center; margin-bottom:5px; }
+  .arch .col ul { font-size:8.4pt; padding-left:15px; margin:4px 0; }
+  .cycle { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+  .cycle .cbox { width:30%; border:1.5px solid #1f6feb; border-radius:7px; padding:7px; background:#eef3fb; font-size:8.3pt; text-align:center; }
+  .cycle .cbox b { color:#0a2540; display:block; }
+  .pipeline { display:flex; flex-direction:column; gap:5px; }
+  .pipeline .step { display:flex; align-items:center; gap:9px; border:1px solid #cfeef2; border-left:4px solid #00A2B9; border-radius:5px; padding:6px 9px; background:#f7fcfd; font-size:8.6pt; }
+  .pipeline .step .n { font-weight:800; color:#00A2B9; font-size:10pt; min-width:18px; }
+  .matrix2 { display:grid; grid-template-columns:1fr 1fr; border:1.5px solid #0a2540; border-radius:6px; overflow:hidden; }
+  .matrix2 .cell { border:1px solid #d3dde6; padding:9px; font-size:8.6pt; min-height:74px; }
+  .matrix2 .head { background:#0a2540; color:#fff; font-weight:700; text-align:center; }
+  .mquad { position:relative; }
+  .legend { font-size:8pt; color:#556; margin-top:4px; }
+  .won { background:#eafaf1; border-left:4px solid #1e9e5a; }
+  .acc { background:#fff8e1; border-left:4px solid #F9D616; }
+  .arrow-down { text-align:center; color:#00A2B9; font-weight:800; margin:2px 0; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="badge">PLN ICON &amp; INNOVATION CHALLENGE 2026</div>
+  <div class="logo">AMP<span>ERA</span></div>
+  <div class="tagline">"Jembatan Energi untuk Nusantara"</div>
+  <div class="rule"></div>
+  <div class="sub"><strong>Proposal Komprehensif &amp; Pitch Deck</strong></div>
+  <div class="sub" style="font-size:9.8pt; color:#667; margin-top:6px;">Kategori: Sustainability &amp; Green Innovation (Subtema e) · Energi Terbarukan (Subtema c)</div>
+  <div class="meta">
+    Diajukan untuk: <strong>Kompetisi PLN ICE 2026</strong><br>
+    Rebrand dari: <em>Aether Solar</em> → <strong>Ampera</strong><br>
+    Tanggal penyusunan: 12 Agustus 2026
+  </div>
+</div>
+
+<!-- ============ TOC ============ -->
+<div class="toc">
+  <h2>Daftar Isi</h2>
+  <ol>
+    <li><span class="num">01.</span> Ringkasan Eksekutif</li>
+    <li><span class="num">02.</span> Latar Belakang: Jurang Energi 3T &amp; Beban Fiskal PLN</li>
+    <li><span class="num">03.</span> Solusi &amp; Inovasi Ampera: Platform Ekuitas Energi Terdesentralisasi</li>
+    <li><span class="num">04.</span> Cara Kerja Ampera: Siklus End-to-End</li>
+    <li><span class="num">05.</span> Ampera Flex — Arsitektur Multi-Energi</li>
+    <li><span class="num">06.</span> Ampera Earth — ESG, SDG &amp; Karbon</li>
+    <li><span class="num">07.</span> AI Tetrix — Keunggulan Teknologi</li>
+    <li><span class="num">08.</span> Pasar &amp; Potensi</li>
+    <li><span class="num">09.</span> On-Chain RWA Liquidity Layer — Infrastruktur Likuiditas Terprogram</li>
+    <li><span class="num">10.</span> Model Bisnis &amp; Kelayakan Finansial</li>
+    <li><span class="num">11.</span> Manfaat Ekonomi PLN</li>
+    <li><span class="num">12.</span> Kepatuhan Regulasi &amp; Peta Jalan OJK</li>
+    <li><span class="num">13.</span> Tata Kelola &amp; Struktur Tim</li>
+    <li><span class="num">14.</span> Peta Jalan &amp; Milestone</li>
+    <li><span class="num">15.</span> Register Risiko &amp; Mitigasi</li>
+    <li><span class="num">16.</span> FAQ &amp; Lampiran Sumber</li>
+  </ol>
+  <div class="callout teal">
+    <strong>Catatan metodologi.</strong> Seluruh angka berasal dari riset mendalam terhadap laporan resmi pemerintah, PLN, OJK, prospektus pesaing, dan literatur akademik (Lampiran). Angka bersifat <em>estimasi berbasis asumsi konservatif</em> dan akan difinalisasi pada fase prototipe. Dokumen disusun rinci agar dapat ditelusuri oleh juri PLN ICE.
+  </div>
+</div>
+
+<!-- ============ 01 ============ -->
+<h2>01. Ringkasan Eksekutif</h2>
+<p class="lede">Ampera adalah platform ekuitas energi terdesentralisasi yang menjembatani investor ritel, PLN, dan desa 3T (Tertinggal, Terdepan, Terluar) untuk membiayai pembangkit listrik terbarukan skala kecil (1–10 kW) melalui kepemilikan fraksional digital berbasis dampak.</p>
+<p>
+Ampera merupakan <strong>rebrand dan reframing total</strong> dari konsep "Aether Solar". Alih-alih terbatas pada satu teknologi surya, Ampera direkayasa ulang menjadi <strong>platform agnostik multi-energi</strong> — mencakup surya, piko-hidro, dan biomassa — sehingga selaras dengan subtema <em>Sustainability &amp; Green Innovation</em> dan <em>Energi Terbarukan</em> PLN ICE 2026, sekaligus memperluas kelayakan teknis ke wilayah yang sama sekali tidak memiliki profil surya yang memadai.
+</p>
+<p>
+Nama <strong>Ampera</strong> dipilih dengan makna ganda yang sengaja dirancang untuk resonansi strategis: pertama, <em>an-pera</em> (penerangan) — simbol kelistrikan yang menghidupkan desa; kedua, <em>jembatan</em> — menghubungkan modal dari kota dengan desa tertinggal; dan ketiga, <em>ampere</em> — satuan arus listrik, akar teknis yang memperkuat identitas brand di sektor kelistrikan. Tagline yang diusung adalah <strong>"Jembatan Energi untuk Nusantara."</strong>
+</p>
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="v">10.068</div><div class="l">Desa belum berlistriki (Q1 2025)</div></div>
+  <div class="kpi"><div class="v">1,29 jt</div><div class="l">Rumah tangga tanpa listrik</div></div>
+  <div class="kpi"><div class="v">Rp50,01 T</div><div class="l">Investasi listrik desa s.d. 2029</div></div>
+  <div class="kpi"><div class="v">99,83%</div><div class="l">Rasio elektrifikasi nasional</div></div>
+  <div class="kpi"><div class="v">Rp4.791</div><div class="l">BPP PLTD / kWh</div></div>
+  <div class="kpi"><div class="v">23–25%</div><div class="l">APY investor per energi</div></div>
+  <div class="kpi"><div class="v">46 / 54 / 62%</div><div class="l">IRR 3-tier (Konservatif/Base/Upside)</div></div>
+  <div class="kpi"><div class="v">7/7</div><div class="l">Kriteria PLN ICE terpenuhi</div></div>
+  <div class="kpi"><div class="v">Rp7 jt</div><div class="l">Maks pendanaan prototipe finalis</div></div>
+</div>
+
+<p>
+Inti nilai tawar Ampera bermanfaat bagi <strong>tiga pihak sekaligus</strong>: investor ritel memperoleh imbal hasil fraksional beserta sertifikat karbon digital; desa memperoleh listrik bersih tanpa belanja modal; dan PLN memperoleh penghematan subsidi diesel, perluasan cakupan tanpa CAPEX, pemenuhan target ESG, serta kedaulatan data energi. Model ini secara langsung menjawab ketujuh kriteria penilaian PLN ICE: Inovasi Teknologi, Dampak Sosial &amp; Ekonomi, Kesiapan Pasar, Model Bisnis, Kelayakan Finansial, Team Fit, dan Kesesuaian Tema PLN.
+</p>
+
+<div class="callout">
+  <strong>Posisi kompetisi.</strong> Ampera tidak memposisikan diri sebagai pengganti PLN, melainkan sebagai <strong>mitra pendanaan dan digitalisasi</strong> yang justru mengurangi beban fiskal negara. Inilah diferensiasi utama dari para pesaing yang beroperasi sebagai IPP (Independent Power Producer) tradisional maupun platform urun dana umum.
+</div>
+
+<!-- ============ 02 ============ -->
+<h2>02. Latar Belakang: Jurang Energi 3T &amp; Beban Fiskal PLN</h2>
+<p>
+Meskipun rasio elektrifikasi nasional Indonesia telah mencapai <strong>99,83%</strong> pada akhir tahun 2024, angka rata-rata tersebut menyembunyikan ketimpangan yang sangat ekstrem di wilayah 3T. Berdasarkan paparan Direktorat Jenderal Ketenagalistrikan (Dirjen Gatrik), <strong>Jisman Hutajulu</strong>, dalam Rapat Dengar Pendapat (RDP) dengan Komisi XII DPR RI pada 30 Juni 2025, masih terdapat <strong>10.068 lokasi</strong> yang sama sekali belum berlistrik, yang meliputi <strong>1.287.164 rumah tangga</strong>, dan membutuhkan investasi sebesar <strong>Rp50,01 triliun</strong> untuk dituntaskan hingga 2029. Yang lebih krusial, sebanyak <strong>55% (5.555 lokasi)</strong> berada di kawasan Maluku, Papua, dan Nusa Tenggara Timur.
+</p>
+<p>
+Yang sering tidak disadari publik adalah bahwa angka elektrifikasi yang tinggi justru menciptakan <strong>paradoks</strong>: semakin tinggi rasio nasional, semakin mahal dan semakin sulit sisa lokasi yang belum terjangkau, karena lokasi tersisa adalah yang secara geografis dan ekonomis paling tidak layak bagi pendekatan ekstensi jaringan konvensional. Inilah yang dalam ekonomi disebut <em>law of diminishing returns</em> pada model grid-centric.
+</p>
+<p>
+Di sisi lain, desa-desa yang sudah "terlistriki" namun masih mengandalkan Pembangkit Listrik Tenaga Diesel (PLTD) menimbulkan beban finansial yang masif bagi PLN. Biaya pokok penyediaan (BPP) PLTD secara nasional mencapai <strong>Rp4.791 per kWh</strong>, dan di wilayah timur Indonesia melonjak hingga <strong>USD 0,70 per kWh (sekitar Rp12.600)</strong> akibat logistik BBM ke daerah terpencil. Akibatnya, untuk setiap pelanggan 3T berkapasitas 3 ampere, PLN menanggung kerugian <strong>Rp135.000 per bulan</strong> (BPP Rp3.800 versus tarif Rp426/kWh). Dalam skenario subsidi penuh, angka ini bisa mencapai <strong>Rp1,23 juta per bulan per rumah tangga</strong>.
+</p>
+
+<table>
+  <tr><th>Metrik</th><th>Nilai</th><th>Keterangan</th></tr>
+  <tr><td>BPP PLTD nasional rata-rata</td><td>Rp4.791 / kWh</td><td>Jauh di atas rata-rata BPP nasional</td></tr>
+  <tr><td>BPP PLTD Timur Indonesia</td><td>USD 0,70 / kWh (~Rp12.600)</td><td>Termasuk logistik BBM ke daerah terpencil</td></tr>
+  <tr><td>Kerugian per pelanggan 3T (3 ampere)</td><td>Rp135.000 / bulan</td><td>BPP Rp3.800 vs tarif Rp426/kWh</td></tr>
+  <tr><td>Skenario subsidi penuh</td><td>Hingga Rp1,23 jt / bulan / RT</td><td>Jika tarif disubsidi penuh ke masyarakat</td></tr>
+</table>
+<p class="src">Sumber: Data BPP PLN &amp; paparan Dirjen Gatrik, RDP Komisi XII DPR, 30 Juni 2025.</p>
+
+<div class="callout blue">
+  <strong>Implikasi strategis.</strong> Setiap desa 3T yang beralih dari PLTD ke EBT melalui Ampera bukan sekadar "listrik baru" — ia menghentikan <em>aliran kerugian bulanan</em> PLN. Pada skala 100 desa, diesel pool dialihkan <strong>Rp158 juta per bulan</strong> (~Rp1,90 M/thn; band proposal Rp96–840 jt/bln) (dijabarkan pada bagian Manfaat Ekonomi PLN).
+</div>
+
+<p>
+Pendekatan tradisional berupa ekstensi jaringan (grid extension) menghadapi tiga tembok batu di wilayah 3T. <strong>Pertama</strong>, biaya per koneksi tidak ekonomis: ekstensi jaringan PLN berkisar <strong>Rp15–26 juta per koneksi</strong>, sementara opsi off-grid hanya <strong>Rp9–24 juta per koneksi</strong>. <strong>Kedua</strong>, waktu dan logistik: ekstensi ke Papua dan Maluku memakan waktu bertahun-tahun. Program Lisdes 2025–2029 sendiri baru menargetkan 2.792 desa pada tahap 2026 dari total 10.068. <strong>Ketiga</strong>, beban APBN berkelanjutan: dengan total kebutuhan Rp50,01 triliun dan subsidi operasional PLTD yang terus berjalan, pendanaan murni pemerintah menciptakan defisit fiskal struktural.
+</p>
+
+<div class="diag">
+  <div class="flow-h">
+    <div class="box"><b>Masalah</b>10.068 desa gelap + PLTD rugi Rp135 rb/RT/bln</div>
+    <div class="conn">→</div>
+    <div class="box"><b>Akar</b>Grid tak ekonomis + CAPEX tinggi + data minim</div>
+    <div class="conn">→</div>
+    <div class="box"><b>Dampak</b>Defisit fiskal PLN &amp; kemiskinan energi</div>
+  </div>
+  <div class="arrow-down">↓</div>
+  <div class="flow-h">
+    <div class="box"><b>Solusi Ampera</b>Crowd-equity multi-energi + AI + kemitraan PLN</div>
+    <div class="conn">→</div>
+    <div class="box"><b>Hasil</b>Desa terang tanpa CAPEX PLN, investor untung, emisi turun</div>
+  </div>
+</div>
+
+<!-- ============ 03 ============ -->
+
+<h2>03. Solusi &amp; Inovasi Ampera: Platform Ekuitas Energi Terdesentralisasi</h2>
+<p>
+Kelemahan fatal dari konsep "Aether Solar" yang asli adalah asumsi implisit bahwa <strong>surya cocok untuk semua desa</strong>. Fakta di lapangan menunjukkan sebaliknya: sebagian besar desa 3T justru memiliki profil geografis yang lebih menguntungkan untuk piko-hidro (aliran sungai, head tinggi) atau biomassa (limbah pertanian/perkebunan), sementara sebagian lain di NTT justru sangat kering dan ideal untuk surya. Ampera memecahkan masalah ini melalui <strong>Ampera Flex</strong>: sebuah mesin pemilihan teknologi yang agnostik, di mana vektor energi dipilih berdasarkan <em>resource potential</em> spesifik tiap desa — bukan kebetulan teknologi.
+</p>
+<p>
+Inovasi Ampera bukan terletak pada satu komponen tunggal, melainkan pada <strong>sintesis dari lima dimensi inovasi</strong> yang belum pernah digabungkan secara terintegrasi untuk konteks desa 3T di Indonesia:
+</p>
+
+<h3>3.1 Lima Dimensi Inovasi Ampera</h3>
+<table>
+  <tr><th>Dimensi Inovasi</th><th>Apa yang baru</th><th>Mengapa berdampak</th></tr>
+  <tr><td><strong>Finansial</strong></td><td>Kepemilikan fraksional (equity, bukan utang/PAYG semata) atas aset EBT desa via crowd-investing</td><td>Membuka akses investasi EBT Rp500 rb–Rp7,5 jt ke masyarakat luas; memindahkan CAPEX dari PLN/APBN</td></tr>
+  <tr><td><strong>Teknis</strong></td><td>AI Tetrix: site-selection murah skala ribuan desa via satelit + CV + edge</td><td>Biaya identifikasi desa mendekati nol; mustahil bagi IPP tradisional</td></tr>
+  <tr><td><strong>Institusional</strong></td><td>PLN sebagai pihak yang <em>diuntungkan</em> (off-taker, validator, distributor, data partner)</td><td>Menghilangkan resistensi regulasi; PLN jadi enabler bukan rival</td></tr>
+  <tr><td><strong>Dampak</strong></td><td>Ampera Earth: ESG &amp; SDG terukur real-time + karbon digital</td><td>Transparansi radikal menciptakan trust &amp; retensi investor</td></tr>
+  <tr><td><strong>Regulatori</strong></td><td>Token $AMP (ekuitas energi, ERC-6909) di-peg Rupiah/IDRX + jalur sandbox OJK</td><td>Token teregulasi (bukan spekulatif); siap patuh sejak pilot</td></tr>
+</table>
+
+<h3>3.2 Tiga Pilar Platform</h3>
+<div class="diag">
+  <div class="arch">
+    <div class="col">
+      <h4>Ampera Flex</h4>
+      <div class="sub2">Multi-Energi</div>
+      <ul>
+        <li>Membiayai &amp; mengelola surya, piko-hidro, biomassa 1–10 kW</li>
+        <li>Pemilihan vektor berbasis profil wilayah (AI)</li>
+        <li>Kontribusi: Inovasi Teknologi · Energi Terbarukan</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Ampera Earth</h4>
+      <div class="sub2">ESG / SDG</div>
+      <ul>
+        <li>Dashboard dampak real-time: CO₂, SDG, karbon</li>
+        <li>Kredit karbon digital per desa</li>
+        <li>Kontribusi: Dampak Sosial · Sustainability</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>Ampera × PLN</h4>
+      <div class="sub2">Partnership</div>
+      <ul>
+        <li>4 lapis nilai: henti rugi diesel, cakupan tanpa CAPEX, CSR/ESG, data</li>
+        <li>Kontribusi: Team Fit · Pasar · Model Bisnis</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<p>
+Ketiga pilar ini tidak berdiri sendiri, melainkan membentuk satu ekosistem tertutup (closed-loop). <strong>Flex</strong> membangun aset fisiknya, <strong>Earth</strong> mengukur dampaknya, dan <strong>PLN</strong> mendistribusikan serta memvalidasinya — yang kemudian memberi umpan balik berupa kepercayaan (trust) bagi <strong>investor</strong> yang membiayai putaran berikutnya. Inilah yang membedakan Ampera dari sekadar "perusahaan surya" atau "platform crowdfunding" biasa.
+</p>
+
+<div class="callout teal">
+  <strong>Mengapa ini inovatif, bukan sekadar kombinasi.</strong> Para pesaing seperti Xurya dan SUN Energy terlalu berfokus pada segmen kota/komersial; IBEKA dan Mpower terlalu berbasis NGO tanpa skalabilitas finansial; LandX terlalu umum sebagai platform RWA. Ampera adalah satu-satunya yang menyatukan <em>crowd-equity fraksional + multi-energi agnostik + kemitraan resmi PLN + verifikasi AI murah</em> dalam satu model yang koheren dan patuh regulasi.
+</div>
+
+<!-- ============ 04 ============ -->
+<h2>04. Cara Kerja Ampera: Siklus End-to-End</h2>
+<p>
+Untuk memahami mengapa model ini berkelanjutan, berikut dijabarkan siklus kerja Ampera dari hulu ke hilir. Setiap proyek desa (misalnya PLTS 5 kWp dengan CAPEX sekitar Rp75 juta) dipecah menjadi <strong>unit kepemilikan digital</strong> (misal 150 unit @ Rp500.000). Investor ritel membeli unit dan menerima imbal hasil proporsional dari empat sumber: pendapatan energi (desa membayar tagihan), bagian penghematan subsidi diesel (dibayarkan PLN), sertifikat karbon digital, dan insentif ESG/CSR.
+</p>
+
+<div class="diag">
+  <div class="flow-h">
+    <div class="box"><b>1. Modal</b>Investor ritel beli unit fraksional (Rp500 rb–7,5 jt)</div>
+    <div class="conn">→</div>
+    <div class="box"><b>2. AI Pilih</b>Sentinel/YOLOv8/NASA tentukan vektor desa</div>
+    <div class="conn">→</div>
+    <div class="box"><b>3. Bangun</b>Aset EBT 1–10 kW di desa (tanpa CAPEX PLN)</div>
+  </div>
+  <div class="arrow-down">↓</div>
+  <div class="flow-h">
+    <div class="box"><b>4. Produksi</b>Energi disalurkan ke RT via PLN / jaringan desa</div>
+    <div class="conn">→</div>
+    <div class="box"><b>5. Ukur</b>ESP32 + satelit catat kWh &amp; emisi real-time</div>
+    <div class="conn">→</div>
+    <div class="box"><b>6. Bagi Hasil</b>Smart contract distribusikan dividen + karbon</div>
+    <div class="conn">→</div>
+    <div class="box"><b>7. Dampak</b>Investor lihat listrik menyala + CO₂ turun → reinvest</div>
+  </div>
+</div>
+
+<h3>4.1 Empat Peran PLN</h3>
+<p>
+Keunikan Ampera adalah merancang PLN sebagai <strong>penerima manfaat sekaligus enabler</strong>, bukan kompetitor. Empat peran tersebut adalah:</p>
+<div class="cycle">
+  <div class="cbox"><b>Off-taker</b>PLN membeli energi desa / mengakuinya sebagai pengganti PLTD</div>
+  <div class="cbox"><b>Validator</b>PLN memvalidasi produksi &amp; emisi via SCADA/AMI eksisting</div>
+  <div class="cbox"><b>Distributor</b>PLN menyalurkan listrik ke rumah tangga</div>
+  <div class="cbox"><b>Data Partner</b>Data energi desa masuk kedaulatan PLN untuk planning nasional</div>
+</div>
+
+<table>
+  <tr><th>Lapis Nilai PLN</th><th>Mekanisme</th><th>Manfaat (per 100 desa)</th></tr>
+  <tr><td>Penghentian kerugian diesel</td><td>EBT mengganti PLTD 3T</td><td>Diesel pool Rp158 jt/bulan (~Rp1,90 M/thn)</td></tr>
+  <tr><td>Perluasan tanpa CAPEX</td><td>Investor membiayai CAPEX via crowd-equity</td><td>PLN hemat potensi Rp50,01 T</td></tr>
+  <tr><td>Pemenuhan ESG/CSR</td><td>Dashboard Ampera Earth</td><td>SDG 7, 13, 8 terukur real-time</td></tr>
+  <tr><td>Kedaulatan data</td><td>Data energi desa ke PLN</td><td>Planning &amp; monitoring akurat</td></tr>
+</table>
+
+<h3>4.2 Desain Trust &amp; Tokenomics</h3>
+<p>
+Kunci retensi dan kepercayaan adalah <strong>transparansi radikal</strong>: seluruh aliran energi, pendapatan, dan emisi dicatat secara real-time melalui sensor ESP32 dan Raspberry Pi, kemudian divalidasi ganda oleh citra satelit (AI Tetrix). Investor dapat menyaksikan "anak angkat" listrik mereka menyala secara langsung. Blockchain berfungsi sebagai <em>hidden layer</em> (buku besar tamper-proof) untuk audit, bukan front-end spekulatif. Tokenomics disederhanakan menjadi <strong>$AMP</strong> (1 token = hak atas 1 kWh riil diproduksi, di-peg ke Rupiah/IDRX via ERC-6909) — token teregulasi, bukan aset volatil spekulatif; likuiditas on-chain diatur via hook (lihat bagian 09) sehingga mempermudah kepatuhan OJK.
+</p>
+
+<!-- ============ 05 ============ -->
+
+<h2>05. Ampera Flex — Arsitektur Multi-Energi</h2>
+<p>
+Ampera Flex adalah mesin inti yang menentukan vektor energi mana yang paling layak untuk tiap desa. Pemilihan dilakukan secara berlapis: pertama, AI Tetrix menganalisis citra dan iklim untuk menghasilkan skor potensi surya, hidro, dan biomassa per desa; kedua, desa dengan head dan debit air yang memadai diarahkan ke piko-hidro, desa dengan GHI tinggi dan kering ke surya, dan desa dengan limbah agrikultur ke biomassa; ketiga, kombinasi hibrida (misal surya + piko-hidro) dipertimbangkan untuk resiliensi pasokan.
+</p>
+
+<table>
+  <tr><th>Vektor</th><th>CAPEX/kW</th><th>Yield/bln</th><th>APY</th><th>Emisi hindar/thn</th><th>Kelayakan</th></tr>
+  <tr><td><strong>Surya (PLTS)</strong></td><td>Rp14–18 jt (on); Rp16–30 jt (off)</td><td>97–128 kWh</td><td><strong>24,8%</strong></td><td>1,08 tCO₂e</td><td>Lifespan 25–30 thn; matang</td></tr>
+  <tr><td><strong>Piko-hidro</strong></td><td>Rp2–5 jt</td><td>200–400 kWh</td><td><strong>23,0%</strong></td><td>3,59 tCO₂e</td><td>CF 25–50%; IBEKA; ITB</td></tr>
+  <tr><td><strong>Biomassa</strong></td><td>Rp9–90 jt/kW</td><td>—</td><td><strong>23,8%</strong></td><td>2,59 tCO₂e</td><td>Limbah sawit 261,7 jt ton/thn</td></tr>
+</table>
+<p class="src">Sumber: Literatur akademik PLTS/piko-hidro/biomassa desa; prospektus IBEKA; IRENA/ILED; yield NASA POWER.</p>
+
+<h3>5.1 Bill of Materials (BOM) Indikatif</h3>
+<table>
+  <tr><th>Vektor</th><th>Komponen utama</th><th>Estimasi total</th></tr>
+  <tr><td>Surya off-grid 5 kWp</td><td>Modul 500Wp×10, inverter hybrid, baterai LFP 10kWh, MPPT, mounting, ESP32</td><td>Rp69–95 jt</td></tr>
+  <tr><td>Piko-hidro 1 kW (Demo Day)</td><td>Turbin+generator, penstock+intake, controller, ESP32, instalasi</td><td>Rp3,3–5,8 jt</td></tr>
+  <tr><td>Biomassa gasifier 5 kW</td><td>Reaktor downdraft, filter, genset konversi, hopper, ESP32</td><td>Rp17–36 jt</td></tr>
+</table>
+
+<h3>5.2 Mengapa Piko-Hidro adalah Unggulan Demo Day</h3>
+<p>
+Dari ketiga vektor, piko-hidro memiliki yield energi tertinggi (200–400 kWh per bulan) dan beroperasi <strong>24/7</strong> tanpa bergantung cuaca seperti surya. Yang paling krusial untuk kompetisi: CAPEX prototipe fisik hanya <strong>Rp2–5 juta</strong>, yang masuk dalam batas pendanaan prototipe finalis PLN ICE (maksimal Rp7 juta). Ini menjadikannya demonstrasi fisik yang paling meyakinkan di Demo Day (Minggu 1 November 2026). Sebagai referensi, mikrohidro komunitas telah terbukti viable secara teknis melalui proyek IBEKA Cinta Mekar (120 kW, Feed-in Tariff Rp432/kWh) dan prototipe portable ITB Sumpur Kudus (1 kW).
+</p>
+
+<!-- ============ 06 ============ -->
+<h2>06. Ampera Earth — ESG, SDG &amp; Karbon</h2>
+<p>
+Ampera Earth adalah lapis yang mengubah data mentah menjadi <strong>narasi dampak yang dapat diaudit</strong>. Setiap proyek desa menghasilkan penghindaran emisi CO₂ terukur, ekivalensi SDG (7 energi bersih, 13 aksi iklim, 8 kerja layak, 1 tanpa kemiskinan, 4 pendidikan, 3 kesehatan, 5 kesetaraan gender), serta kredit karbon digital. Carbon diperlakukan sebagai <em>margin tambahan</em> — bukan tulang punggung finansial — sehingga volatilitas harganya tidak mengancam kelayakan model.
+</p>
+
+<table>
+  <tr><th>Metrik karbon</th><th>Nilai</th><th>Status</th></tr>
+  <tr><td>Harga voluntary global (2025)</td><td>USD 6,34 / tCO₂e</td><td>Turun dari USD 6,71</td></tr>
+  <tr><td>IDXCarbon (Maret 2025)</td><td>Rp32.612 / tCO₂e</td><td>Pasar terregulasi Indonesia</td></tr>
+  <tr><td>Methodology desa 1–10 kW</td><td>AMS-I.L (small-scale, maks 15 MW)</td><td>Cocok skala desa</td></tr>
+  <tr><td>ICVCM CCP</td><td>7 program + 36 methodology (Nov 2025)</td><td>AMS-I.L &amp; ACM0002 <strong>BELUM</strong> dapat label CCP</td></tr>
+  <tr><td>Perpres 110/2025</td><td>Dual registry (SRN PPI + SRUK)</td><td>Efektif 10 Oktober 2025</td></tr>
+</table>
+<p class="src">Sumber: ICVCM, Verra, IDXCarbon, Perpres 110/2025.</p>
+
+<div class="diag">
+  <div class="flow-h">
+    <div class="box"><b>Feasibility</b>Analisis baseline emisi PLTD</div>
+    <div class="conn">→</div>
+    <div class="box"><b>Validation</b>Auditor validasi methodology AMS-I.L</div>
+    <div class="conn">→</div>
+    <div class="box"><b>Registration</b>Daftar dual registry (Perpres 110/2025)</div>
+  </div>
+  <div class="arrow-down">↓</div>
+  <div class="flow-h">
+    <div class="box"><b>Monitoring</b>ESP32 + satelit catat produksi</div>
+    <div class="conn">→</div>
+    <div class="box"><b>Verification</b>Auditor verifikasi tahunan</div>
+    <div class="conn">→</div>
+    <div class="box"><b>Issuance &amp; Sale</b>VCU dijual voluntary / IDXCarbon</div>
+  </div>
+</div>
+<div class="callout blue"><strong>Pendapatan karbon per kW/tahun (asumsi USD 6/tCO₂e):</strong> Surya ~USD 6,85 · Piko-hidro ~USD 22,76 · Biomassa ~USD 15,5. Carbon tetap sebagai margin tambahan.</div>
+
+<!-- ============ 07 ============ -->
+
+<h2>07. AI Tetrix — Keunggulan Teknologi</h2>
+<p>
+Keunggulan defensif (moat) Ampera terletak pada <strong>AI Tetrix</strong> — empat agen kecerdasan buatan yang beroperasi dalam satu sistem tertutup. Tiga agen pertama (Orbit, Vision, Edge) adalah tumpukan penginderaan jauh (remote sensing) dan edge computing yang murah namun akurat untuk identifikasi lokasi (site-selection) dan verifikasi. Agen keempat (Ledger, <em>Regulated Autonomous Asset Manager</em>) menutup loop: ia memantau produksi riil per desa, menentukan harga <strong>$AMP</strong> secara on-chain, dan merutekan yield kepada investor (lihat bagian 09). Kombinasi Sentinel-2, YOLOv8, NASA POWER, dan SRTM memungkinkan Ampera menilai ribuan desa dengan biaya mendekati nol — sesuatu yang mustahil dilakukan IPP tradisional yang mengandalkan survei lapangan mahal. Data ini pada gilirannya menjadi <em>kedaulatan data energi</em> bagi PLN.
+</p>
+
+<table>
+  <tr><th>Komponen</th><th>Sumber/Alat</th><th>Akurasi/Biaya</th><th>Fungsi</th></tr>
+  <tr><td>Sentinel-2</td><td>ESA (satelit, gratis)</td><td>10 m, revisit 5 hari</td><td>Deteksi rooftop/lahan; F1 87–93%</td></tr>
+  <tr><td>YOLOv8</td><td>CV open-source</td><td>mAP50 93,6%</td><td>Segmentasi otomatis potensi</td></tr>
+  <tr><td>NASA POWER</td><td>API NASA (gratis)</td><td>GHI / DNI historis</td><td>Estimasi yield surya per koordinat</td></tr>
+  <tr><td>SRTM</td><td>DEM 30 m (gratis)</td><td>Topografi &amp; gradien</td><td>Identifikasi potensi piko-hidro</td></tr>
+  <tr><td>Raspberry Pi</td><td>Edge controller</td><td>Rp1,2–3,7 jt</td><td>Gateway data &amp; lokal AI inference</td></tr>
+  <tr><td>ESP32</td><td>MCU sensor</td><td>Rp50–150 rb</td><td>Metering arus/tegangan real-time</td></tr>
+</table>
+<p class="src">Sumber: ESA Copernicus, Ultralytics YOLOv8, NASA POWER API, literatur SRTM.</p>
+
+<div class="diag">
+  <div class="pipeline">
+    <div class="step"><span class="n">1</span> <strong>Ingest</strong> — Unduh Sentinel-2 + NASA POWER + SRTM per batch koordinat desa.</div>
+    <div class="step"><span class="n">2</span> <strong>Infer</strong> — YOLOv8 segmentasi atap; model hitung yield surya &amp; hidro.</div>
+    <div class="step"><span class="n">3</span> <strong>Score</strong> — Setiap desa dapat skor vektor optimal + estimasi CAPEX/APY.</div>
+    <div class="step"><span class="n">4</span> <strong>Edge</strong> — Raspberry Pi + ESP32 kirim produksi nyata via MQTT.</div>
+    <div class="step"><span class="n">5</span> <strong>Verify</strong> — Produksi satelit vs sensor; anomali terdeteksi otomatis.</div>
+  </div>
+</div>
+
+<!-- ============ 08 ============ -->
+<h2>08. Pasar &amp; Potensi</h2>
+<p>
+Potensi Ampera diukur melalui pendekatan berlapis. <strong>TAM</strong> (Total Addressable Market) adalah seluruh investasi EBT desa 3T senilai <strong>Rp50,01 triliun</strong>, sesuai kebutuhan nasional. <strong>SAM</strong> (Serviceable Available Market) adalah desa yang terjangkau model crowd-equity multi-energi, diperkirakan 30–40% TAM atau <strong>~Rp15–20 triliun</strong>. <strong>SOM</strong> (Serviceable Obtainable Market) adalah target tiga tahun (100–1.000 desa) senilai <strong>Rp1,5–15 triliun</strong> nilai aset.
+</p>
+
+<table>
+  <tr><th>Lapis</th><th>Definisi</th><th>Estimasi</th></tr>
+  <tr><td><strong>TAM</strong></td><td>Investasi EBT desa 3T (10.068 desa)</td><td>Rp50,01 T</td></tr>
+  <tr><td><strong>SAM</strong></td><td>Desa terjangkau crowd-equity multi-energi</td><td>~Rp15–20 T</td></tr>
+  <tr><td><strong>SOM</strong></td><td>Target 3 tahun (100–1.000 desa)</td><td>Rp1,5–15 T aset</td></tr>
+</table>
+
+<h3>8.1 Peta Posisi Kompetitif</h3>
+<div class="diag">
+  <div class="matrix2">
+    <div class="cell head">Fokus Desa 3T ↑ / Skalabilitas Finansial →</div>
+    <div class="cell head">Skalabilitas Finansial ↑ / Fokus Kota →</div>
+    <div class="cell won"><strong>Ampera</strong><br>Multi-energi + crowd-equity + PLN<br><em>Posisi unggul</em></div>
+    <div class="cell acc"><strong>Xurya / SUN Energy</strong><br>Solar C&amp;I kota, skalabel tapi tak sentuh 3T</div>
+    <div class="cell acc"><strong>IBEKA / Mpower</strong><br>Desa 3T, tapi model NGO tak skalabel finansial</div>
+    <div class="cell"><strong>LandX</strong><br>Urun dana umum, bukan fokus energi desa</div>
+  </div>
+  <div class="legend">Kuadran kiri-atas (hijau) adalah posisi ideal yang ditempati Ampera: fokus desa 3T sekaligus skalabilitas finansial.</div>
+</div>
+
+<h3>8.2 Benchmark Global yang Terbukti</h3>
+<table>
+  <tr><th>Pemain</th><th>Skala</th><th>Metrik kunci</th><th>Pelajaran untuk Ampera</th></tr>
+  <tr><td>M-KOPA</td><td>10 jt+ pelanggan</td><td>USD 416 jt revenue FY24; USD 9,2 jt profit; +22% annualized</td><td>Model ekuitas terdesentralisasi viable</td></tr>
+  <tr><td>BBOXX</td><td>3,6 jt orang</td><td>Managed energy services</td><td>Skalabilitas via data</td></tr>
+  <tr><td>d.light</td><td>150 jt+ nyawa</td><td>Solar home system</td><td>Dampak sosial masif</td></tr>
+  <tr><td>Gridless (DePIN)</td><td>Africa mini-grids</td><td>Desentralisasi komunitas</td><td>Ownership oleh warga lokal</td></tr>
+  <tr><td>Toucan</td><td>Tokenisasi karbon</td><td>Carbon bridge</td><td>Karbon sebagai aset terdigitasi</td></tr>
+</table>
+<p class="src">Sumber: Laporan tahunan M-KOPA FY24, situs resmi BBOXX/d.light, literatur DePIN.</p>
+
+<div class="callout">
+  <strong>Potensi dampak jangka panjang.</strong> Pada skala 1.000 desa di tahun kelima, Ampera berpotensi mengalihkan penghematan subsidi diesel PLN mencapai <strong>Rp11–100 triliun per tahun</strong> (lihat bagian Manfaat Ekonomi PLN), menhindari jutaan ton CO₂, dan menghidupkan lebih dari 100.000 rumah tangga — semuanya tanpa menambah beban fiskal negara.
+</div>
+
+<!-- ============ 09 ============ -->
+
+<!-- ============ 09 (NEW) On-Chain RWA Liquidity Layer ============ -->
+<h2>09. On-Chain RWA Liquidity Layer — Infrastruktur Likuiditas Terprogram</h2>
+<p class="lede">Ampera mengadopsi arsitektur <strong>Uniswap v4 Hook</strong> sebagai <em>infrastruktur likuiditas RWA on-chain yang terregulasi</em> — menjembatani investor lokal dan global ke kepemilikan fraksional energi desa dengan transparansi 100%, diatur kode, dan dikelola AI. Ini bukan "crypto spekulatif"; ini <strong>programmable energy finance</strong>.</p>
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="v">100%</div><div class="l">Transparansi on-chain (ledger tamper-evident; input divalidasi edge/IoT + Chronicle/TEE)</div></div>
+  <div class="kpi"><div class="v">ERC-7857</div><div class="l">Agent AI ber-identitas &amp; teregulasi</div></div>
+  <div class="kpi"><div class="v">IDRX/USDC</div><div class="l">Settle yield ke investor global</div></div>
+  <div class="kpi"><div class="v">Bid Wall</div><div class="l">Pelindung floor price mikro-investor</div></div>
+</div>
+
+<div class="callout teal"><strong>Tiga pilar.</strong> (1) <em>Transparansi</em> — setiap kWh, rupiah, dan karbon tercatat sebagai event publik immutable; (2) <em>Regulated AI</em> — agent penentu harga &amp; alokasi ber-identitas (ERC-7857), bereputasi (ERC-8004), divalidasi (EigenLayer AVS); (3) <em>Investor global</em> — pool likuiditas terbuka bagi RWA-LP institusi via routing intent (Tao/CoW).</div>
+
+<div class="callout teal"><strong>Inklusivitas — Wadah Bersama.</strong> Agar RWA desa 3T dapat didanai masyarakat luas (bukan hanya investor terkualifikasi), satu <em>BaseCustomAccountingHook</em> berfungsi sebagai <strong>wadah kolektif</strong>: investor mikro menyetor nominal bebas (mulai <strong>Rp2.000</strong>) melalui agregasi off-chain + <em>batch mint</em> <strong>ERC-6909</strong>, bersifat <em>gasless</em> (paymaster) dan wajib <em>KYC one-time</em>. Di level penerbit, wadah ini memenuhi ambang ECF OJK (aggregate ≥Rp10jt) sebagai satu subscriber terkualifikasi, sementara kepemilikan fraksional tercatat proporsional per investor — sehingga "investor mikro" benar-benar inklusif tanpa melanggar batas regulasi.</div>
+
+<h3>9.1 Mekanisme Likuiditas $AMP</h3>
+<div class="pipeline">
+  <div class="step"><span class="n">1</span> Desa hasilkan kWh → dikemas sebagai <strong>$AMP</strong> (hak atas energi, ERC-6909) di hook <em>BaseCustomAccountingHook</em>.</div>
+  <div class="step"><span class="n">2</span> Yield (PAYG + diesel PLN + karbon + ESG) <strong>ditangkap hook</strong> lalu otomatis di-route ke IDRX/USDC investor (Internal Swap Pool).</div>
+  <div class="step"><span class="n">3</span> Harga $AMP <strong>di-infer AI</strong> dari data off-chain (kWh/PAYG/karbon) via TEE + attestasi Chronicle — tanpa menunggu oracle yang tak ada (Mode B).</div>
+  <div class="step"><span class="n">4</span> <strong>Bid wall</strong> (single-tick floor) menyerap jualan &amp; jaga floor price mikro-investor; cegah death spiral.</div>
+  <div class="step"><span class="n">5</span> Investor bisa <strong>exit kapan saja</strong> — likuiditas instan, bukan antre setahun seperti RWA konvensional.</div>
+</div>
+
+<h3>9.2 Peta Adopsi Uniswap v4 → Ampera</h3>
+<table>
+  <tr><th>Adopsi (Uniswap v4)</th><th>Fungsi di Ampera</th><th>Kontribusi</th></tr>
+  <tr><td>BaseCustomAccountingHook (OZ)</td><td>Primitive penegak aturan on-chain</td><td>Aturan tertanam di code</td></tr>
+  <tr><td>Internal Swap Pool</td><td>Capture yield → route ke investor</td><td>Efisiensi flow</td></tr>
+  <tr><td>beforeSwapReturnDelta</td><td>AI-inferred pricing $AMP (Mode B)</td><td>Harga wajar tanpa oracle</td></tr>
+  <tr><td>Dynamic Fee</td><td>Risk-tier per desa</td><td>Lindungi LP</td></tr>
+  <tr><td>Bid Wall</td><td>Floor price mikro-investor</td><td>Investor protection</td></tr>
+  <tr><td>ERC-7857 / 8004 / 8183</td><td>Regulated Autonomous Asset Manager</td><td>AI di-govern code</td></tr>
+  <tr><td>HookSwap / HookFee</td><td>Audit trail publik per desa</td><td>Bukti anti-korupsi</td></tr>
+  <tr><td>ERC-6909</td><td>Kepemilikan fraksional $AMP</td><td>On-chain &amp; composable</td></tr>
+  <tr><td>Compliance Hook</td><td>Gating jurisdiksi / KYC</td><td>Patuh securities law</td></tr>
+  <tr><td>Tao / CoW Intent</td><td>Routing MEV-protected</td><td>Akses investor global</td></tr>
+  <tr><td>Chronicle + TEE + AVS</td><td>Attestasi off-chain → on-chain</td><td>Transparansi jujur</td></tr>
+</table>
+
+<div class="callout blue"><strong>Posisi regulasi.</strong> Token yang diperdagangkan di DEX memasuki ranah aset kripto (Bappebti), melengkapi — bukan menggantikan — jalur OJK ECF/AKD. Kepatuhan dijalankan di level <em>compliance hook</em> (allowlist KYC per jurisdiksi) dan <em>sandbox OJK</em> untuk agent AI, sehingga ekspansi global terjaga dalam batas hukum.</div>
+
+<p class="src">Sumber: Deep Dive Adopsi Uniswap v4 → Ampera, <code>Results/DeepDive-UniswapIntegration/</code> (12 file, Jalan 2).</p>
+
+<h2>10. Model Bisnis &amp; Kelayakan Finansial</h2>
+<p>
+Kelayakan Ampera dibuktikan melalui unit economics per desa. Sebagai ilustrasi, sebuah PLTS 5 kWp off-grid dengan CAPEX Rp75 juta (investor menanggung 70% = Rp52,5 jt) menghasilkan 500 kWh per bulan. Dengan tarif langganan desa Rp1.200/kWh (masih di bawah BPP PLTD timur Rp4.791/kWh), pendapatan energi mencapai Rp600.000/bulan, ditambah bagian diesel pool presisi Rp1.795.000/bulan (500 × Rp3.591) yang dibagikan tiered 50/35/15 dengan PLN. Gabungan ini menghasilkan <strong>imbal hasil investor sekitar 24,8% per tahun</strong> (skema tiered), dengan payback sekitar 4 tahun untuk seluruh vektor.
+</p>
+
+<table>
+  <tr><th>Vektor</th><th>CAPEX investor (70%)</th><th>Share PLN/Inv/Amp</th><th>APY</th><th>Payback</th></tr>
+  <tr><td>Surya</td><td>Rp52,5 jt</td><td>50/35/15</td><td><strong>24,8%</strong></td><td>~4 thn</td></tr>
+  <tr><td>Piko-hidro</td><td>Rp52,5 jt</td><td>65/12/23</td><td><strong>23,0%</strong></td><td>~4 thn</td></tr>
+  <tr><td>Biomassa</td><td>Rp52,5 jt</td><td>50/30/20</td><td><strong>23,8%</strong></td><td>~4 thn</td></tr>
+</table>
+<div class="callout teal"><strong>Selisih APY antar vektor ≤1,8%.</strong> Pukul rata investor ~23–25%, di atas benchmark Ember Energy IRR 14% &amp; hidro 18–22%. Diesel pool presisi per desa/bln: Surya &amp; Biomassa Rp1,795 jt; Piko Rp2,514 jt.</div>
+
+<h3>10.1 Sensitivitas &amp; Resiliensi</h3>
+<table>
+  <tr><th>Skenario</th><th>CAPEX</th><th>Yield</th><th>Karbon USD</th><th>APY surya</th></tr>
+  <tr><td>Pesimis</td><td>+20%</td><td>−15%</td><td>3</td><td>~14%</td></tr>
+  <tr><td>Dasar (tiered)</td><td>0%</td><td>0%</td><td>6</td><td><strong>~24,8%</strong></td></tr>
+  <tr><td>Optimis</td><td>−15%</td><td>+10%</td><td>9</td><td>~30%</td></tr>
+</table>
+
+<h3>10.2 Proyeksi 3-Tier — Demand-Pull Realized</h3>
+<table>
+  <tr><th>Tier</th><th>Ramp desa (Y1→Y5)</th><th>NPV@15%</th><th>IRR</th><th>PI</th><th>Payback</th><th>EBITDA Y5</th><th>Rev Y5</th></tr>
+  <tr><td><b>Konservatif 46%</b></td><td>10 → 2.000</td><td>Rp 8,58 M</td><td>~46%</td><td>2,95</td><td>3,2 thn</td><td>Rp 16,46 M</td><td>Rp 20,74 M</td></tr>
+  <tr><td><b>Base Case 54%</b></td><td>20 → 2.200</td><td>Rp 11,00 M</td><td>~54%</td><td>3,50</td><td>3,0 thn</td><td>Rp 18,29 M</td><td>Rp 22,81 M</td></tr>
+  <tr><td><b>Upside 62%</b></td><td>25 → 2.500</td><td>Rp 14,00 M</td><td>~62%</td><td>4,18</td><td>2,6 thn</td><td>Rp 21,05 M</td><td>Rp 25,93 M</td></tr>
+  <tr><td><i>Lantai stress-test</i></td><td>2 → 1.000</td><td>Rp 1,27 M</td><td>~21%</td><td>1,29</td><td>4,0 thn</td><td>Rp 7,27 M</td><td>Rp 10,35 M</td></tr>
+</table>
+<div class="callout teal"><strong>Selisih antar tier murni dari volume desa (ramp velocity), bukan asumsi margin/karbon.</strong> Seluruh tier &gt;&gt; hurdle rate 15%. Bahkan lantai stress-test (adopsi paling lambat) tetap layak IRR ~21%. Upside 62% butuh sinergi program Lisdes nasional (target 2.792 desa 2026) — defensible sebagai option value.</div>
+
+<h3>10.3 Struktur Biaya &amp; Aliran Pendapatan (skala 100 desa)</h3>
+<table>
+  <tr><th>Pos</th><th>Nilai</th><th>Keterangan</th></tr>
+  <tr><td>Biaya operasional total</td><td>~Rp0,97 M / tahun</td><td>Var Rp0,12 M + fixed Rp0,85 M</td></tr>
+  <tr><td>Pendapatan potensial</td><td>~Rp1,04 M (band Rp0,86–1,75 M)</td><td>Energi + diesel tiered + karbon + data</td></tr>
+  <tr><td>Titik impas (break-even)</td><td>~147 desa</td><td>Margin kontribusi Rp9,2 jt/desa</td></tr>
+</table>
+<p>
+Ampera memiliki empat aliran pendapatan: (1) <strong>fee platform</strong> (take rate 2–5%) per unit ditransaksikan; (2) <strong>margin penghematan diesel</strong> yang dibagikan antara PLN–Ampera–investor; (3) <strong>pendapatan karbon</strong> (voluntary + IDXCarbon); dan (4) <strong>layanan data &amp; konsultasi ESG</strong> kepada korporasi maupun PLN.
+</p>
+
+<!-- ============ 10 ============ -->
+<h2>11. Manfaat Ekonomi PLN</h2>
+<table>
+  <tr><th>Manfaat PLN</th><th>Estimasi (per 100 desa)</th><th>Basis</th></tr>
+  <tr><td>Hemat ekstensi jaringan</td><td>Rp15–26 jt vs Rp9–24 jt / koneksi</td><td>Off-grid lebih murah marginal</td></tr>
+  <tr><td>Diesel pool dialihkan</td><td><strong>Rp158 jt / bulan (~Rp1,90 M/thn)</strong></td><td>440 kWh/bln × Rp3.591 (blended)</td></tr>
+  <tr><td>Bagi PLN (56% blend)</td><td>~Rp1,06 M/thn (net PLN)</td><td>Surya 50 · Piko 65 · Biomassa 50</td></tr>
+  <tr><td>Karbon terhindar</td><td>~0,24 kt CO₂/thn</td><td>2,39 tCO₂/desa/thn blended</td></tr>
+  <tr><td>Pendapatan baru</td><td>Rp32,5–35 jt / desa / tahun</td><td>Energi + layanan + data</td></tr>
+  <tr><td>Pengurangan beban fiskal</td><td>Hingga Rp50,01 T (nasional)</td><td>CAPEX dialihkan ke crowd-equity</td></tr>
+</table>
+
+<h4>11.1 Proyeksi Penghematan Diesel (basis presisi, blended 40/40/20)</h4>
+<table>
+  <tr><th>Tahun</th><th>Desa aktif</th><th>Diesel pool / bulan</th><th>Diesel pool / tahun</th><th>Bagi PLN (56%)</th></tr>
+  <tr><td>1</td><td>2 (pilot)</td><td>Rp3,2 jt</td><td>Rp0,04 M</td><td>Rp0,02 M</td></tr>
+  <tr><td>3</td><td>400</td><td>Rp632 jt</td><td>Rp7,58 M</td><td>Rp4,24 M</td></tr>
+  <tr><td>5</td><td>1.000</td><td>Rp1,58 M</td><td>Rp18,96 M</td><td>Rp10,62 M</td></tr>
+  <tr class="sum"><td colspan="2">Akumulasi 5 thn (konservatif)</td><td></td><td><b>Rp40,8 M (~Rp0,041 T)</b></td><td><b>Rp22,8 M</b></td></tr>
+</table>
+<div class="callout teal">
+  <strong>Inti argumen.</strong> Basis presisi menempatkan diesel pool pada <strong>Rp158 juta per bulan per 100 desa</strong> (band proposal Rp96–840 jt/bln masih valid, posisi terendah-band karena produksi konservatif &amp; blended). Ampera tidak menambah beban PLN — ia <em>mengurangi</em> beban diesel dan fiskal, sambil mempercepat target elektrifikasi 100% serta Net Zero PLN. Ini adalah satu-satunya proposal yang membuat PLN sebagai pihak yang <strong>diuntungkan secara finansial</strong>, bukan sekadar dimintai subsidi.
+</div>
+
+<!-- ============ 11 ============ -->
+
+<h2>12. Kepatuhan Regulasi &amp; Peta Jalan OJK</h2>
+<div class="callout red">
+  <strong>Koreksi riset penting.</strong> Riset awal menyebut "LUDC / POJK 11/2022". Ini <em>TIDAK AKURAT</em> — POJK 11/2022 adalah regulasi perbankan, bukan terkait pendanaan energi. Jalur OJK yang benar tercantum di bawah.
+</div>
+<table>
+  <tr><th>Regulasi</th><th>Fungsi</th><th>Status / Syarat</th></tr>
+  <tr><td>POJK 3/2024 (ITSK Sandbox)</td><td>Sandbox inovasi teknologi finansial</td><td>Ada; energi belum masuk — peluang</td></tr>
+  <tr><td>POJK 27/2024 jo POJK 23/2025 (AKD)</td><td>Aset Keuangan Digital (tokenisasi)</td><td>Modal minimal Rp100 juta</td></tr>
+  <tr><td>POJK 17/2025 (Urun Dana / ECF)</td><td>Equity crowdfunding</td><td>Batas Rp10 juta / penerbit / investor</td></tr>
+  <tr><td>Perpres 110/2025</td><td>Dual registry karbon (SRN PPI + SRUK)</td><td>Efektif 10 Oktober 2025</td></tr>
+  <tr><td>Permen ESDM 19/2025</td><td>PLTH ganti PLTD</td><td>Mendukung deployment EBT desa</td></tr>
+</table>
+<p class="src">Sumber: OJK (POJK 3/2024, 27/2024, 23/2025, 17/2025), Perpres 110/2025, Permen ESDM 19/2025.</p>
+
+<h3>12.1 Strategi Kepatuhan Bertahap</h3>
+<ul>
+  <li><strong>Fase 0 (kompetisi):</strong> Prototipe &amp; pitch — belum memerlukan izin OJK penuh.</li>
+  <li><strong>Fase 1 (pilot):</strong> Masuk <em>sandbox ITSK</em> OJK untuk menguji crowd-equity energi.</li>
+  <li><strong>Fase 2 (scale):</strong> Pilih AKD (modal Rp100 jt) atau ECF (POJK 17/2025, batas Rp10 jt) sesuai skala.</li>
+  <li><strong>$AMP = token ekuitas on-chain (ERC-6909)</strong> di-peg Rupiah/IDRX; infrastruktur likuiditas terprogram (lihat bagian 09).</li>
+<li><strong>Lapis on-chain (DEX) = ranah Bappebti:</strong> token $AMP yang diperdagangkan di DEX masuk regulasi aset kripto, melengkapi jalur OJK; kepatuhan via <em>compliance hook</em> (allowlist KYC) + sandbox OJK untuk agent AI.</li>
+  <li><strong>Kepatuhan UU PDP:</strong> data desa &amp; investor dilindungi enkripsi dan consent; kedaulatan data PLN diatur via MoU.</li>
+</ul>
+
+<!-- ============ 12 ============ -->
+<h2>13. Tata Kelola &amp; Struktur Tim</h2>
+<p>
+Keberlanjutan operasional Ampera didukung oleh struktur tata kelola yang jelas. Sesuai persyaratan kompetisi, tim terdiri dari representasi multi-disiplin yang menangani strategi, teknologi, finansial-regulasi, dan operasional lapangan, didampingi oleh penasihat akademik. Sebagian unit kepemilikan juga disisihkan untuk koperasi desa agar warga memiliki kepemilikan dan insentif perawatan (O&amp;M) lokal — memperkuat adopsi dan keberlanjutan.
+</p>
+<table>
+  <tr><th>Fungsi</th><th>Fokus</th></tr>
+  <tr><td>CEO / Strategi</td><td>Visi, kemitraan PLN, pitch &amp; komunikasi</td></tr>
+  <tr><td>CTO / AI &amp; Hardware</td><td>AI Tetrix, pengembangan prototipe piko-hidro</td></tr>
+  <tr><td>CFO / Finansial &amp; Regulasi</td><td>Unit economics, kepatuhan OJK</td></tr>
+  <tr><td>COO / Operasional Lapangan</td><td>Pilot desa, instalasi &amp; O&amp;M</td></tr>
+  <tr><td>Penasihat Akademik</td><td>Validasi teknis &amp; jaringan institusi</td></tr>
+</table>
+<div class="callout blue">
+  <strong>Kesiapan 7 kriteria penilaian.</strong> <span class="pill">Inovasi Teknologi ✓</span> <span class="pill">Dampak Sosial &amp; Ekonomi ✓</span> <span class="pill">Kesiapan Pasar ✓</span> <span class="pill">Model Bisnis ✓</span> <span class="pill">Kelayakan Finansial ✓</span> <span class="pill">Team Fit ✓</span> <span class="pill">Kesesuaian Tema PLN ✓</span>
+</div>
+
+<!-- ============ 13 ============ -->
+
+<h2>14. Peta Jalan &amp; Milestone</h2>
+<table>
+  <tr><th>Waktu</th><th>Milestone</th><th>Keluaran</th></tr>
+  <tr><td>Agustus–Oktober 2026</td><td>Pendaftaran &amp; penyusunan proposal</td><td>Proposal komprehensif &amp; pitch deck</td></tr>
+  <tr><td>November 2026 (Minggu 1)</td><td><strong>Demo Day PLN ICE</strong></td><td>Prototipe piko-hidro 1 kW + dashboard</td></tr>
+  <tr><td>Q1 2027</td><td>Pilot 1–2 desa mitra</td><td>Sistem hibrida surya+piko-hidro live</td></tr>
+  <tr><td>Q2 2027</td><td>Sandbox OJK ITSK</td><td>Uji crowd-equity legal</td></tr>
+  <tr><td>2027–2028</td><td>Skala 100–1.000 desa</td><td>Break-even tercapai (~147 desa)</td></tr>
+  <tr><td>2029</td><td>Sinergi Lisdes nasional</td><td>Kontribusi target 10.068 desa</td></tr>
+</table>
+
+<!-- ============ 14 ============ -->
+<h2>15. Register Risiko &amp; Mitigasi</h2>
+<table>
+  <tr><th>#</th><th>Risiko</th><th>Mitigasi</th></tr>
+  <tr><td>R1</td><td>Kelengkapan tim &amp; dokumen pendaftaran belum final</td><td>Prioritas penyelesaian segera; penyiapan dokumen berjenjang</td></tr>
+  <tr><td>R2</td><td>Volatilitas harga karbon</td><td>Karbon = margin tambahan, bukan core</td></tr>
+  <tr><td>R3</td><td>Regulasi OJK berubah</td><td>Jalur sandbox + opsi AKD/ECF fleksibel</td></tr>
+  <tr><td>R4</td><td>Kelayakan teknis per desa</td><td>AI site-selection; multi-energi agnostik</td></tr>
+  <tr><td>R5</td><td>Adopsi desa rendah</td><td>Model tanpa CAPEX; PAYG; pelatihan lokal</td></tr>
+  <tr><td>R6</td><td>Keamanan data &amp; sensor</td><td>Enkripsi ujung-ke-ujung; kepatuhan UU PDP</td></tr>
+  <tr><td>R7</td><td>Logistik suku cadang 3T</td><td>Stok lokal; desain modular</td></tr>
+  <tr><td>R8</td><td>Keterlambatan perizinan</td><td>Jalur sandbox lebih cepat dari lisensi penuh</td></tr>
+  <tr><td>R9</td><td>Resistensi kemitraan institusi</td><td>Argumentasi penghematan fiskal &amp; ESG</td></tr>
+  <tr><td>R10</td><td>Cuaca ekstrem merusak aset</td><td>Desain rugged; asuransi</td></tr>
+  <tr><td>R11</td><td>Keamanan lapis buku besar digital</td><td>Hidden layer + audit berkala</td></tr>
+  <tr><td>R12</td><td>Imitasi model oleh kompetitor</td><td>Moat data &amp; kemitraan institusi</td></tr>
+  <tr><td>R13</td><td>Fluktuasi nilai tukar (USD karbon)</td><td>Hedging; pasar karbon lokal IDXCarbon</td></tr>
+  <tr><td>R14</td><td>Kualitas vendor lokal</td><td>Standardisasi BOM</td></tr>
+  <tr><td>R15</td><td>Keberlanjutan operasional tim</td><td>Pembagian peran &amp; penasihat</td></tr>
+  <tr><td>R16</td><td>Kerentanan smart-contract / hook on-chain</td><td>Audit Cantina/Cyfrin/Olympix + formal verification (Certora) sebelum mainnet; extend-don't-fork OZ</td></tr>
+  <tr><td>R17</td><td>Keandalan oracle / attestasi off-chain (kWh)</td><td>Triangulasi AI Tetrix + TEE + Chronicle; jangan percaya satu sumber; Mode B jujur</td></tr>
+  <tr><td>R18</td><td>MEV / manipulasi harga on-chain</td><td>Routing intent (Tao/CoW) + bid wall + dynamic fee; settle ke stablecoin</td></tr>
+</table>
+
+<!-- ============ 15 ============ -->
+
+<h2>16. FAQ &amp; Lampiran Sumber</h2>
+<h3>16.1 FAQ</h3>
+<p><strong>Apakah Ampera menggantikan PLN?</strong> Tidak. Ampera adalah mitra pendanaan dan digitalisasi yang justru mengurangi beban fiskal PLN.</p>
+<p><strong>Apakah diperlukan izin OJK sekarang?</strong> Tidak untuk tahap kompetisi; izin disiapkan di fase pilot melalui sandbox.</p>
+<p><strong>Mengapa bukan hanya surya?</strong> Multi-energi meningkatkan kelayakan di wilayah tanpa profil surya memadai.</p>
+<p><strong>Bagaimana investor yakin?</strong> Transparansi real-time dan validasi ganda (sensor + satelit).</p>
+<p><strong>Kapan titik impas?</strong> ~147 desa (basis EBITDA Y3, cost diskalakan), tergantung mix energi dan insentif.</p>
+<p><strong>Apakah desa harus membayar?</strong> Ya, via skema PAYG yang terjangkau (di bawah BPP PLTD).</p>
+<p><strong>Apa ukuran keberhasilan Demo Day?</strong> Prototipe piko-hidro 1 kW yang beroperasi live beserta dashboard kerja.</p>
+
+<h3>16.2 Daftar Sumber</h3>
+<p class="small">
+<strong>Pemerintah &amp; PLN:</strong> Dirjen Gatrik (Jisman Hutajulu), RDP Komisi XII DPR 30 Juni 2025 — 10.068 lokasi, 1,29 jt RT, Rp50,01 T, 55% Maluku-Papua-NTT; rasio 99,83% (akhir 2024); BPP PLTD Rp4.791/kWh, timur USD0,70/kWh, rugi Rp135 rb/bln/RT 3T.<br>
+<strong>Program:</strong> Lisdes 2025–2029 (Rp10,3 T tahap 2026, 2.792 desa); 100 GW Solar Prabowo (80.000 desa, USD 71,3 M); Permen ESDM 19/2025; RUPTL 2025–2034 (42,6 GW EBT + 10,3 GW storage); Indonesia Terang (12.659 desa, Rp90–100 T).<br>
+<strong>Ekonomi energi:</strong> PLTS Rp14–18 jt/kWp on-grid, Rp16–30 jt off-grid, 97–128 kWh/bln, APY 24,8% (tiered), 1,08 tCO₂e/thn; piko-hidro Rp2–5 jt/kW, 200–400 kWh/bln, CF 25–50%, APY 23,0% (tiered), 3,59 tCO₂e/thn (IBEKA Cinta Mekar 120 kW; ITB Sumpur Kudus 1 kW); biomassa gasifier Rp9–90 jt/kW, APY 23,8% (tiered), 2,59 tCO₂e/thn, limbah sawit 261,7 jt ton/thn. Skema tiered: Surya 50/35/15 · Piko 65/12/23 · Biomassa 50/30/20; CAPEX investor = 70% × Rp75 jt = Rp52,5 jt; diesel pool presisi Rp1,795 jt/bln (surya/biomassa), Rp2,514 jt/bln (piko).<br>
+<strong>Karbon:</strong> Voluntary global USD6,34/tCO₂e (2025); IDXCarbon Rp32.612/tCO₂e (Mar 2025); AMS-I.L; ICVCM 7 program+36 methodology (Nov 2025), AMS-I.L/ACM0002 belum CCP; Verra USD3.750+5.000+0,20/VCU; Perpres 110/2025.<br>
+<strong>OJK (koreksi):</strong> POJK 3/2024 (ITSK); POJK 27/2024 jo POJK 23/2025 (AKD, modal Rp100 jt); POJK 17/2025 (ECF, Rp10 jt). <em>POJK 11/2022 = perbankan, tidak relevan.</em><br>
+<strong>Pesaing ID:</strong> Sumba Sustainable Solutions (~3.500 RT); Xurya (&gt;100 MWp, USD 88 jt); SUN Energy; IBEKA; Mpower; LandX.<br>
+<strong>Global:</strong> M-KOPA (USD 416 jt rev FY24, USD 9,2 jt profit, 10 jt+ cust, +22% annualized); BBOXX (3,6 jt orang); d.light (150 jt nyawa); Gridless; Toucan.<br>
+<strong>AI Tetrix:</strong> Orbit (Sentinel-2, 10 m, 5 hari, F1 87–93%); Vision (YOLOv8, mAP50 93,6%); NASA POWER; SRTM (30 m); Edge (Raspberry Pi Rp1,2–3,7 jt; ESP32 Rp50–150 rb); Ledger (agen finansial on-chain, ERC-7857/8004/8183, Mode B via TEE+Chronicle).<br>
+<strong>Finansial:</strong> Cost 100 desa ~Rp0,97 M/thn (var Rp0,12 M + fixed Rp0,85 M); revenue ~Rp1,04 M/thn (band riset Rp0,86–1,75 M); break-even ~147 desa; grid Rp15–26 jt vs off-grid Rp9–24 jt/koneksi; diesel pool Rp158 jt/bln per 100 desa (~Rp1,90 M/thn; band Rp96–840 jt/bln); bagi PLN 56% blend ~Rp1,06 M/thn; revenue baru Rp32,5–35 jt/desa/thn. Model 5-thn 3-tier: <b>Konservatif 46%</b> NPV Rp8,58 M · IRR ~46% · PB 3,2 thn · <b>Base 54%</b> NPV Rp11,00 M · IRR ~54% · PB 3,0 thn · <b>Upside 62%</b> NPV Rp14,00 M · IRR ~62% · PB 2,6 thn. Lantai stress-test (adopsi lambat): NPV Rp1,28 M · IRR ~21% · PB 4,0 thn.
+</p>
+
+<div class="footer-note">
+  Proposal Komprehensif Ampera — PLN ICE 2026 · Disusun 12 Agustus 2026 · Rebrand dari Aether Solar<br>
+  Seluruh angka berbasis riset dan akan difinalisasi pada fase prototipe.
+</div>
+
+</body>
+</html>

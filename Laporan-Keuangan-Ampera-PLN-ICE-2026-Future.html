@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Keuangan Komprehensif — Ampera (PLN ICE 2026)</title>
+<style>
+:root {
+  --bg: #f3f7f5;
+  --card: #ffffff;
+  --ink: #0c1f1a;
+  --muted: #5a6b64;
+  --line: #e1eae4;
+  --brand: #00804C;        /* Picture Book Green */
+  --brand2: #001F3F;       /* Midnight Mirage */
+  --accent: #e8f4ee;
+  --lime: #C6FF33;
+  --violet: #7D39EB;
+  --green: #0e9f6e;
+  --green-bg: #e7f7f1;
+  --red: #d64545;
+  --red-bg: #fdeaea;
+  --amber: #b7791f;
+  --amber-bg: #fdf3e3;
+  --radius: 14px;
+  --shadow: 0 2px 10px rgba(0,31,63,.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI', system-ui, -apple-system, sans-serif; background:var(--bg); color:var(--ink); line-height:1.55; }
+.wrap { max-width:1080px; margin:0 auto; padding:28px 20px 80px; }
+
+.hero { background:linear-gradient(135deg,var(--brand2) 0%,var(--brand) 65%,#0a6f44 100%); color:#fff; border-radius:var(--radius); padding:34px 36px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+.hero::after { content:""; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle, rgba(198,255,51,.35) 0%, transparent 70%); }
+.hero .kicker { text-transform:uppercase; letter-spacing:.14em; font-size:12px; opacity:.85; }
+.hero h1 { font-size:26px; margin:8px 0 6px; }
+.hero p { opacity:.92; font-size:14px; max-width:760px; }
+.hero .meta { display:flex; gap:14px; flex-wrap:wrap; margin-top:16px; font-size:13px; }
+.hero .meta span { background:rgba(255,255,255,.14); padding:5px 12px; border-radius:999px; }
+
+section { margin-top:34px; }
+.phase { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+.phase-tag { background:var(--brand2); color:#fff; font-weight:700; font-size:12px; padding:7px 13px; border-radius:8px; letter-spacing:.06em; white-space:nowrap; }
+.phase h3 { font-size:19px; }
+.phase p { color:var(--muted); font-size:13px; }
+
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(155px,1fr)); gap:14px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); }
+.card .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+.card .val { font-size:21px; font-weight:700; margin-top:6px; color:var(--brand); }
+.card .sub { font-size:11.5px; color:var(--muted); margin-top:4px; }
+.card.good { border-left:4px solid var(--green); }
+.card.bad { border-left:4px solid var(--red); }
+
+table { width:100%; border-collapse:collapse; background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); font-size:13.5px; }
+th,td { padding:9px 12px; text-align:right; border-bottom:1px solid var(--line); }
+th { background:var(--brand2); color:#fff; font-weight:600; text-align:right; font-size:12.5px; }
+th:first-child, td:first-child { text-align:left; }
+tr:last-child td { border-bottom:none; }
+tr.sum td { font-weight:700; background:var(--accent); }
+tr.hl td { background:var(--green-bg); color:#075e44; font-weight:700; }
+tr.hl-red td { background:var(--red-bg); color:#8c1f1f; font-weight:700; }
+.tbl-note { font-size:11.5px; color:var(--muted); margin-top:6px; }
+
+.callout { border-radius:var(--radius); padding:14px 16px; font-size:13px; margin-top:14px; border:1px solid var(--line); }
+.callout.blue { background:var(--accent); border-color:#bfe6d6; }
+.callout.green { background:var(--green-bg); border-color:#bfe6d6; }
+.callout.red { background:var(--red-bg); border-color:#f2c4c4; }
+.callout.amber { background:var(--amber-bg); border-color:#f0d9ac; }
+.callout b { color:var(--brand2); }
+.callout.green b { color:#075e44; }
+.callout.red b { color:#8c1f1f; }
+.callout.amber b { color:#7a5410; }
+
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:760px) { .grid2 { grid-template-columns:1fr; } }
+h2.section-title { font-size:22px; color:var(--brand2); margin-top:22px; }
+.badge-green { display:inline-block; background:var(--green-bg); color:#075e44; padding:2px 9px; border-radius:999px; font-size:11.5px; font-weight:700; }
+.badge-red { display:inline-block; background:var(--red-bg); color:#8c1f1f; padding:2px 9px; border-radius:999px; font-size:11.5px; font-weight:700; }
+
+.research-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:14px; }
+.rbox { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow); }
+.rbox h4 { font-size:13.5px; color:var(--brand2); margin-bottom:8px; }
+.rbox .r-tag { font-size:10px; color:var(--muted); font-weight:400; text-transform:uppercase; letter-spacing:.05em; margin-left:4px; }
+.rbox .tldr { font-size:12px; color:#075e44; background:var(--green-bg); border-left:3px solid var(--green); border-radius:6px; padding:8px 10px; margin-bottom:8px; }
+.rbox .digest { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+.rbox .chip { background:var(--accent); border:1px solid #bfe6d6; color:var(--brand2); font-size:11.5px; padding:3px 10px; border-radius:999px; }
+.rbox .chip b { font-size:12.5px; }
+.rbox .scroll { max-height:420px; overflow:auto; padding-right:8px; }
+.rbox .md-h2 { font-size:12px; font-weight:700; color:var(--brand2); text-transform:uppercase; letter-spacing:.04em; margin:12px 0 4px; padding-top:8px; border-top:1px dashed var(--line); }
+.rbox .md-h3 { font-size:12px; font-weight:600; color:var(--ink); margin:8px 0 3px; }
+.rbox .md-p { font-size:12.5px; color:var(--muted); margin:4px 0; }
+.rbox .md-ul, .rbox .md-ol { margin:4px 0 4px 16px; font-size:12.5px; color:var(--muted); }
+.rbox .md-ul li, .rbox .md-ol li { margin:2px 0; }
+.rbox .md-tbl { width:100%; border-collapse:collapse; font-size:11.8px; margin:6px 0 10px; }
+.rbox .md-tbl td { padding:4px 8px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+.rbox .md-tbl td:first-child { color:var(--ink); font-weight:600; width:44%; }
+.rbox .md-tbl td:first-child b { font-weight:700; }
+.rbox .md-tbl .unit { color:var(--muted); font-weight:400; }
+.rbox .md-tbl .src { display:block; font-size:10.5px; color:var(--muted); font-weight:400; }
+.footnote { font-size:11.5px; color:var(--muted); margin-top:18px; border-top:1px solid var(--line); padding-top:12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <div class="kicker">PLN ICON &amp; INNOVATION CHALLENGE 2026 — Sustainability &amp; Green Innovation</div>
+  <h1>Laporan Keuangan Komprehensif<br>Ampera — Platform Ekuitas Energi Terdesentralisasi</h1>
+  <p>Model bisnis crowd-equity multi-energi untuk desa 3T (Tertinggal, Terdepan, Terluar), menjembatani investor ritel, PLN, dan desa melalui kepemilikan fraksional digital — dengan empat mesin pendapatan: fee platform, margin penghematan diesel, karbon, dan layanan data/ESG.</p>
+  <div class="meta">
+    <span>Horizon: 5 Tahun (2026–2030)</span>
+    <span>Kurs: Rp18.000/USD</span>
+    <span>Discount Rate: 15% (basis) / 20% (risk-adjusted)</span>
+    <span>Generated: 15-08-2026 · Rebuild aritmetika (Opsi C)</span>
+  </div>
+</div>
+
+<!-- ================= BAGIAN 0 ================= -->
+<section>
+<div class="phase"><span class="phase-tag">BAGIAN 0</span><div><h3>Asumsi Dasar</h3><p>Parameter utama model — divalidasi riset eksternal (2024–2026)</p></div></div>
+<div class="grid2">
+<table>
+<tr><th>Parameter</th><th>Nilai</th><th>Catatan</th></tr>
+<tr><td>Kurs</td><td>Rp18.000/USD</td><td>Spot Agustus 2026 (~Rp17.829, dibulatkan konservatif)</td></tr>
+<tr><td>Pajak (PPh Badan)</td><td>22%</td><td>PT umum; loss carry-forward</td></tr>
+<tr><td>Discount Rate</td><td>15% (basis) / 20% (risk-adj)</td><td>Startup rural-energy, high risk</td></tr>
+<tr><td>Inflation</td><td>3% / tahun</td><td>Bank Indonesia target</td></tr>
+<tr><td>Horizon</td><td>5 tahun</td><td>2026–2030</td></tr>
+<tr><td>Tarif langganan desa</td><td>Rp1.200/kWh</td><td>Di bawah BPP PLTD timur Rp4.791</td></tr>
+<tr><td>Take rate platform</td><td>3% (rentang 2–5%)</td><td>dari nilai energi desa</td></tr>
+<tr><td>Harga karbon</td><td>USD 6 / tCO₂e</td><td>Konservatif vs IDXCarbon Rp32.612</td></tr>
+<tr><td>CAPEX per desa (5kW ekuiv.)</td><td>Rp75 jt (blended)</td><td>Investor dana 70% = Rp52,5 jt; 30% via PLN/CSR/grant</td></tr>
+<tr><td>Jumlah desa aktif (Y1→Y5)</td><td>2 → 1.000 desa</td><td>Proyeksi scale-up (konservatif)</td></tr>
+<tr><td>Biaya tetap (platform core)</td><td>Rp0,85 M (Y1) → Rp1,88 M (Y5)</td><td>Tim+cloud+legal; tumbuh 28/24/20/16%</td></tr>
+  <tr><td>Biaya variabel per desa</td><td>Rp1,2 jt/desa/thn</td><td>Verifikasi, payment, audit karbon, metering</td></tr>
+  <tr><td>Biaya infra on-chain (one-time, pilot)</td><td>Rp 90 jt</td><td>Hook + audit + oracle/attestasi + compliance (TAHAP 5); gas deploy ~Rp0</td></tr>
+  <tr><td>OPEX on-chain (tambahan)</td><td>Rp 150 jt/thn</td><td>Node/oracle + agent inference + AVS restaking (bisa ditekan ke ~Rp20 jt dgn attestasi manual)</td></tr>
+</table>
+<table>
+<tr><th>Mesin Pendapatan (5)</th><th>Modeling Basis</th></tr>
+<tr><td>1. Fee Platform</td><td>Take rate 3% dari nilai energi desa (energi → investor 70%)</td></tr>
+<tr><td>2. Margin Diesel (tiered)</td><td>Bagian Ampera dari penghematan subsidi PLN per vektor (lihat tabel §7.4 proposal)</td></tr>
+<tr><td>3. Pendapatan Karbon</td><td>Brokerage 15% IDXCarbon + voluntary (USD 6/tCO₂e); 80% → investor</td></tr>
+<tr><td>4. Data &amp; ESG</td><td>Konsultasi korporasi/PLN + dashboard (asumsi Rp5 jt/desa/thn)</td></tr>
+  <tr><td>5. On-Chain Liquidity Fee</td><td>Protocol fee 0,5–1% dari volume on-chain (Internal Swap Pool) + akses RWA-LP global (lihat TAHAP 5)</td></tr>
+  <tr><td>+ One-time (crowd CAPEX)</td><td>2–5% dari Rp75 jt/desa saat onboarding</td></tr>
+</table>
+</div>
+<table>
+<tr><th>Vektor Energi</th><th>Produksi (kWh/bln)</th><th>Diesel pool/desa/thn</th><th>Bagi PLN/Inv/Amp</th><th>APY investor</th></tr>
+<tr><td><b>Surya (PLTS 5 kWp)</b></td><td>500</td><td>Rp21,5 jt (500×Rp3.591×12)</td><td>50% / 35% / 15%</td><td>~24,8%</td></tr>
+<tr><td><b>Piko-hidro (5 kW)</b></td><td>700 (24/7)</td><td>Rp30,2 jt (700×Rp3.591×12)</td><td>65% / 12% / 23%</td><td>~23,0%</td></tr>
+<tr><td><b>Biomassa (5 kW)</b></td><td>500</td><td>Rp21,5 jt</td><td>50% / 30% / 20%</td><td>~23,8%</td></tr>
+<tr class="sum"><td>Blended (mix 40/40/20)</td><td>—</td><td>Rp25,0 jt/desa/thn</td><td>56% / 24% / 20%</td><td>~23–25% (pukul rata)</td></tr>
+</table>
+<div class="callout amber"><b>Basis proyeksi: konservatif–menengah, aritmetika presisi.</b> Ampera adalah model <i>asset-light</i> — CAPEX pembangkit (Rp75 jt/desa) dibiayai investor ritel via crowd-equity (70%) + PLN/CSR/grant (30%), bukan beban Ampera. Pendapatan perusahaan berasal dari take rate + layanan di atas aset yang dikelola. <b>Skema bagi diesel tiered per vektor</b> menjaga APY investor ~23–25% di semua vektor (selisih ≤1,8%). Biaya operasional <b>diskalakan dengan jumlah desa</b>: fixed core (tim+cloud+legal) tumbuh bertahap 28/24/20/16%/thn, variabel Rp1,2 jt/desa/thn — bukan beban penuh dari hari 1. Pendapatan per desa blended <b>Rp10,35 jt/thn</b> (dalam band riset Rp8,6–17,5 jt/desa, Modul 8). Angka difinalisasi di fase prototipe.</div>
+</section>
+
+<!-- ================= BAGIAN 1 ================= -->
+<section>
+<div class="phase"><span class="phase-tag">BAGIAN 1</span><div><h3>Ringkasan Kelayakan (Executive Summary) — 3 Tier</h3><p>Permintaan 3T nyata + appetite investor aset hijau → basis proyeksi "demand-pull realized". Tiga tier kecepatan ramp; lantai stress-test (adopsi lambat) di footnote.</p></div></div>
+<div class="callout green"><b>Mengapa basis 46%+ rasional, bukan spekulatif.</b> Tiga faktor struktural: (1) <b>Permintaan 3T nyata</b> — 10.068 desa menunggu listrik murah; tarif Ampera di bawah BPP PLTD Rp4.791/kWh; tenggat elektrifikasi 2029. (2) <b>Appetite investor</b> — ritel &amp; smart money mengincar kepemilikan fraksional aset green energy terverifikasi, APY ~23–25% pukul rata antar vektor. (3) <b>Generasi 24/7</b> — piko-hidro menghasilkan listrik terus-menerus; pemasukan investor harian, bukan spekulasi. <b>Blockchain transparansi</b> = premium trust + tailwind regulasi (sandbox OJK, ECF).</div>
+
+<h3 style="margin-top:18px;border-left:4px solid var(--brand);padding-left:10px">Tier 1 · Konservatif (ramp 10→2.000 desa)</h3>
+<div class="cards">
+  <div class="card"><div class="lbl">Investasi Awal</div><div class="val">Rp 4,4 M</div><div class="sub">CAPEX + Modal Kerja 6 bln</div></div>
+  <div class="card"><div class="lbl">BEP (Desa)</div><div class="val">~147 desa</div><div class="sub">Tercapai thn-2/3</div></div>
+  <div class="card good"><div class="lbl">Payback Period</div><div class="val">3,2 thn</div><div class="sub">&lt; horizon 5 thn ✓</div></div>
+  <div class="card good"><div class="lbl">NPV @ 15%</div><div class="val">Rp 8,58 M</div><div class="sub">PI 2,95 ✓</div></div>
+  <div class="card good"><div class="lbl">IRR</div><div class="val">~46%</div><div class="sub">&gt;&gt; hurdle 15% ✓</div></div>
+  <div class="card good"><div class="lbl">EBITDA Y5</div><div class="val">Rp 16,46 M</div><div class="sub">Rev Y5 Rp 20,74 M</div></div>
+</div>
+
+<h3 style="margin-top:18px;border-left:4px solid var(--brand);padding-left:10px">Tier 2 · Base Case (ramp 20→2.200 desa)</h3>
+<div class="cards">
+  <div class="card"><div class="lbl">Investasi Awal</div><div class="val">Rp 4,4 M</div><div class="sub">Sama, asset-light</div></div>
+  <div class="card"><div class="lbl">BEP (Desa)</div><div class="val">~147 desa</div><div class="sub">Tercapai thn-2</div></div>
+  <div class="card good"><div class="lbl">Payback Period</div><div class="val">3,0 thn</div><div class="sub">&lt; horizon 5 thn ✓</div></div>
+  <div class="card good"><div class="lbl">NPV @ 15%</div><div class="val">Rp 11,00 M</div><div class="sub">PI 3,50 ✓</div></div>
+  <div class="card good"><div class="lbl">IRR</div><div class="val">~54%</div><div class="sub">&gt;&gt; hurdle 15% ✓</div></div>
+  <div class="card good"><div class="lbl">EBITDA Y5</div><div class="val">Rp 18,29 M</div><div class="sub">Rev Y5 Rp 22,81 M</div></div>
+</div>
+
+<h3 style="margin-top:18px;border-left:4px solid var(--brand);padding-left:10px">Tier 3 · Upside (ramp 25→2.500 desa, Lisdes piggyback)</h3>
+<div class="cards">
+  <div class="card"><div class="lbl">Investasi Awal</div><div class="val">Rp 4,4 M</div><div class="sub">Sama, asset-light</div></div>
+  <div class="card"><div class="lbl">BEP (Desa)</div><div class="val">~147 desa</div><div class="sub">Tercapai thn-2</div></div>
+  <div class="card good"><div class="lbl">Payback Period</div><div class="val">2,6 thn</div><div class="sub">&lt; horizon 5 thn ✓</div></div>
+  <div class="card good"><div class="lbl">NPV @ 15%</div><div class="val">Rp 14,00 M</div><div class="sub">PI 4,18 ✓</div></div>
+  <div class="card good"><div class="lbl">IRR</div><div class="val">~62%</div><div class="sub">&gt;&gt; hurdle 15% ✓</div></div>
+  <div class="card good"><div class="lbl">EBITDA Y5</div><div class="val">Rp 21,05 M</div><div class="sub">Rev Y5 Rp 25,93 M</div></div>
+</div>
+
+<div class="callout blue"><b>Catatan Transparansi.</b> Investasi Awal = CAPEX + Modal Kerja 6 bulan (Rp 4,4 M); Ampera mengelola aset desa tanpa menanggung CAPEX pembangkit (dibiayai investor 70% + PLN/CSR 30%). Ketiga tier <b>LAYAK</b> (IRR &gt;&gt; hurdle 15%). Selisih antar tier murni dari <b>kecepatan ramp desa</b> (volume = pengungkit riil), bukan asumsi margin/karbon heroik. <b>Lantai stress-test</b> (adopsi lambat 2→1.000 desa): NPV Rp 1,28 M, IRR ~21%, payback 4,0 thn — tetap layak, lihat TAHAP 2 sebagai floor operasional.</div>
+</section>
+
+<!-- ================= TAHAP 1 ================= -->
+<section>
+<div class="phase"><span class="phase-tag">TAHAP 1</span><div><h3>Investasi Awal &amp; Struktur Biaya</h3><p>Aset tetap & tak berwujud, modal kerja, peta aliran pendapatan, biaya tetap</p></div></div>
+
+<h2 class="section-title">A. Investasi Aset Tetap &amp; Tak Berwujud</h2>
+<table>
+<tr><th>Aset</th><th>Harga Beli</th><th>Umur Ekonomis</th><th>Penyusutan/Tahun</th><th>Keterangan</th></tr>
+<tr><td>Pengembangan Platform &amp; App Ampera</td><td>Rp 1,5 M</td><td>5 thn</td><td>Rp 0,30 M</td><td style='font-size:12px;color:var(--muted)'>Crowd-equity engine, dashboard Earth, AI Tetrix UI</td></tr>
+<tr><td>Infrastruktur AI Tetrix (cloud + pipeline)</td><td>Rp 0,75 M</td><td>5 thn</td><td>Rp 0,15 M</td><td style='font-size:12px;color:var(--muted)'>Satelit ingest, YOLOv8, NASA POWER, SRTM</td></tr>
+<tr><td>Prototipe piko-hidro &amp; lab (Demo Day)</td><td>Rp 0,25 M</td><td>4 thn</td><td>Rp 0,06 M</td><td style='font-size:12px;color:var(--muted)'>1 kW portable + beberapa unit uji (dalam batas Rp7jt PLN ICE)</td></tr>
+<tr><td>Edge hardware (ESP32 / sensor kit)</td><td>Rp 0,25 M</td><td>4 thn</td><td>Rp 0,06 M</td><td style='font-size:12px;color:var(--muted)'>Metering desa &amp; gateway</td></tr>
+<tr><td>Legal &amp; regulasi (sandbox OJK, AKD)</td><td>Rp 0,50 M</td><td>5 thn</td><td>Rp 0,10 M</td><td style='font-size:12px;color:var(--muted)'>POJK 3/2024, 27/2024, 17/2025, notaris</td></tr>
+<tr><td>Peralatan kantor &amp; operasional</td><td>Rp 0,25 M</td><td>4 thn</td><td>Rp 0,06 M</td><td style='font-size:12px;color:var(--muted)'>Workspace, workstation, ops</td></tr>
+<tr class="sum"><td>Total Aset Tetap</td><td>Rp 3,50 M</td><td>4,7 thn (rata-rata)</td><td>Rp 0,73 M</td><td>Metode garis lurus</td></tr>
+</table>
+
+<h2 class="section-title">B. Modal Kerja Awal (6 Bulan Runway)</h2>
+<table>
+<tr><th>Komponen</th><th>Per Bulan</th><th>6 Bulan</th><th>Keterangan</th></tr>
+<tr><td>Gaji tim inti &amp; advisor</td><td>Rp 0,15 M</td><td>Rp 0,90 M</td><td>Mahasiswa + dosen + operasional</td></tr>
+  <tr><td>Buffer operasional <span style='font-size:11px;color:var(--muted)'>· operasional, bukan investasi awal</span></td><td>Rp 0,10 M</td><td>Rp 0,60 M</td><td>Marketing, legal, verifikasi — cover di biaya tetap</td></tr>
+  <tr><td>Kas siaga (likuiditas) <span style='font-size:11px;color:var(--muted)'>· operasional</span></td><td>Rp 0,05 M</td><td>Rp 0,30 M</td><td>Likuiditas — cover di biaya tetap</td></tr>
+  <tr class="sum"><td>Total Modal Kerja (investasi awal)</td><td>Rp 0,15 M</td><td>Rp 0,90 M</td><td>Hanya gaji 6 bln; buffer+kas dijalankan dari arus kas operasi</td></tr>
+</table>
+<div class="callout blue"><b>Total Investasi Awal (modal) = Rp 4,40 M</b> — Aset Tetap Rp 3,50 M + Modal Kerja Rp 0,90 M.</div>
+
+<h2 class="section-title">C. Peta Aliran Pendapatan: 4 Mesin → Revenue Streams</h2>
+<table>
+<tr><th>Mesin Nilai</th><th>Revenue Streams</th><th>Jenis Pendapatan</th></tr>
+<tr><td><b>Flex · Multi-Energi</b></td><td style='font-size:12px'>Fee platform 3% dari nilai energi desa · One-time 2–5% dari crowd-CAPEX saat onboarding desa</td><td>Fee / Komisi (FBI)</td></tr>
+<tr><td><b>Earth · ESG &amp; Karbon</b></td><td style='font-size:12px'>Brokerage karbon 15% (IDXCarbon + voluntary) · Dashboard dampak korporasi</td><td>Brokerage + SaaS</td></tr>
+<tr><td><b>× PLN · Partnership</b></td><td style='font-size:12px'>Margin penghematan diesel (bagian Ampera) · Layanan data &amp; validasi ke PLN</td><td>Margin + B2B Service</td></tr>
+<tr><td><b>Investor · Trust Layer</b></td><td style='font-size:12px'>Layanan data &amp; ESG konsultasi · Retensi &amp; cross-sell</td><td>Subscription / Service</td></tr>
+</table>
+<div class="tbl-note">Seluruh revenue = Fee platform + Margin diesel + Karbon brokerage + Layanan data/ESG. CAPEX pembangkit desa (<b>Rp75 jt/desa</b>) dibiayai crowd-equity — tidak masuk P&amp;L Ampera sebagai beban.</div>
+
+<h2 class="section-title">D. Biaya Operasional (diskalakan dgn jumlah desa)</h2>
+<table>
+<tr><th>Komponen</th><th>Y1 (2 desa)</th><th>Y5 (1.000 desa)</th><th>Sifat</th></tr>
+<tr><td>Tim inti + cloud + legal (fixed core)</td><td>Rp 0,85 M</td><td>Rp 1,88 M</td><td>Fixed; tumbuh 28/24/20/16%</td></tr>
+<tr><td>Verifikasi + payment + audit karbon + metering</td><td>Rp 0,002 M</td><td>Rp 1,20 M</td><td>Variabel; Rp1,2 jt/desa/thn</td></tr>
+<tr><td>Penyusutan/Amortisasi</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Konstan (garis lurus)</td></tr>
+<tr class="sum"><td>Total Biaya Operasional</td><td>Rp 1,58 M</td><td>Rp 3,81 M</td><td>Bukan penuh dari hari 1</td></tr>
+</table>
+<div class="callout blue"><b>Perbaikan kunci (vs revisi sebelumnya).</b> Biaya tetap <b>tidak dikenakan penuh dari tahun-1</b> — tim+cloud+legal core hanya Rp0,85M di Y1 (2 desa pilot) dan tumbuh bertahap 28/24/20/16%/thn mengikuti skala platform. Biaya variabel diskalakan langsung dengan jumlah desa (Rp1,2 jt/desa/thn utk verifikasi pembayaran, audit karbon, metering edge). Ini membenarkan cost basis warisan yang asumsikan beban operasional penuh untuk cuma 2 desa.</div>
+
+<div class="grid2">
+<div>
+<h2 class="section-title">E. Total Biaya Operasional (Y1 & Y5)</h2>
+<table>
+<tr><th>Komponen</th><th>Y1 (2 desa)</th><th>Y5 (1.000 desa)</th></tr>
+<tr><td>Biaya Variabel (verifikasi, payment, audit karbon, metering)</td><td>Rp 0,002 M</td><td>Rp 1,20 M</td></tr>
+<tr><td>Biaya Tetap (tim+cloud+legal core)</td><td>Rp 0,85 M</td><td>Rp 1,88 M</td></tr>
+<tr><td>Penyusutan/Amortisasi</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td></tr>
+<tr class="sum"><td>Total Biaya Operasional</td><td>Rp 1,58 M</td><td>Rp 3,81 M</td></tr>
+<tr><td>Biaya per desa aktif</td><td>Rp 0,79 M (pilot lean)</td><td>Rp 0,004 M (skala)</td></tr>
+</table>
+</div>
+<div>
+<h2 class="section-title">F. Struktur Biaya (Alokasi %)</h2>
+<table>
+<tr><th>Kategori</th><th>Porsi</th><th>Komponen</th></tr>
+<tr><td>Infrastruktur &amp; AI</td><td>30,0%</td><td style='font-size:12px;color:var(--muted)'>Cloud, satelit pipeline, edge gateway</td></tr>
+<tr><td>SDM &amp; Advisor</td><td>40,0%</td><td style='font-size:12px;color:var(--muted)'>Tim inti + dosen + operasional</td></tr>
+<tr><td>Pemasaran &amp; Akuisisi</td><td>15,0%</td><td style='font-size:12px;color:var(--muted)'>Investor &amp; desa mitra</td></tr>
+<tr><td>Legal &amp; Compliance</td><td>15,0%</td><td style='font-size:12px;color:var(--muted)'>OJK sandbox, AKD/ECF, audit</td></tr>
+</table>
+<div class="callout blue"><b>Cost-to-Income proyek</b> th-1: tinggi (fase ramp-up platform) — khas startup asset-light sebelum skala desa tercapai.</div>
+</div>
+</div>
+</section>
+
+<!-- ================= TAHAP 2 ================= -->
+<section>
+<div class="phase"><span class="phase-tag">TAHAP 2</span><div><h3>Proyeksi Laba/Rugi &amp; Arus Kas (5 Tahun)</h3><p>Seluruh angka dalam Rp Miliar (Rp M)</p></div></div>
+
+<h2 class="section-title">G. Proyeksi Laba/Rugi (Tahunan) — Lantai Stress-Test (Adopsi Lambat)</h2>
+<table>
+<tr><th>Komponen</th><th>Tahun 1</th><th>Tahun 2</th><th>Tahun 3</th><th>Tahun 4</th><th>Tahun 5</th></tr>
+<tr><td>Desa aktif (kumulatif)</td><td>2</td><td>50</td><td>400</td><td>700</td><td>1.000</td></tr>
+<tr><td><b>Pendapatan Ampera</b></td><td><b>Rp 0,02 M</b></td><td><b>Rp 0,52 M</b></td><td><b>Rp 4,15 M</b></td><td><b>Rp 7,26 M</b></td><td><b>Rp 10,37 M</b></td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Fee platform (3% energi)</td><td style="font-size:12.5px">Rp 0,00 M</td><td style="font-size:12.5px">Rp 0,01 M</td><td style="font-size:12.5px">Rp 0,10 M</td><td style="font-size:12.5px">Rp 0,18 M</td><td style="font-size:12.5px">Rp 0,25 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Margin diesel tiered (20% blend)</td><td style="font-size:12.5px">Rp 0,00 M</td><td style="font-size:12.5px">Rp 0,25 M</td><td style="font-size:12.5px">Rp 1,97 M</td><td style="font-size:12.5px">Rp 3,45 M</td><td style="font-size:12.5px">Rp 4,93 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Karbon brokerage (15%)</td><td style="font-size:12.5px">Rp 0,00 M</td><td style="font-size:12.5px">Rp 0,01 M</td><td style="font-size:12.5px">Rp 0,08 M</td><td style="font-size:12.5px">Rp 0,13 M</td><td style="font-size:12.5px">Rp 0,19 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Layanan data &amp; ESG</td><td style="font-size:12.5px">Rp 0,01 M</td><td style="font-size:12.5px">Rp 0,25 M</td><td style="font-size:12.5px">Rp 2,00 M</td><td style="font-size:12.5px">Rp 3,50 M</td><td style="font-size:12.5px">Rp 5,00 M</td></tr>
+<tr><td>(−) Biaya Variabel (COGS)</td><td>Rp 0,00 M</td><td>Rp 0,06 M</td><td>Rp 0,48 M</td><td>Rp 0,84 M</td><td>Rp 1,20 M</td></tr>
+<tr><td>Laba Kotor &amp; Margin Kotor</td><td class="hl-red">Rp 0,02 M</td><td class="hl-red">Rp 0,46 M</td><td class="hl">Rp 3,67 M (88%)</td><td class="hl">Rp 6,42 M (88%)</td><td class="hl">Rp 9,17 M (88%)</td></tr>
+<tr><td>(−) Biaya Tetap</td><td>Rp 0,85 M</td><td>Rp 1,09 M</td><td>Rp 1,35 M</td><td>Rp 1,62 M</td><td>Rp 1,88 M</td></tr>
+<tr><td><b>EBITDA</b></td><td class="hl-red"><b>(Rp 0,83 M)</b></td><td class="hl-red"><b>(Rp 0,63 M)</b></td><td class="hl"><b>Rp 2,32 M</b></td><td class="hl"><b>Rp 4,80 M</b></td><td class="hl"><b>Rp 7,29 M</b></td></tr>
+<tr><td>(−) Penyusutan</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td></tr>
+<tr><td>Laba Sebelum Pajak (EBT)</td><td class="hl-red">Rp (1,56 M)</td><td class="hl-red">Rp (1,36 M)</td><td class="hl">Rp 1,59 M</td><td class="hl">Rp 4,07 M</td><td class="hl">Rp 6,56 M</td></tr>
+<tr><td>(−) Pajak (PPh Badan 22%)</td><td>Rp 0</td><td>Rp 0</td><td>Rp 0,35 M</td><td>Rp 0,90 M</td><td>Rp 1,44 M</td></tr>
+<tr><td><b>Laba Setelah Pajak (EAT)</b></td><td class="hl-red"><b>Rp (1,56 M)</b></td><td class="hl-red"><b>Rp (1,36 M)</b></td><td class="hl"><b>Rp 1,24 M</b></td><td class="hl"><b>Rp 3,17 M</b></td><td class="hl"><b>Rp 5,12 M</b></td></tr>
+<tr><td>Net Margin</td><td>—</td><td>—</td><td>29,9%</td><td>43,7%</td><td>49,4%</td></tr>
+</table>
+<div class="callout green"><b>Lantai operasional (stress-test adopsi lambat).</b> Tabel G–I di atas menggunakan ramp paling hati-hati (2→1.000 desa) sebagai <b>floor</b>. Basis proyeksi headline (demand-pull realized) ada di bagian Q: <b>Konservatif 46% · Base 54% · Upside 62%</b> — masing-masing dgn ramp lebih cepat &amp; NPV/IRR jauh lebih tinggi. Lantai 21% tetap layak (NPV Rp1,28 M), menunjukkan proyek resilient bahkan pada adopsi paling lambat.</div>
+
+<h2 class="section-title">H. Estimasi Pajak Tahunan</h2>
+<table>
+<tr><th>Tahun</th><th>Pendapatan</th><th>PPh 22% (EBT base)</th><th>Keterangan</th></tr>
+<tr><td>Th 1</td><td>Rp 0,02 M</td><td>Rp 0</td><td>Rugi fiskal (carry-forward)</td></tr>
+<tr><td>Th 2</td><td>Rp 0,52 M</td><td>Rp 0</td><td>Masih rugi fiskal</td></tr>
+<tr><td>Th 3</td><td>Rp 4,15 M</td><td>Rp 0,35 M</td><td>Mulai untung bersih</td></tr>
+<tr><td>Th 4</td><td>Rp 7,26 M</td><td>Rp 0,90 M</td><td>Net margin naik</td></tr>
+<tr><td>Th 5</td><td>Rp 10,37 M</td><td>Rp 1,44 M</td><td>PPh badan penuh</td></tr>
+</table>
+<div class="tbl-note">Tahun 1–2 rugi fiskal → tidak ada kewajiban PPh; kompensasi kerugian (loss carry-forward) sesuai UU PPh mengurangi basis pajak tahun profitable.</div>
+
+<h2 class="section-title">I. Perhitungan Arus Kas Bersih (Net Cash Flow)</h2>
+<table>
+<tr><th>Komponen</th><th>Tahun 1</th><th>Tahun 2</th><th>Tahun 3</th><th>Tahun 4</th><th>Tahun 5</th></tr>
+<tr><td>Laba Setelah Pajak (EAT)</td><td>Rp (1,56 M)</td><td>Rp (1,36 M)</td><td>Rp 1,24 M</td><td>Rp 3,17 M</td><td>Rp 5,12 M</td></tr>
+<tr><td>(+) Penyusutan (non-kas)</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td></tr>
+<tr><td>(+) Pengembalian Modal Kerja</td><td>-</td><td>-</td><td>-</td><td>-</td><td>Rp 0,90 M</td></tr>
+<tr class="sum"><td>Arus Kas Bersih</td><td>Rp (0,83 M)</td><td>Rp (0,63 M)</td><td>Rp 1,96 M</td><td>Rp 3,89 M</td><td>Rp 6,73 M</td></tr>
+<tr><td>Kumulatif (inkl. investasi)</td><td>Rp (5,23 M)</td><td>Rp (5,86 M)</td><td>Rp (3,90 M)</td><td>Rp (0,00 M)</td><td>Rp 6,73 M</td></tr>
+</table>
+</section>
+
+<!-- ================= TAHAP 3 ================= -->
+<section>
+<div class="phase"><span class="phase-tag">TAHAP 3</span><div><h3>Analisis Kelayakan Investasi</h3><p>Payback, NPV, PI, IRR, ARR, Sensitivitas, BEP, Dampak PLN &amp; Desa</p></div></div>
+
+<h2 class="section-title">J. Payback Period (PP)</h2>
+<div class="callout blue"><b>PP = 4,00 tahun</b> (Lantai stress-test adopsi lambat; kumulatif CF melewati investasi modal Rp 4,40 M tepat di akhir tahun ke-4).<br>
+Perhitungan: kumulatif CF Y1−Y3 = Rp (3,90 M); sisa Rp 4,40 M − Rp 0,50 M (kumulatif positif) ÷ Rp 3,89 M (CF Y4) = 3 + 1,00 = <b>4,00 tahun</b>. PP &lt; umur aset (4,7 thn) ✓<br>
+Pada <b>basis proyeksi 3-tier</b> (lihat bagian Q): Konservatif <b>3,2 thn</b> · Base <b>3,0 thn</b> · Upside <b>2,6 thn</b>.</div>
+
+<h2 class="section-title">K. Net Present Value (NPV) &amp; Profitability Index (PI)</h2>
+<table>
+<tr><th>Tahun</th><th>Arus Kas Bersih</th><th>PV Factor @15%</th><th>Present Value</th></tr>
+<tr><td>Th 1</td><td>Rp (0,83 M)</td><td>0,8696</td><td>Rp (0,72 M)</td></tr>
+<tr><td>Th 2</td><td>Rp (0,63 M)</td><td>0,7561</td><td>Rp (0,48 M)</td></tr>
+<tr><td>Th 3</td><td>Rp 1,96 M</td><td>0,6575</td><td>Rp 1,29 M</td></tr>
+<tr><td>Th 4</td><td>Rp 3,89 M</td><td>0,5718</td><td>Rp 2,23 M</td></tr>
+<tr><td>Th 5</td><td>Rp 6,73 M</td><td>0,4972</td><td>Rp 3,35 M</td></tr>
+<tr class="sum"><td>Total PV Arus Kas Bersih</td><td></td><td></td><td>Rp 5,67 M</td></tr>
+<tr><td>(−) Investasi Awal (CAPEX + Modal Kerja)</td><td></td><td></td><td>(Rp 4,40 M)</td></tr>
+<tr class="hl"><td>NPV @ 15%</td><td></td><td></td><td>Rp 1,28 M</td></tr>
+<tr><td>PI = Total PV ÷ Investasi Awal</td><td></td><td></td><td><b>1,29</b> (Layak, PI &gt; 1)</td></tr>
+</table>
+<div class="callout blue">Basis proyeksi 3-tier (lihat bagian Q): <b>Konservatif</b> NPV Rp 8,58 M / PI 2,95 · <b>Base</b> NPV Rp 11,00 M / PI 3,50 · <b>Upside</b> NPV Rp 14,00 M / PI 4,18. Tabel K di atas adalah <b>lantai stress-test</b> (NPV Rp 1,28 M / PI 1,29).</div>
+
+<h2 class="section-title">L. Internal Rate of Return (IRR) &amp; ARR — 3 Tier</h2>
+<div class="callout blue"><b>Tiga tier kecepatan ramp.</b> Lantai stress-test (adopsi lambat 2→1.000 desa) dipakai di TAHAP 2 (G–K) sebagai floor operasional; basis proyeksi headline memakai ramp demand-pull-realized (10→2.500 desa). Selisih antar tier murni dari <b>volume desa</b> — bukan asumsi margin/karbon heroik.</div>
+<table>
+<tr><th>Metrik</th><th>Konservatif (46%)</th><th>Base Case (54%)</th><th>Upside (62%)</th><th>Lantai stress-test</th></tr>
+<tr><td>Ramp desa (Y1→Y5)</td><td>10 → 2.000</td><td>20 → 2.200</td><td>25 → 2.500</td><td>2 → 1.000</td></tr>
+<tr class="hl"><td>NPV @ 15%</td><td>Rp 8,58 M</td><td>Rp 11,00 M</td><td>Rp 14,00 M</td><td>Rp 1,28 M</td></tr>
+<tr><td>NPV @ 20%</td><td>Rp 6,33 M</td><td>Rp 8,39 M</td><td>Rp 10,97 M</td><td>Rp 0,19 M</td></tr>
+<tr><td>NPV @ 25%</td><td>Rp 4,54 M</td><td>Rp 6,32 M</td><td>Rp 8,55 M</td><td>Rp (0,66 M)</td></tr>
+<tr><td>Profitability Index (PI)</td><td>2,95</td><td>3,50</td><td>4,18</td><td>1,29</td></tr>
+<tr class="hl"><td>IRR</td><td><b>~46%</b></td><td><b>~54%</b></td><td><b>~62%</b></td><td>~21%</td></tr>
+<tr><td>ARR (rata-rata EAT/inv)</td><td>~90%</td><td>~109%</td><td>~132%</td><td>~30%</td></tr>
+<tr><td>Payback Period</td><td>3,2 thn</td><td>3,0 thn</td><td>2,6 thn</td><td>4,0 thn</td></tr>
+</table>
+<div class="callout green"><b>Seluruh tier &gt;&gt; hurdle rate 15%.</b> Bahkan lantai stress-test (adopsi paling lambat) tetap layak IRR ~21% (NPV Rp 1,27 M @15%). Pada diskonto 25% pun, ketiga tier headline masih layak (NPV Rp 4,54–8,55 M). Upside 62% butuh sinergi program Lisdes nasional (target 2.792 desa 2026) — defensible sebagai option value, bukan asumsi spekulatif.</div>
+
+<h2 class="section-title">M. Analisis Sensitivitas</h2>
+<table>
+<tr><th>Skenario</th><th>NPV</th><th>Keputusan</th></tr>
+<tr><td><b>Lantai stress-test (adopsi lambat)</b><br><span style="font-size:11.5px;color:var(--muted)">CF 100% @ 15%</span></td><td>Rp 1,27 M</td><td><span class="badge-green">Layak</span></td></tr>
+<tr><td><b>Discount rate naik ke 20%</b><br><span style="font-size:11.5px;color:var(--muted)">CF 100% @ 20%</span></td><td>Rp 0,19 M</td><td><span class="badge-green">Layak</span></td></tr>
+<tr><td><b>Pesimis: arus kas -30%</b><br><span style="font-size:11.5px;color:var(--muted)">Adopsi lambat @ 15%</span></td><td>Rp (0,43 M)</td><td><span class="badge-red">Tidak Layak</span></td></tr>
+<tr><td><b>Konservatif 46%: ramp 10→2.000 desa</b><br><span style="font-size:11.5px;color:var(--muted)">Demand-pull realized @ 15%</span></td><td>Rp 8,58 M</td><td><span class="badge-green">Layak</span></td></tr>
+<tr><td><b>Base Case 54%: ramp 20→2.200 desa</b><br><span style="font-size:11.5px;color:var(--muted)">Tambahan 10–200 desa/thn vs konservatif @ 15%</span></td><td>Rp 11,00 M</td><td><span class="badge-green">Layak</span></td></tr>
+<tr><td><b>Upside 62%: ramp 25→2.500 desa</b><br><span style="font-size:11.5px;color:var(--muted)">Sinergi Lisdes nasional (2.792 desa 2026) @ 15%</span></td><td>Rp 14,00 M</td><td><span class="badge-green">Layak</span></td></tr>
+<tr><td><b>Headline @ diskonto 25%</b><br><span style="font-size:11.5px;color:var(--muted)">Risk-adjusted tetap layak (3 tier)</span></td><td>Rp 4,54–8,55 M</td><td><span class="badge-green">Layak</span></td></tr>
+<tr><td><b>Stress Test: arus kas -50% @ 25%</b><br><span style="font-size:11.5px;color:var(--muted)">Regulasi tertunda parah @ 25%</span></td><td class="badge-red">Rp (2,53 M)</td><td><span class="badge-red">Tidak Layak</span></td></tr>
+</table>
+<div class="callout amber"><b>Bacaan:</b> Skenario lantai (konservatif stress) tetap layak pada diskonto 15–20%. Pada adopsi lambat (CF −30%) lantai jatuh ke NPV negatif — mitigasi: staged-investment &amp; sandbox OJK lebih awal. <b>Ketiga tier headline (46/54/62%) tetap layak bahkan pada diskonto 25% (NPV Rp 4,54–8,55 M)</b>, dan baru tidak layak pada stress test ekstrem (CF −50% + diskonto 25%). Selisih antar tier murni dari <b>volume desa</b> (ramp velocity), bukan asumsi margin/karbon.</div>
+
+<h2 class="section-title">N. Break-Even Point (BEP)</h2>
+<table>
+<tr><th>Komponen</th><th>Nilai</th></tr>
+<tr><td>Biaya tetap Y3 (basis operasional)</td><td>Rp 1,35 M</td></tr>
+<tr><td>Margin kontribusi per desa/tahun (blended)</td><td>Rp 9,2 jt</td></tr>
+<tr><td>BEP — Jumlah desa aktif (EBITDA impas)</td><td><b>~147 desa</b></td></tr>
+<tr><td>Pendapatan saat impas</td><td>~Rp 1,53 M</td></tr>
+</table>
+<div class="callout green"><b>BEP tercapai antara tahun ke-2 dan ke-3</b> (50 desa Y2 → 400 desa Y3). Model crowd-equity memindahkan CAPEX pembangkit ke investor, sehingga BEP Ampera bergantung pada jumlah desa dikelola, bukan kepemilikan aset.<br>
+Pada <b>basis proyeksi 3-tier</b> (lihat bagian Q), BEP tercapai lebih awal (±150 desa di thn-2) dengan margin kontribusi lebih tinggi.</div>
+
+<h2 class="section-title">Q. Proyeksi 3-Tier — Demand-Pull Realized</h2>
+<div class="callout blue"><b>Tiga tier kecepatan ramp desa.</b> Seluruh tier memakai asumsi identik: mix piko-hidro dominan (yield 24/7, APY 23–25%), take rate 3% + CSR platform + layanan data, CAC rendah berkat appetite investor, CAPEX/desa Rp75 jt &amp; investasi awal Rp4,4 M. <b>Satu-satunya variabel yang berbeda antar tier = volume desa (ramp velocity).</b> Angka dalam Rp Miliar (Rp M).<br><br>
+<b>Konservatif 46%</b> (10 → 2.000 desa) · <b>Base Case 54%</b> (20 → 2.200 desa) · <b>Upside 62%</b> (25 → 2.500 desa, sinergi Lisdes nasional).</div>
+<h2 class="section-title">Q.1 Konservatif 46% — Proyeksi Laba/Rugi</h2>
+<table>
+<tr><th>Komponen</th><th>Tahun 1</th><th>Tahun 2</th><th>Tahun 3</th><th>Tahun 4</th><th>Tahun 5</th></tr>
+<tr><td>Desa aktif (kumulatif)</td><td>10</td><td>150</td><td>600</td><td>1.200</td><td>2.000</td></tr>
+<tr><td><b>Pendapatan Ampera</b></td><td><b>Rp 0,10 M</b></td><td><b>Rp 1,56 M</b></td><td><b>Rp 6,22 M</b></td><td><b>Rp 12,44 M</b></td><td><b>Rp 20,74 M</b></td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Fee platform (3% energi)</td><td style="font-size:12.5px">Rp 0,00 M</td><td style="font-size:12.5px">Rp 0,04 M</td><td style="font-size:12.5px">Rp 0,15 M</td><td style="font-size:12.5px">Rp 0,30 M</td><td style="font-size:12.5px">Rp 0,50 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Margin diesel tiered (20% blend)</td><td style="font-size:12.5px">Rp 0,05 M</td><td style="font-size:12.5px">Rp 0,74 M</td><td style="font-size:12.5px">Rp 2,96 M</td><td style="font-size:12.5px">Rp 5,92 M</td><td style="font-size:12.5px">Rp 9,86 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Karbon brokerage (15%)</td><td style="font-size:12.5px">Rp 0,00 M</td><td style="font-size:12.5px">Rp 0,03 M</td><td style="font-size:12.5px">Rp 0,11 M</td><td style="font-size:12.5px">Rp 0,23 M</td><td style="font-size:12.5px">Rp 0,38 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Layanan data &amp; ESG</td><td style="font-size:12.5px">Rp 0,05 M</td><td style="font-size:12.5px">Rp 0,75 M</td><td style="font-size:12.5px">Rp 3,00 M</td><td style="font-size:12.5px">Rp 6,00 M</td><td style="font-size:12.5px">Rp 10,00 M</td></tr>
+<tr><td>(−) Biaya Variabel (COGS)</td><td>Rp 0,01 M</td><td>Rp 0,18 M</td><td>Rp 0,72 M</td><td>Rp 1,44 M</td><td>Rp 2,40 M</td></tr>
+<tr><td>Laba Kotor &amp; Margin Kotor</td><td class="hl">Rp 0,09 M (88%)</td><td class="hl">Rp 1,38 M (88%)</td><td class="hl">Rp 5,50 M (88%)</td><td class="hl">Rp 11,00 M (88%)</td><td class="hl">Rp 18,34 M (88%)</td></tr>
+<tr><td>(−) Biaya Tetap</td><td>Rp 0,85 M</td><td>Rp 1,09 M</td><td>Rp 1,35 M</td><td>Rp 1,62 M</td><td>Rp 1,88 M</td></tr>
+<tr><td><b>EBITDA</b></td><td class="hl-red"><b>Rp (0,76 M)</b></td><td class="hl"><b>Rp 0,29 M</b></td><td class="hl"><b>Rp 4,15 M</b></td><td class="hl"><b>Rp 9,38 M</b></td><td class="hl"><b>Rp 16,46 M</b></td></tr>
+<tr><td>(−) Penyusutan</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td></tr>
+<tr><td>Laba Sebelum Pajak (EBT)</td><td class="hl-red">Rp (1,49 M)</td><td class="hl-red">Rp (0,44 M)</td><td class="hl">Rp 3,42 M</td><td class="hl">Rp 8,65 M</td><td class="hl">Rp 15,73 M</td></tr>
+<tr><td>(−) Pajak (PPh Badan 22%)</td><td>Rp 0</td><td>Rp 0</td><td>Rp 0,75 M</td><td>Rp 1,90 M</td><td>Rp 3,46 M</td></tr>
+<tr><td><b>Laba Setelah Pajak (EAT)</b></td><td class="hl-red"><b>Rp (1,49 M)</b></td><td class="hl-red"><b>Rp (0,44 M)</b></td><td class="hl"><b>Rp 2,67 M</b></td><td class="hl"><b>Rp 6,75 M</b></td><td class="hl"><b>Rp 12,27 M</b></td></tr>
+<tr><td>Arus Kas Bersih</td><td>Rp (0,76 M)</td><td>Rp 0,29 M</td><td>Rp 3,40 M</td><td>Rp 7,48 M</td><td>Rp 13,90 M</td></tr>
+<tr><td>Kumulatif (inkl. investasi)</td><td>Rp (5,16 M)</td><td>Rp (4,87 M)</td><td>Rp (1,47 M)</td><td>Rp 6,01 M</td><td>Rp 19,91 M</td></tr>
+</table>
+<div class="callout green"><b>Konservatif 46%: IRR ~46% · NPV@15% Rp 8,58 M · PI 2,95 · Payback 3,2 thn.</b> Ramp paling hati-hati di antara 3 tier headline. Tetap defensible: didorong permintaan riil 3T + appetite investor aset hijau + generasi 24/7 piko-hidro — bukan asumsi spekulatif.</div>
+
+<h2 class="section-title">Q.2 Base Case 54% — Proyeksi Laba/Rugi</h2>
+<table>
+<tr><th>Komponen</th><th>Tahun 1</th><th>Tahun 2</th><th>Tahun 3</th><th>Tahun 4</th><th>Tahun 5</th></tr>
+<tr><td>Desa aktif (kumulatif)</td><td>20</td><td>200</td><td>700</td><td>1.400</td><td>2.200</td></tr>
+<tr><td><b>Pendapatan Ampera</b></td><td><b>Rp 0,21 M</b></td><td><b>Rp 2,07 M</b></td><td><b>Rp 7,26 M</b></td><td><b>Rp 14,52 M</b></td><td><b>Rp 22,81 M</b></td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Fee platform (3% energi)</td><td style="font-size:12.5px">Rp 0,01 M</td><td style="font-size:12.5px">Rp 0,05 M</td><td style="font-size:12.5px">Rp 0,18 M</td><td style="font-size:12.5px">Rp 0,35 M</td><td style="font-size:12.5px">Rp 0,55 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Margin diesel tiered (20% blend)</td><td style="font-size:12.5px">Rp 0,10 M</td><td style="font-size:12.5px">Rp 0,99 M</td><td style="font-size:12.5px">Rp 3,45 M</td><td style="font-size:12.5px">Rp 6,90 M</td><td style="font-size:12.5px">Rp 10,85 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Karbon brokerage (15%)</td><td style="font-size:12.5px">Rp 0,00 M</td><td style="font-size:12.5px">Rp 0,04 M</td><td style="font-size:12.5px">Rp 0,13 M</td><td style="font-size:12.5px">Rp 0,27 M</td><td style="font-size:12.5px">Rp 0,42 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Layanan data &amp; ESG</td><td style="font-size:12.5px">Rp 0,10 M</td><td style="font-size:12.5px">Rp 1,00 M</td><td style="font-size:12.5px">Rp 3,50 M</td><td style="font-size:12.5px">Rp 7,00 M</td><td style="font-size:12.5px">Rp 11,00 M</td></tr>
+<tr><td>(−) Biaya Variabel (COGS)</td><td>Rp 0,02 M</td><td>Rp 0,24 M</td><td>Rp 0,84 M</td><td>Rp 1,68 M</td><td>Rp 2,64 M</td></tr>
+<tr><td>Laba Kotor &amp; Margin Kotor</td><td class="hl">Rp 0,18 M (88%)</td><td class="hl">Rp 1,83 M (88%)</td><td class="hl">Rp 6,42 M (88%)</td><td class="hl">Rp 12,84 M (88%)</td><td class="hl">Rp 20,17 M (88%)</td></tr>
+<tr><td>(−) Biaya Tetap</td><td>Rp 0,85 M</td><td>Rp 1,09 M</td><td>Rp 1,35 M</td><td>Rp 1,62 M</td><td>Rp 1,88 M</td></tr>
+<tr><td><b>EBITDA</b></td><td class="hl-red"><b>Rp (0,67 M)</b></td><td class="hl"><b>Rp 0,74 M</b></td><td class="hl"><b>Rp 5,07 M</b></td><td class="hl"><b>Rp 11,22 M</b></td><td class="hl"><b>Rp 18,29 M</b></td></tr>
+<tr><td>(−) Penyusutan</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td></tr>
+<tr><td>Laba Sebelum Pajak (EBT)</td><td class="hl-red">Rp (1,40 M)</td><td class="hl">Rp 0,01 M</td><td class="hl">Rp 4,34 M</td><td class="hl">Rp 10,49 M</td><td class="hl">Rp 17,56 M</td></tr>
+<tr><td>(−) Pajak (PPh Badan 22%)</td><td>Rp 0</td><td>Rp 0</td><td>Rp 0,95 M</td><td>Rp 2,31 M</td><td>Rp 3,86 M</td></tr>
+<tr><td><b>Laba Setelah Pajak (EAT)</b></td><td class="hl-red"><b>Rp (1,40 M)</b></td><td class="hl"><b>Rp 0,01 M</b></td><td class="hl"><b>Rp 3,38 M</b></td><td class="hl"><b>Rp 8,18 M</b></td><td class="hl"><b>Rp 13,70 M</b></td></tr>
+<tr><td>Arus Kas Bersih</td><td>Rp (0,67 M)</td><td>Rp 0,74 M</td><td>Rp 4,11 M</td><td>Rp 8,91 M</td><td>Rp 15,33 M</td></tr>
+<tr><td>Kumulatif (inkl. investasi)</td><td>Rp (5,07 M)</td><td>Rp (4,33 M)</td><td>Rp (0,21 M)</td><td>Rp 8,70 M</td><td>Rp 24,03 M</td></tr>
+</table>
+<div class="callout green"><b>Base Case 54%: IRR ~54% · NPV@15% Rp 11,00 M · PI 3,50 · Payback 3,0 thn.</b> Tambahan 10–200 desa/thn vs konservatif. Breakeven kumulatif tercapai di akhir tahun ke-3 (cumul −0,21 M → positif di Y4).</div>
+
+<h2 class="section-title">Q.3 Upside 62% — Proyeksi Laba/Rugi</h2>
+<table>
+<tr><th>Komponen</th><th>Tahun 1</th><th>Tahun 2</th><th>Tahun 3</th><th>Tahun 4</th><th>Tahun 5</th></tr>
+<tr><td>Desa aktif (kumulatif)</td><td>25</td><td>300</td><td>900</td><td>1.500</td><td>2.500</td></tr>
+<tr><td><b>Pendapatan Ampera</b></td><td><b>Rp 0,26 M</b></td><td><b>Rp 3,11 M</b></td><td><b>Rp 9,33 M</b></td><td><b>Rp 15,56 M</b></td><td><b>Rp 25,93 M</b></td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Fee platform (3% energi)</td><td style="font-size:12.5px">Rp 0,01 M</td><td style="font-size:12.5px">Rp 0,07 M</td><td style="font-size:12.5px">Rp 0,23 M</td><td style="font-size:12.5px">Rp 0,38 M</td><td style="font-size:12.5px">Rp 0,62 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Margin diesel tiered (20% blend)</td><td style="font-size:12.5px">Rp 0,12 M</td><td style="font-size:12.5px">Rp 1,48 M</td><td style="font-size:12.5px">Rp 4,44 M</td><td style="font-size:12.5px">Rp 7,40 M</td><td style="font-size:12.5px">Rp 12,33 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Karbon brokerage (15%)</td><td style="font-size:12.5px">Rp 0,00 M</td><td style="font-size:12.5px">Rp 0,06 M</td><td style="font-size:12.5px">Rp 0,17 M</td><td style="font-size:12.5px">Rp 0,29 M</td><td style="font-size:12.5px">Rp 0,48 M</td></tr>
+<tr><td style="padding-left:22px;font-size:12.5px;color:var(--muted)">- Layanan data &amp; ESG</td><td style="font-size:12.5px">Rp 0,12 M</td><td style="font-size:12.5px">Rp 1,50 M</td><td style="font-size:12.5px">Rp 4,50 M</td><td style="font-size:12.5px">Rp 7,50 M</td><td style="font-size:12.5px">Rp 12,50 M</td></tr>
+<tr><td>(−) Biaya Variabel (COGS)</td><td>Rp 0,03 M</td><td>Rp 0,36 M</td><td>Rp 1,08 M</td><td>Rp 1,80 M</td><td>Rp 3,00 M</td></tr>
+<tr><td>Laba Kotor &amp; Margin Kotor</td><td class="hl">Rp 0,23 M (88%)</td><td class="hl">Rp 2,75 M (88%)</td><td class="hl">Rp 8,25 M (88%)</td><td class="hl">Rp 13,76 M (88%)</td><td class="hl">Rp 22,93 M (88%)</td></tr>
+<tr><td>(−) Biaya Tetap</td><td>Rp 0,85 M</td><td>Rp 1,09 M</td><td>Rp 1,35 M</td><td>Rp 1,62 M</td><td>Rp 1,88 M</td></tr>
+<tr><td><b>EBITDA</b></td><td class="hl-red"><b>Rp (0,62 M)</b></td><td class="hl"><b>Rp 1,66 M</b></td><td class="hl"><b>Rp 6,90 M</b></td><td class="hl"><b>Rp 12,14 M</b></td><td class="hl"><b>Rp 21,05 M</b></td></tr>
+<tr><td>(−) Penyusutan</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td><td>Rp 0,73 M</td></tr>
+<tr><td>Laba Sebelum Pajak (EBT)</td><td class="hl-red">Rp (1,35 M)</td><td class="hl">Rp 0,93 M</td><td class="hl">Rp 6,17 M</td><td class="hl">Rp 11,41 M</td><td class="hl">Rp 20,32 M</td></tr>
+<tr><td>(−) Pajak (PPh Badan 22%)</td><td>Rp 0</td><td>Rp 0,20 M</td><td>Rp 1,36 M</td><td>Rp 2,51 M</td><td>Rp 4,47 M</td></tr>
+<tr><td><b>Laba Setelah Pajak (EAT)</b></td><td class="hl-red"><b>Rp (1,35 M)</b></td><td class="hl"><b>Rp 0,73 M</b></td><td class="hl"><b>Rp 4,81 M</b></td><td class="hl"><b>Rp 8,90 M</b></td><td class="hl"><b>Rp 15,85 M</b></td></tr>
+<tr><td>Arus Kas Bersih</td><td>Rp (0,62 M)</td><td>Rp 1,46 M</td><td>Rp 5,54 M</td><td>Rp 9,63 M</td><td>Rp 17,48 M</td></tr>
+<tr><td>Kumulatif (inkl. investasi)</td><td>Rp (5,02 M)</td><td>Rp (3,56 M)</td><td>Rp 1,98 M</td><td>Rp 11,61 M</td><td>Rp 29,08 M</td></tr>
+</table>
+<div class="callout green"><b>Upside 62%: IRR ~62% · NPV@15% Rp 14,00 M · PI 4,18 · Payback 2,6 thn.</b> Breakeven kumulatif tercapai di tahun ke-3 (cumul +1,98 M). Ramp 25→2.500 desa butuh sinergi program Lisdes nasional (target 2.792 desa 2026) — defensible sebagai option value, bukan asumsi spekulatif.</div>
+<div class="callout amber"><b>Ringkasan 3-tier:</b> Konservatif 46% (NPV Rp 8,58 M) → Base 54% (NPV Rp 11,00 M) → Upside 62% (NPV Rp 14,00 M). Selisih antar tier murni dari <b>volume desa</b> (ramp velocity), bukan asumsi margin/karbon. Lantai stress-test (adopsi lambat 2→1.000 desa, IRR ~21%) ditampilkan di TAHAP 2 G–K sebagai floor operasional.</div>
+
+<h2 class="section-title">O. Dampak PLN &amp; Ekonomi Desa (External Benefit, bukan arus kas Ampera)</h2>
+<div class="callout blue"><b>Logika:</b> setiap desa beralih dari PLTD ke EBT via Ampera menghentikan aliran kerugian bulanan PLN. Dampak dihitung terpisah dari NPV Ampera (karena manfaat mengalir ke PLN &amp; desa, bukan ke laba perusahaan). Seluruh angka di bawah adalah <b>per tahun</b> kecuali dinyatakan lain, memakai basis presisi vektor blended 40/40/20 (produksi 440 kWh/bln/desa, BPP−tarif Rp3.591/kWh).</div>
+<table>
+<tr><th>Manfaat PLN</th><th>Estimasi (per 100 desa)</th><th>Basis</th></tr>
+<tr><td>Hemat ekstensi jaringan</td><td>Rp 15–26 jt vs Rp 9–24 jt / koneksi</td><td>Off-grid lebih murah marginal</td></tr>
+<tr><td>Hemat CAPEX ekstensi (5.000 RT)</td><td>Rp 0–85 M</td><td>Off-grid vs grid extension</td></tr>
+<tr><td>Henti kerugian PLN (revenue gap)</td><td>Rp 8,1 M / tahun</td><td>5.000 RT × Rp1,62 jt/RT (Rp135 rb/bln)</td></tr>
+<tr><td>Diesel pool dialihkan (blended presisi)</td><td><b>Rp 158 jt / bulan</b> (~Rp 1,90 M/thn)</td><td>440 kWh/bln × Rp3.591 × 100 desa × 12</td></tr>
+<tr><td>Bagi PLN (56% blended share)</td><td><b>~Rp 1,06 M / tahun</b> (net PLN)</td><td>Surya 50% · Piko 65% · Biomassa 50% → blend 56%</td></tr>
+<tr><td>Karbon terhindar (blended)</td><td>~0,24 kt CO₂/thn</td><td>2,39 tCO₂/desa/thn × 100 (surya 1,08 · piko 3,59 · biomassa 2,59)</td></tr>
+<tr><td>Pendapatan baru PLN</td><td>Rp 32,5–35 jt / desa / tahun</td><td>Energi + layanan + data</td></tr>
+<tr><td>Pengurangan beban fiskal</td><td>Hingga Rp 50,01 T (nasional)</td><td>CAPEX dialihkan ke crowd-equity</td></tr>
+</table>
+<table>
+<tr><th>Tahun</th><th>Desa aktif</th><th>Diesel pool / tahun</th><th>Bagi PLN (56%)</th><th>Karbon (kt)</th></tr>
+<tr><td>1</td><td>2 (pilot)</td><td>Rp 0,04 M</td><td>Rp 0,02 M</td><td>0,005</td></tr>
+<tr><td>3</td><td>400</td><td>Rp 7,58 M</td><td>Rp 4,24 M</td><td>0,95</td></tr>
+<tr><td>5</td><td>1.000</td><td>Rp 18,96 M</td><td>Rp 10,62 M</td><td>2,39</td></tr>
+<tr class="sum"><td colspan="2">Akumulasi 5 tahun (konservatif)</td><td><b>Rp 40,8 M</b> (~Rp 0,041 T)</td><td><b>Rp 22,8 M</b></td><td><b>5,1 kt</b></td></tr>
+</table>
+<div class="callout amber"><b>Bacaan:</b> basis presisi menempatkan diesel pool dialihkan pada <b>Rp158 jt/bulan per 100 desa</b> (band proposal Rp96–840 jt/bulan masih valid, posisi terendah-band karena produksi konservatif &amp; blended). Pada 1.000 desa di tahun ke-5, potensi penghematan <b>Rp19 M/tahun</b> (akumulasi 5-thn ~Rp41 M), dengan PLN menerima net ~Rp11 M/tahun. Band proposal "Rp0,96–8,4 M/bulan per 100 desa" tetap tercakup saat produksi &amp; vektor ditegakkan. Argumen utama: PLN diuntungkan finansial, bukan sekadar dimintai subsidi.</div>
+</section>
+
+<!-- ================= TAHAP 4 ================= -->
+<section>
+<div class="phase"><span class="phase-tag">TAHAP 4</span><div><h3>Proyeksi Tingkatan Skala (Ekspansi 1× / 2× / 3× / 4× / 5×)</h3><p>Model asset-light: platform men-skala sub-linear; unit economics identik per desa. Angka di bawah memakai <b>lantai stress-test</b> sebagai dasar; pada basis proyeksi 3-tier (Konservatif 46% / Base 54% / Upside 62%) seluruh metrik (pendapatan, EBITDA, NPV, IRR) lebih tinggi — lihat Bagian Q &amp; L.</p></div></div>
+<div class="cards">
+<div class="card good"><div class="lbl">Tier 1 · Basis (1×)</div><div class="val">1.000 desa</div><div class="sub">Pendapatan Y5 Rp 10,4 M · modal Rp 4,4 M</div></div>
+<div class="card good"><div class="lbl">Tier 2 · Ekspansi (2,5×)</div><div class="val">2.500 desa</div><div class="sub">Pendapatan Y5 Rp 25,9 M · modal Rp 5,0 M</div></div>
+<div class="card good"><div class="lbl">Tier 3 · Ekspansi Penuh (5×)</div><div class="val">5.000 desa</div><div class="sub">Pendapatan Y5 Rp 51,8 M · modal Rp 6,0 M</div></div>
+<div class="card good"><div class="lbl">Tier 4 · Ekspansi Besar (7,5×)</div><div class="val">7.500 desa</div><div class="sub">Pendapatan Y5 Rp 77,6 M · modal Rp 7,0 M</div></div>
+<div class="card good"><div class="lbl">Tier 5 · Ekspansi Maksimal (10×)</div><div class="val">10.000 desa</div><div class="sub">Pendapatan Y5 Rp 103,5 M · modal Rp 8,0 M</div></div>
+</div>
+<h2 class="section-title">P. Perbandingan Antar Tingkatan Skala (Tahun ke-5)</h2>
+<table>
+<tr><th>Indikator</th><th>Tier 1 (1×)</th><th>Tier 2 (2,5×)</th><th>Tier 3 (5×)</th><th>Tier 4 (7,5×)</th><th>Tier 5 (10×)</th></tr>
+<tr><td>Desa dikelola (Y5)</td><td>1.000</td><td>2.500</td><td>5.000</td><td>7.500</td><td>10.000</td></tr>
+<tr><td>Modal Awal (CAPEX + MW)</td><td>Rp 4,4 M</td><td>Rp 5,0 M</td><td>Rp 6,0 M</td><td>Rp 7,0 M</td><td>Rp 8,0 M</td></tr>
+<tr class="hl"><td>Pendapatan (Y5)</td><td>Rp 10,4 M</td><td>Rp 25,9 M</td><td>Rp 51,8 M</td><td>Rp 77,6 M</td><td>Rp 103,5 M</td></tr>
+<tr class="hl"><td>EBITDA (Y5)</td><td>Rp 7,3 M</td><td>Rp 20,9 M</td><td>Rp 43,6 M</td><td>Rp 66,4 M</td><td>Rp 89,3 M</td></tr>
+<tr class="hl"><td>EAT / Laba Bersih (Y5)</td><td>Rp 5,12 M</td><td>Rp 15,73 M</td><td>Rp 33,44 M</td><td>Rp 51,22 M</td><td>Rp 69,08 M</td></tr>
+<tr><td>NPV @ 15% (lantai stress-test)</td><td>Rp 1,3 M</td><td>Rp 13,3 M</td><td>Rp 33,7 M</td><td>Rp 54,0 M</td><td>Rp 74,3 M</td></tr>
+<tr><td>IRR / PI</td><td>~21% / 1,29</td><td>~55% / 3,67</td><td>~81% / 6,61</td><td>~96% / 8,71</td><td>~106% / 10,29</td></tr>
+<tr><td>Payback</td><td>4,0 thn</td><td>3,0 thn</td><td>2,4 thn</td><td>2,3 thn</td><td>2,2 thn</td></tr>
+</table>
+<div class="callout amber"><b>Bacaan:</b> karena Ampera <i>asset-light</i>, modal tumbuh sub-linear terhadap jumlah desa (platform core + overhead), sementara pendapatan &amp; EBITDA tumbuh proporsional — sehingga NPV absolut naik tajam di tier tinggi dengan IRR melonjak dari ~21% (1×) ke ~106% (10×). Seluruh angka memakai <b>lantai stress-test</b> sebagai floor; pada basis proyeksi 3-tier (Konservatif 46% / Base 54% / Upside 62%) seluruh metrik lebih tinggi lagi. <b>Peringatan kapasitas pasar:</b> Tier 5 (10.000 desa) mendekati seluruh pasar 3T (10.068 desa); realistis hanya bila sinergi program Lisdes nasional tercapai 2029.</div>
+</section>
+
+<!-- ================= RINGKASAN NILAI TRIPARTIT ================= -->
+<section>
+<div class="phase"><span class="phase-tag">RINGKASAN NILAI</span><div><h3>Pembagian Nilai Tripartit — Investor · PLN · Ampera (per desa / tahun)</h3><p>Basis <b>lantai stress-test</b> (konsisten TAHAP 4), blended mix 40/40/20. Menunjukkan pihak yang menerima nilai dari tiap desa — inti narasi <i>asset-light</i>: Ampera hanya mengambil margin tipis, mayoritas nilai mengalir ke investor (imbal hasil) &amp; PLN (hemat subsidi fiskal).</p></div></div>
+
+<div class="callout blue"><b>Total nilai tercipta ≈ Rp32,5–35 jt/desa/thn</b> (gross proyek energi, L719) = Investor + PLN + Ampera. Ampera <b>tidak</b> menyerap mayoritas — ia mengorkestrasi distribusi nilai secara transparan on-chain.</div>
+
+<table>
+<tr><th>Pihak</th><th>Nilai per desa / thn</th><th>@1.000 desa (Y5)</th><th>Basis &amp; Sumber</th></tr>
+<tr class="hl"><td><b>Investor</b> — imbal hasil</td><td>Rp 12,6–13,1 jt</td><td>~Rp 13,0 M</td><td>APY 23–25% × investasi Rp52,5 jt/desa (70% CAPEX Rp75 jt, L711–713); selaras Proposal L483–488 (Rp1.083/bln)</td></tr>
+<tr class="hl"><td><b>PLN</b> — hemat subsidi fiskal</td><td>Rp 11 jt (lantai) · Rp 14 jt (headline)</td><td>Rp 11,0 M</td><td>Diesel pool blended Rp25 jt/desa (L154); PLN 56% = Rp14 jt. Lantai konservatif Rp11 M @1.000 desa (L470)</td></tr>
+<tr><td><b>Ampera</b> — pendapatan</td><td>Rp 10,4 jt</td><td>Rp 10,4 M</td><td>Pendapatan/desa Rp10,35 jt (L156); TAHAP 4 Tier 1</td></tr>
+<tr class="sum"><td>Total Nilai Tercipta</td><td>~Rp 34 jt</td><td>~Rp 34 M</td><td>≈ Gross proyek Rp32,5–35 jt/desa (L719)</td></tr>
+</table>
+
+<div class="callout amber"><b>Bacaan:</b> Dari ~Rp34 jt nilai/desa, Ampera hanya mengambil <b>Rp10,4 jt pendapatan</b> (laba bersih EAT Rp5–7 jt/desa, lihat TAHAP 4 &amp; TAHAP 2 G L289) — sisanya mengalir ke investor (return energi hijau terverifikasi, APY 23–25%) &amp; PLN (penghematan fiskal subsidi diesel). Model <i>asset-light</i> mengembalikan mayoritas nilai ke masyarakat (investor ritel) &amp; negara (PLN), bukan mengeksploitasi desa.</div>
+</section>
+
+<!-- ================= TAHAP 5 ================= -->
+<section>
+<div class="phase"><span class="phase-tag">TAHAP 5</span><div><h3>Dampak Finansial Lapisan Likuiditas On-Chain (Jalan 2)</h3><p>Adopsi Uniswap v4 Hook sebagai infrastruktur likuiditas RWA — incremental kepada model inti; unit economics energi tetap</p></div></div>
+
+<div class="callout blue"><b>Prinsip.</b> Lapisan on-chain (lihat Proposal §09) <b>tidak mengubah unit economics energi</b> — CAPEX/desa Rp75 jt, produksi kWh, APY ~23–25%, dan 3-tier (46/54/62%) tetap berlaku. Ia menambah <b>biaya infrastruktur satu kali + OPEX kecil</b>, namun membuka <b>mesin pendapatan ke-5 (on-chain liquidity fee)</b> dan meningkatkan <b>kecepatan pendanaan &amp; efisiensi arus kas</b>. Angka di bawah adalah <b>addendum estimasi</b> yang perlu difinalisasi lewat re-run <code>ampera_final.py</code>.</div>
+
+<h2 class="section-title">A. Tambahan CAPEX (One-time, Y0)</h2>
+<table>
+<tr><th>Komponen</th><th>Estimasi</th><th>Keterangan</th></tr>
+<tr><td>Pengembangan Uniswap v4 Hook (OZ BaseCustomAccountingHook, in-house)</td><td>Rp 50 jt</td><td>Smart contract + test (Foundry) + deploy Base testnet</td></tr>
+<tr><td>Deploy gas (Base L2 mainnet)</td><td>Rp 0</td><td>&lt;Rp50 rb (gas L2 ~&lt;$1); praktis gratis</td></tr>
+<tr><td>Security audit (AI-assisted + boutique, ERC-6909 standar)</td><td>Rp 30 jt</td><td>$1,5K floor (RedVolt) s.d. Rp150 jt boutique; RWA permissioned naik</td></tr>
+<tr><td>Oracle/attestation (multisig manual / Chronicle ringan)</td><td>Rp 5 jt</td><td>Attestasi off-chain→on-chain (Mode B jujur)</td></tr>
+<tr><td>Compliance hook + KYC/allowlist + sandbox OJK agent AI</td><td>Rp 5 jt</td><td>Gating jurisdiksi &amp; regulasi</td></tr>
+<tr class="sum"><td>Total Tambahan CAPEX (pilot)</td><td>Rp 90 jt</td><td>Investasi awal jadi ~Rp 4,49 M (dari Rp 4,4 M). Regulated mainnet + legal ECF: +Rp50–150 jt → Rp140–240 jt</td></tr>
+</table>
+
+<h2 class="section-title">B. Tambahan OPEX (Recurring)</h2>
+<table>
+<tr><th>Komponen</th><th>Per Tahun</th><th>Keterangan</th></tr>
+<tr><td>Node/validator &amp; oracle feed (Chronicle)</td><td>Rp 100 jt</td><td>Uptime &amp; data attestation</td></tr>
+<tr><td>Agent inference (TEE) + AVS restaking</td><td>Rp 50 jt</td><td>Compute harga &amp; validasi</td></tr>
+<tr class="sum"><td>Total Tambahan OPEX</td><td>Rp 150 jt/thn</td><td>Marginal vs biaya inti (Y5 Rp3,81 M)</td></tr>
+</table>
+
+<h2 class="section-title">C. Fasilitas Likuiditas Inklusif (Jembatan On-Chain)</h2>
+<table>
+<tr><th>Sumber</th><th>Modeling Basis</th><th>Dampak ke Ampera</th></tr>
+<tr><td>Protocol fee dari Internal Swap Pool</td><td>0,5–1% dari volume on-chain yang di-route ke investor</td><td><b>Kover biaya operasional</b> (node/agent/audit) — bukan ambil untung</td></tr>
+<tr><td>Yield routing ke stablecoin (IDRX/USDC)</td><td>Efisiensi arus kas; kurangi friction FX</td><td>Efisiensi, bukan margin</td></tr>
+<tr><td>Premium trust / akses investor global</td><td>RWA-LP institusi (Ondo/Securitize-style) via Tao/CoW</td><td>Percepat funding inklusif → scale lebih agresif</td></tr>
+</table>
+<div class="callout blue"><b>Prinsip.</b> Lapisan on-chain bukan <i>mesin pendapatan ke-5</i> yang mengeksploitasi investor — ia adalah <b>fasilitas jembatan inklusif</b>: menghubungkan investor lokal &amp; global ke kepemilikan fraksional energi desa dengan biaya serendah mungkin. Fee #5 (<0,5–1%) hanya menutupi OPEX (node, oracle, agent, audit); selisihnya diserap sebagai cost. Nilai riil ada pada <b>akselerasi pendanaan &amp; akses inklusif</b>, bukan ekstraksi profit.</div>
+<div class="callout green"><b>Net effect (ilustratif, Base Case 54%):</b> Tambahan CAPEX +Rp90 jt (pilot) &amp; OPEX +Rp150 jt/thn dijalankan sebagai fasilitas inklusif (bukan mesin cari untung); dampaknya di-offset oleh akselerasi pendanaan. Pada asumsi konservatif (fee 0,5% × volume terbatas), IRR tetap <b>~50%+</b> (vs 54% baseline) — masih jauh di atas hurdle 15%. Skenario optimis (volume on-chain tinggi + RWA-LP institusi) justru menaikkan IRR ke arah Upside 62%. (Catatan: bila ke mainnet regulated penuh, CAPEX naik ke Rp140–240 jt — tetap marginal vs NPV_base Rp11 M.)</div>
+
+<h2 class="section-title">D. Dampak ke Yield Investor (Bid-Wall &amp; Efisiensi)</h2>
+<table>
+<tr><th>Faktor</th><th>Dampak</th></tr>
+<tr><td>Bid wall (single-tick floor)</td><td>Alokasi ~3–5% pool → jaga floor price; drag APY ~1–1,5 ppt</td></tr>
+<tr><td>Exit instan vs antre 1 thn (RWA konvensional)</td><td>Capital velocity naik → efektif tingkatkan preferensi investor</td></tr>
+<tr><td>AI pricing (Mode B) tanpa oracle</td><td>Harga wajar realised, hindari diskon 26% ala FIDU</td></tr>
+<tr class="sum"><td>APY investor net</td><td>~22–24% (dari ~23–25%) — tetap kompetitif</td></tr>
+</table>
+
+<h2 class="section-title">E. Sensitivitas &amp; Risiko</h2>
+<table>
+<tr><th>Skenario</th><th>NPV@15% (est.)</th><th>Keputusan</th></tr>
+<tr><td>Baseline (tanpa on-chain)</td><td>Rp 11,00 M</td><td><span class="badge-green">Layak</span></td></tr>
+<tr><td>+CAPEX/OPEX, tanpa fee baru</td><td>~Rp 10,5 M</td><td><span class="badge-green">Layak</span></td></tr>
+<tr><td>+CAPEX/OPEX + mesin #5 aktif (fee 0,75%×30% vol)</td><td>~Rp 10,5 M</td><td><span class="badge-green">Layak</span></td></tr>
+<tr><td>+ mesin #5 + akselerasi pendanaan (ramp naik)</td><td>Rp 11–13 M</td><td><span class="badge-green">Layak</span></td></tr>
+</table>
+<div class="callout red"><b>Risiko teknis (mitigasi di Proposal §15 R16–R18):</b> kerentanan smart-contract → audit + formal verification; oracle/attestasi off-chain → triangulasi AI Tetrix + TEE + Chronicle; MEV/manipulasi → routing intent (Tao/CoW) + bid wall + dynamic fee. Regulasi: token di DEX = ranah Bappebti, melengkapi jalur OJK.</div>
+<div class="callout amber"><b>Rekomendasi.</b> Angka di atas <b>terkunci via <code>ampera_final.py</code></b> (re-run deterministik: 3-tier + lantai MATCH laporan; engine #5 CAPEX Rp90 jt / OPEX Rp150 jt/thn + revenue fee 0,75%×30% vol). Baseline 11,00 M → +biaya 10,47 M (IRR ~51%) → +fee #5 10,52 M; akselerasi pendanaan (ramp naik) dorong ke arah 11–13 M. Semua tier tetap layak (&gt;&gt; hurdle 15%).</div>
+</section>
+
+<!-- ================= LAMPIRAN ================= -->
+<section>
+<div class="phase"><span class="phase-tag">LAMPIRAN</span><div><h3>Dasar Riset Eksternal</h3><p>Data terverifikasi — pemerintah, PLN, OJK, prospektus pesaing, literatur akademik</p></div></div>
+<div class="research-grid">
+<div class="rbox">
+  <h4>Jurang Energi 3T &amp; Beban PLN <span class="r-tag">Dirjen Gatrik · RDP DPR 30 Jun 2025</span></h4>
+  <div class="tldr">10.068 lokasi belum berlistriki · 1,29 jt rumah tangga · butuh Rp50,01 T s.d. 2029 · 55% di Maluku-Papua-NTT. BPP PLTD Rp4.791/kWh; timur USD0,70/kWh; rugi Rp135 rb/bln/RT 3T.</div>
+  <div class="digest"><span class='chip'><b>10.068</b> · desa gelap</span><span class='chip'><b>Rp50,01 T</b> · investasi</span><span class='chip'><b>Rp4.791</b> · BPP PLTD/kWh</span></div>
+  <div class="scroll"><div class="md-h2">DATA POIN</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>Rasio elektrifikasi</b></td><td>99,83% (akhir 2024) <span class='unit'>%</span> <span class='src'>Dirjen Gatrik</span></td></tr>
+  <tr><td><b>Lokasi belum berlistriki</b></td><td>10.068 <span class='unit'>lokasi</span> <span class='src'>RDP Komisi XII DPR · 2025</span></td></tr>
+  <tr><td><b>Rumah tangga</b></td><td>1.287.164 <span class='unit'>RT</span> <span class='src'>Dirjen Gatrik</span></td></tr>
+  <tr><td><b>Investasi dibutuhkan</b></td><td>Rp50,01 T <span class='unit'>IDR</span> <span class='src'>s.d. 2029</span></td></tr>
+  <tr><td><b>Konsentrasi</b></td><td>55% Maluku-Papua-NTT <span class='unit'>%</span> <span class='src'>Paparan resmi</span></td></tr>
+  <tr><td><b>BPP PLTD timur</b></td><td>USD 0,70/kWh (~Rp12.600) <span class='unit'>USD/kWh</span> <span class='src'>Logistik BBM</span></td></tr>
+  <tr><td><b>Rugi per RT 3T (3A)</b></td><td>Rp135.000/bln <span class='unit'>IDR</span> <span class='src'>BPP Rp3.800 vs tarif Rp426</span></td></tr>
+  <tr><td><b>Ekstensi jaringan</b></td><td>Rp15–26 jt/koneksi <span class='unit'>IDR</span> <span class='src'>VS off-grid Rp9–24 jt</span></td></tr>
+  </tbody></table></div>
+</div>
+
+<div class="rbox">
+  <h4>Ekonomi Energi Desa <span class="r-tag">Literatur Akademik · IRENA · IBEKA</span></h4>
+  <div class="tldr">Tiga vektor multi-energi (skema tiered presisi): Surya (APY <b>24,8%</b>), Piko-hidro (<b>23,0%</b>, 24/7), Biomassa (<b>23,8%</b>). Selisih ≤1,8% → pukul rata ~23–25%. CAPEX prototipe piko-hidro Rp2–5 jt — masuk batas Rp7 jt PLN ICE.</div>
+  <div class="digest"><span class='chip'><b>Rp75 jt</b> · CAPEX/desa 5kW</span><span class='chip'><b>23–25%</b> · APY investor</span><span class='chip'><b>~4 thn</b> · payback</span></div>
+  <div class="scroll"><div class="md-h2">PROFIL 3 VEKTOR</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>Surya (PLTS)</b></td><td>Rp14–18 jt/kWp on; Rp16–30 jt off <span class='unit'>IDR/kWp</span> <span class='src'>97–128 kWh/bln, 1,08 tCO₂e · APY 24,8%</span></td></tr>
+  <tr><td><b>Piko-hidro</b></td><td>Rp2–5 jt/kW <span class='unit'>IDR/kW</span> <span class='src'>200–400 kWh/bln, CF 25–50% · APY 23,0%</span></td></tr>
+  <tr><td><b>Biomassa</b></td><td>Rp9–90 jt/kW <span class='unit'>IDR/kW</span> <span class='src'>APY 23,8%, 2,59 tCO₂e</span></td></tr>
+  <tr><td><b>LCOE surya off-grid</b></td><td>Rp1.200–1.800/kWh <span class='unit'>IDR</span> <span class='src'>vs BPP PLTD Rp4.791</span></td></tr>
+  <tr><td><b>LCOE piko-hidro</b></td><td>Rp800–1.400/kWh <span class='unit'>IDR</span> <span class='src'>paling kompetitif</span></td></tr>
+  <tr><td><b>Referensi</b></td><td>IBEKA Cinta Mekar 120kW; ITB Sumpur Kudus 1kW <span class='src'>Proven teknis</span></td></tr>
+  </tbody></table>
+  <div class="md-h3">Worked Example — PLTS 5 kWp</div>
+  <ul class='md-ul'>
+    <li>CAPEX Rp75 jt · yield 500 kWh/bln</li>
+    <li>Pendapatan energi: 500 × Rp1.200 = Rp600 rb/bln</li>
+    <li>Hemat diesel: 500 × (Rp4.791−Rp1.200) = <b>Rp1.795 rb/bln</b> (≈Rp1,80 jt/bln)</li>
+    <li>Karbon ~5,4 tCO₂e/yr → ~USD32 → Rp520 rb/yr</li>
+    <li>APY investor <b>~24,8%</b> (share tiered 50/35/15); payback ~4 thn (piko ~4 thn)</li>
+  </ul></div>
+</div>
+
+<div class="rbox">
+  <h4>Karbon &amp; Regulasi <span class="r-tag">IDXCarbon · ICVCM · OJK</span></h4>
+  <div class="tldr">Karbon = margin tambahan, bukan core. Harga voluntary USD6,34/tCO₂e; IDXCarbon Rp32.612. AMS-I.L (≤15MW). OJK: POJK 3/2024 (sandbox), 27/2024 jo 23/2025 (AKD Rp100jt), 17/2025 (ECF Rp10jt).</div>
+  <div class="digest"><span class='chip'><b>USD 6,34</b> · karbon voluntary</span><span class='chip'><b>Rp32.612</b> · IDXCarbon</span><span class='chip'><b>POJK 17/2025</b> · ECF</span></div>
+  <div class="scroll"><div class="md-h2">POIN KRITIS</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>POJK 11/2022</b></td><td>TIDAK RELEVAN <span class='unit'>perbankan</span> <span class='src'>Koreksi riset awal</span></td></tr>
+  <tr><td><b>POJK 3/2024</b></td><td>Sandbox ITSK <span class='unit'>fintech</span> <span class='src'>energi belum masuk</span></td></tr>
+  <tr><td><b>POJK 27/2024 jo 23/2025</b></td><td>AKD <span class='unit'>modal Rp100 jt</span> <span class='src'>tokenisasi</span></td></tr>
+  <tr><td><b>POJK 17/2025</b></td><td>ECF <span class='unit'>batas Rp10 jt</span> <span class='src'>equity crowdfunding</span></td></tr>
+  <tr><td><b>Perpres 110/2025</b></td><td>Dual registry karbon <span class='unit'>eff 10 Okt 2025</span> <span class='src'>SRN PPI + SRUK</span></td></tr>
+  <tr><td><b>AMS-I.L CCP</b></td><td>BELUM dapat label CCP (Nov 2025) <span class='src'>ICVCM</span></td></tr>
+  </tbody></table>
+  <div class="md-h3">Pendapatan karbon/kW/tahun (USD 6)</div>
+  <ul class='md-ul'>
+    <li>Surya ~USD 6,85 · Piko-hidro ~USD 22,76 · Biomassa ~USD 15,5</li>
+  </ul></div>
+</div>
+
+<div class="rbox">
+  <h4>Pesaing &amp; Benchmark <span class="r-tag">Domestik &amp; Global</span></h4>
+  <div class="tldr">Ampera mengisi kuadran kosong: multi-energi agnostik + crowd-equity + kemitraan PLN. Pesaing fokus kota (Xurya) atau NGO (IBEKA) tanpa skalabilitas finansial.</div>
+  <div class="digest"><span class='chip'><b>Xurya</b> · &gt;100 MWp</span><span class='chip'><b>M-KOPA</b> · USD416 jt rev</span><span class='chip'><b>LandX</b> · RWA umum</span></div>
+  <div class="scroll"><div class="md-h2">PROFIL</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>Xurya</b></td><td>Solar C&amp;I kota <span class='unit'>&gt;100 MWp, USD88 jt</span> <span class='src'>tak sentuh 3T</span></td></tr>
+  <tr><td><b>Sumba Sustainable</b></td><td>Mikrogrid <span class='unit'>~3.500 RT</span> <span class='src'>tanpa crowd-equity</span></td></tr>
+  <tr><td><b>IBEKA / Mpower</b></td><td>Mikrohidro NGO <span class='unit'>lokal</span> <span class='src'>tak skalabel finansial</span></td></tr>
+  <tr><td><b>LandX</b></td><td>Tokenisasi RWA <span class='unit'>multi-sektor</span> <span class='src'>bukan fokus energi desa</span></td></tr>
+  <tr><td><b>M-KOPA</b></td><td>10 jt+ pelanggan <span class='unit'>USD416 jt rev FY24</span> <span class='src'>+22% annualized</span></td></tr>
+  <tr><td><b>d.light</b></td><td>150 jt+ nyawa <span class='unit'>SHS</span> <span class='src'>dampak sosial masif</span></td></tr>
+  </tbody></table>
+  <div class="md-h3">TAM / SAM / SOM</div>
+  <ul class='md-ul'>
+    <li><b>TAM</b> Rp50,01 T (investasi EBT desa 3T)</li>
+    <li><b>SAM</b> ~Rp15–20 T (crowd-equity multi-energi)</li>
+    <li><b>SOM</b> Rp1,5–15 T (100–1.000 desa / 3 thn)</li>
+  </ul></div>
+</div>
+
+<div class="rbox">
+  <h4>AI Tetrix &amp; Unit Economics <span class="r-tag">Remote Sensing · Edge · On-chain</span></h4>
+  <div class="tldr">Moat: site-selection ribuan desa dengan biaya ~nol via Sentinel-2 + YOLOv8 + NASA POWER + SRTM. Edge: Raspberry Pi + ESP32. CAC/LTV investor &gt; 3×.</div>
+  <div class="digest"><span class='chip'><b>F1 87–93%</b> · Sentinel</span><span class='chip'><b>mAP50 93,6%</b> · YOLOv8</span><span class='chip'><b>&gt;3×</b> · LTV/CAC</span></div>
+  <div class="scroll"><div class="md-h2">KOMPONEN</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>Sentinel-2</b></td><td>ESA gratis <span class='unit'>10 m, 5 hari</span> <span class='src'>F1 87–93%</span></td></tr>
+  <tr><td><b>YOLOv8</b></td><td>CV open-source <span class='unit'>mAP50 93,6%</span> <span class='src'>segmentasi</span></td></tr>
+  <tr><td><b>NASA POWER</b></td><td>API gratis <span class='unit'>GHI/DNI</span> <span class='src'>yield surya</span></td></tr>
+  <tr><td><b>SRTM</b></td><td>DEM 30 m <span class='unit'>topografi</span> <span class='src'>potensi hidro</span></td></tr>
+  <tr><td><b>Raspberry Pi</b></td><td>Rp1,2–3,7 jt <span class='unit'>edge gateway</span> <span class='src'>MQTT</span></td></tr>
+  <tr><td><b>ESP32</b></td><td>Rp50–150 rb <span class='unit'>MCU sensor</span> <span class='src'>metering real-time</span></td></tr>
+  </tbody></table>
+  <div class="md-h3">Unit Economics (skala 100 desa, basis presisi)</div>
+  <ul class='md-ul'>
+    <li>Biaya operasional ~Rp 0,97 M/tahun (var Rp0,12 M + fixed Rp0,85 M)</li>
+    <li>Pendapatan ~Rp 1,04 M/tahun (band riset Rp0,86–1,75 M)</li>
+    <li>Break-even ~147 desa (margin kontribusi Rp9,2 jt/desa)</li>
+    <li>CAC Rp20–50 rb/investor; LTV Rp150–500 rb</li>
+  </ul></div>
+</div>
+
+<div class="rbox">
+  <h4>Program Pemerintah &amp; PLN <span class="r-tag">RUPTL · Lisdes · Indonesia Terang</span></h4>
+  <div class="tldr">Sinergi kebijakan mempercepat adopsi: Lisdes 2025–2029, 100 GW Solar Prabowo (80.000 desa), RUPTL 42,6 GW EBT, Indonesia Terang 12.659 desa.</div>
+  <div class="digest"><span class='chip'><b>Rp10,3 T</b> · Lisdes 2026</span><span class='chip'><b>42,6 GW</b> · RUPTL EBT</span><span class='chip'><b>USD71,3 M</b> · 100GW Solar</span></div>
+  <div class="scroll"><div class="md-h2">INSTRUMEN</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>Lisdes 2025–2029</b></td><td>Rp10,3 T tahap 2026 <span class='unit'>2.792 desa</span> <span class='src'>dari 10.068</span></td></tr>
+  <tr><td><b>100 GW Solar Prabowo</b></td><td>80.000 desa <span class='unit'>USD71,3 M</span> <span class='src'>sinergi pasokan</span></td></tr>
+  <tr><td><b>RUPTL 2025–2034</b></td><td>42,6 GW EBT + 10,3 GW storage <span class='src'>PLN</span></td></tr>
+  <tr><td><b>Indonesia Terang</b></td><td>12.659 desa <span class='unit'>Rp90–100 T</span> <span class='src'>desa terang</span></td></tr>
+  <tr><td><b>Permen ESDM 19/2025</b></td><td>PLTH ganti PLTD <span class='src'>dukung EBT desa</span></td></tr>
+  </tbody></table></div>
+</div>
+
+<div class="rbox">
+  <h4>Struktur Biaya &amp; Revenue Pilot (100 Desa) <span class="r-tag">Modul 8 · Deep Research</span></h4>
+  <div class="tldr">Total biaya operasional pilot 100 desa <b>Rp14,2 M/tahun</b>; total revenue <b>Rp0,86–1,75 M/tahun</b> (Rp8,6–17,5 jt/desa). Economies of scale turun 20–30% di skala 300+ desa.</div>
+  <div class="scroll"><div class="md-h2">COST STRUCTURE (Rp juta/tahun)</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>Teknologi &amp; Infrastruktur</b></td><td>1.836 <span class='unit'>AI compute + cloud + platform</span></td></tr>
+  <tr><td><b>SDM &amp; Gaji (25 org +30% BPJS)</b></td><td>6.318 <span class='unit'>tech 10 + ops 8 + bisnis 7</span></td></tr>
+  <tr><td><b>Compliance &amp; Regulasi OJK</b></td><td>350 <span class='unit'>lisensi + legal/audit</span></td></tr>
+  <tr><td><b>Marketing &amp; CAC</b></td><td>4.900 <span class='unit'>akuisisi + branding</span></td></tr>
+  <tr><td><b>General &amp; Administrative</b></td><td>800 <span class='unit'>kantor + survey</span></td></tr>
+  <tr><td><b>TOTAL COST</b></td><td>14.204 <span class='unit'>Rp juta/tahun</span></td></tr>
+  </tbody></table>
+  <div class="md-h2">REVENUE MULTI-STREAM (Rp juta/tahun)</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>Management Fee (1–2% AUM)</b></td><td>50–100 <span class='src'>AUM Rp30–100 jt/desa</span></td></tr>
+  <tr><td><b>Carbon Credit Fee (10–20%)</b></td><td>250–500 <span class='src'>50 tCO₂e/desa @ Rp50 rb</span></td></tr>
+  <tr><td><b>Transaction Fee (2–5%)</b></td><td>60–150 <span class='src'>tagihan listrik digital</span></td></tr>
+  <tr><td><b>CSR Platform Fee (5–10%)</b></td><td>500–1.000 <span class='src'>dana CSR korporasi</span></td></tr>
+  <tr><td><b>TOTAL REVENUE</b></td><td>860–1.750 <span class='unit'>per 100 desa</span></td></tr>
+  </tbody></table>
+  <div class="md-h3">Per desa (rata-rata)</div>
+  <ul class='md-ul'>
+    <li>Management Rp0,5–1 jt · Carbon Rp2,5–5 jt · Transaksi Rp0,6–1,5 jt · CSR Rp5–10 jt</li>
+    <li><b>Total Rp8,6–17,5 jt/desa/tahun</b></li>
+  </ul></div>
+</div>
+
+<div class="rbox">
+  <h4>Return Investor &amp; Manfaat Ekonomi PLN <span class="r-tag">Modul 8 · Deep Research</span></h4>
+  <div class="tldr">Investor ritel APY <b>23–25%</b> per vektor (tiered presisi: Surya 24,8% · Piko 23,0% · Biomassa 23,8%). PLN: penghematan fiskal masif per 100 desa. Karbon = margin tambahan, bukan core.</div>
+  <div class="scroll"><div class="md-h2">INVESTOR RETURN (skema tiered, CAPEX 70%)</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>Surya</b></td><td>APY <b>24,8%</b> <span class='unit'>share 50/35/15 · +214% (5 thn)</span> <span class='src'>diesel pool Rp1,795 jt/bln</span></td></tr>
+  <tr><td><b>Piko-hidro</b></td><td>APY <b>23,0%</b> <span class='unit'>share 65/12/23 · +171% (5 thn)</span> <span class='src'>diesel pool Rp2,514 jt/bln</span></td></tr>
+  <tr><td><b>Biomassa</b></td><td>APY <b>23,8%</b> <span class='unit'>share 50/30/20 · +186% (5 thn)</span> <span class='src'>diesel pool Rp1,795 jt/bln</span></td></tr>
+  </tbody></table>
+  <div class="md-h2">UNIT ECONOMICS PER TEKNOLOGI (5 kWp, CAPEX Rp75 jt)</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>Surya</b></td><td>CAPEX Rp75 jt <span class='unit'>yield 500 kWh/bln · inv Rp52,5 jt</span> <span class='src'>APY 24,8% · 4 thn payback</span></td></tr>
+  <tr><td><b>Piko-hidro</b></td><td>CAPEX Rp75 jt <span class='unit'>yield 300 kWh/bln · inv Rp52,5 jt</span> <span class='src'>APY 23,0% · 4 thn payback</span></td></tr>
+  <tr><td><b>Biomassa</b></td><td>CAPEX Rp75 jt <span class='unit'>yield 600 kWh/bln · inv Rp52,5 jt</span> <span class='src'>APY 23,8% · 4 thn payback</span></td></tr>
+  </tbody></table>
+  <div class="md-h2">MANFAAT EKONOMI PLN (per 100 desa, basis presisi)</div>
+  <table class="md-tbl"><tbody>
+  <tr><td><b>CAPEX dihemat (vs grid ext)</b></td><td>Rp0–85 M <span class='unit'>5.000 rumah</span> <span class='src'>ADB 2024</span></td></tr>
+  <tr><td><b>Kerugian PLN dihindari</b></td><td>Rp8,1 M/tahun <span class='unit'>5.000 RT</span> <span class='src'>Rp135 rb/RT/bln</span></td></tr>
+  <tr><td><b>Revenue baru PLN</b></td><td>Rp32,5–35 jt/desa/tahun <span class='src'>tarif + karbon + data</span></td></tr>
+  <tr><td><b>Diesel pool dialihkan</b></td><td><b>Rp158 jt/bln (~Rp1,90 M/thn)</b> <span class='src'>100 desa · blended 440 kWh/bln</span></td></tr>
+  <tr><td><b>Bagi PLN (56% blend)</b></td><td><b>~Rp1,06 M/thn</b> <span class='src'>net PLN per 100 desa</span></td></tr>
+  </tbody></table></div>
+</div>
+
+</div>
+<div class="footnote">Laporan Keuangan Komprehensif Ampera — PLN ICE 2026 · Disusun 13 Agustus 2026 · Rebrand dari Aether Solar. Seluruh angka berbasis riset dan akan difinalisasi pada fase prototipe. Model asset-light: CAPEX pembangkit desa (Rp75 jt/desa) dibiayai crowd-equity investor, bukan beban Ampera.</div>
+</section>
+
+</div>
+</body>
+</html>
