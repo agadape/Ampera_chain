@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <img src="public/logo.png" alt="Ampera Logo" width="120" />
+  <h1>Ampera — Jembatan Energi untuk Nusantara</h1>
+  <p><b>Platform <i>Crowd-Equity</i> & Tokenisasi Aset Dunia Nyata (RWA) untuk Elektrifikasi 10.068 Desa 3T Indonesia.</b></p>
+</div>
 
-## Getting Started
+<br />
 
-First, run the development server:
+## 🌟 Visi Kami
+**Ampera** adalah sebuah inovasi radikal untuk menyelesaikan masalah kelistrikan di daerah Tertinggal, Terdepan, dan Terluar (3T) di Indonesia. Kami memadukan kecerdasan buatan (AI), teknologi *blockchain* (RWA), dan energi bersih (Piko-Hidro, Surya, Biomassa) ke dalam satu platform *crowd-equity* yang transparan, mudah diakses, dan menguntungkan.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Setiap **1 kWh** energi bersih yang dihasilkan menjadi dividen langsung bagi investor mikro (warga lokal) maupun institusi, sekaligus meringankan beban subsidi diesel (PLTD) dari PLN.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Fitur Utama
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🌍 **Nusantara 3D Globe (Interactive Audit)**
+Pemetaan interaktif berbasis **Three.js** untuk melihat data real-time potensi desa 3T di seluruh Indonesia. Pengguna dapat merotasi globe secara bebas, menyeleksi desa, dan melihat detail audit kapasitas energi, prediksi *Return on Investment* (ROI), serta status integrasi (PLN LISDES).
 
-## Learn More
+### 🛣️ **Scrollytelling 3D Pipeline**
+Perjalanan visual *Apple-style scrollytelling* yang mulus dan memukau. Sistem WebGL 60-FPS yang dioptimalkan dengan cermat ini akan memandu audiens melintasi 7 Stasiun Alur Kerja Ampera, mulai dari Analisis Data Satelit (AI Tetrix) hingga distribusi aliran dana (DeFi DEX).
 
-To learn more about Next.js, take a look at the following resources:
+### 🏛️ **Tiga Pilar Solusi Utama**
+1. **Pilar 01: Ampera Flex** — Solusi energi bersih agnostik 24/7 (Piko-Hidro, Surya PV+BESS, Biomassa) yang disesuaikan secara otomatis oleh AI berdasarkan kondisi geografis desa.
+2. **Pilar 02: Integrasi PLN** — Off-taker terintegrasi yang mampu mengeliminasi kerugian subsidi diesel hingga Rp 135.000 per rumah tangga setiap bulan.
+3. **Pilar 03: RWA & DeFi** — Tokenisasi hak bagi hasil menggunakan standar ERC-6909 dan dilindungi oleh *Bid Wall Hook* pada Uniswap v4.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Tech Stack
 
-## Deploy on Vercel
+Platform inovatif ini dibangun di atas infrastruktur web modern dengan fokus pada performa *rendering* dan imersi visual kelas tinggi:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework**: Next.js 15 (App Router) + React 19
+- **3D Graphics**: Vanilla Three.js (WebGL) dengan *Custom Shaders & Catmull-Rom Splines*
+- **Styling & UI**: Tailwind CSS v4, Framer Motion
+- **Language**: TypeScript
+- **Optimization**: Intersection Observer API (Smart GPU pausing), Native Scrollbar hiding
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🚀 Getting Started
+
+Ikuti langkah-langkah di bawah untuk menjalankan Ampera di lingkungan pengembangan (local environment):
+
+1. **Clone repository ini**
+   ```bash
+   git clone https://github.com/agadape/Ampera_chain.git
+   cd Ampera_chain
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # atau yarn install / pnpm install
+   ```
+
+3. **Jalankan Development Server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Buka di Browser**
+   Buka [http://localhost:3000](http://localhost:3000) untuk melihat platform.
+
+---
+
+<div align="center">
+  <b>Mari Menyalakan Terang untuk Nusantara.</b><br/>
+  PLN Innovation & Clean Energy (ICE) 2026
+</div>
