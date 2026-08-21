@@ -236,6 +236,7 @@ export default function ThreePipelineRoadway() {
     // 5. Procedural Stations & Environment
     const stationObjects: THREE.Group[] = [];
     const environmentGroup = new THREE.Group();
+    const updatableRotors: THREE.Group[] = [];
 
     // Helper: Create a low-poly tree
     const createTree = (x: number, y: number, z: number, scale: number) => {
@@ -256,6 +257,70 @@ export default function ThreePipelineRoadway() {
       return tree;
     };
 
+    // Helper: Create a wind turbine
+    const createWindTurbine = (x: number, y: number, z: number, scale: number) => {
+      const group = new THREE.Group();
+      // Mast
+      const mast = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.5, 1, 15, 12),
+        new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.2 })
+      );
+      mast.position.y = 7.5;
+      // Nacelle
+      const nacelle = new THREE.Mesh(
+        new THREE.BoxGeometry(1.5, 1.5, 3),
+        new THREE.MeshStandardMaterial({ color: 0xffffff })
+      );
+      nacelle.position.set(0, 15, 0);
+      
+      // Rotor & Blades
+      const rotor = new THREE.Group();
+      rotor.position.set(0, 15, 1.6);
+      const bladeMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
+      for(let i = 0; i < 3; i++) {
+        const blade = new THREE.Mesh(new THREE.BoxGeometry(0.2, 7, 0.4), bladeMat);
+        blade.position.y = 3.5;
+        const pivot = new THREE.Group();
+        pivot.rotation.z = (i * Math.PI * 2) / 3;
+        pivot.add(blade);
+        rotor.add(pivot);
+      }
+      
+      group.add(mast, nacelle, rotor);
+      group.position.set(x, y, z);
+      group.scale.set(scale, scale, scale);
+      group.rotation.y = Math.random() * Math.PI; // random facing direction
+      
+      environmentGroup.add(group);
+      updatableRotors.push(rotor);
+    };
+
+    // Helper: Create a small nuclear reactor (cooling tower)
+    const createNuclearReactor = (x: number, y: number, z: number, scale: number) => {
+      const group = new THREE.Group();
+      const concMat = new THREE.MeshStandardMaterial({ color: 0x999999, roughness: 0.8 });
+      // Cooling Tower Bottom
+      const bottom = new THREE.Mesh(new THREE.CylinderGeometry(3, 4, 4, 16), concMat);
+      bottom.position.y = 2;
+      // Cooling Tower Top
+      const top = new THREE.Mesh(new THREE.CylinderGeometry(3.5, 3, 3, 16), concMat);
+      top.position.y = 5.5;
+      
+      // Dome
+      const dome = new THREE.Mesh(new THREE.SphereGeometry(2.5, 16, 16, 0, Math.PI*2, 0, Math.PI/2), concMat);
+      dome.position.set(5, 1.5, 0);
+      
+      const base = new THREE.Mesh(new THREE.BoxGeometry(7, 1.5, 5), concMat);
+      base.position.set(5, 0.75, 0);
+
+      group.add(bottom, top, dome, base);
+      group.position.set(x, y, z);
+      group.scale.set(scale, scale, scale);
+      group.rotation.y = Math.PI / 4;
+      
+      environmentGroup.add(group);
+    };
+
     // Sprinkle random trees along the road
     for (let i = 0; i < 60; i++) {
       const t = i / 60;
@@ -264,6 +329,17 @@ export default function ThreePipelineRoadway() {
       const randomScale = 0.8 + Math.random() * 0.8;
       environmentGroup.add(createTree(pos.x + sideOffset, pos.y - 4, pos.z + (Math.random() - 0.5) * 10, randomScale));
     }
+
+    // Easter Eggs Placements!
+    const windPos1 = roadCurve.getPointAt(0.15);
+    createWindTurbine(windPos1.x - 20, windPos1.y - 4, windPos1.z + 5, 1.2);
+    
+    const windPos2 = roadCurve.getPointAt(0.28);
+    createWindTurbine(windPos2.x + 25, windPos2.y - 4, windPos2.z - 10, 1.0);
+
+    const nukePos = roadCurve.getPointAt(0.75);
+    createNuclearReactor(nukePos.x - 30, nukePos.y - 4, nukePos.z - 15, 1.5);
+
     scene.add(environmentGroup);
 
     STATIONS.forEach((st, idx) => {
@@ -442,6 +518,11 @@ export default function ThreePipelineRoadway() {
 
       // Slowly rotate atmosphere
       particlesMesh.rotation.y = elapsed * 0.02;
+
+      // Rotate Easter Egg Turbines
+      updatableRotors.forEach(rotor => {
+        rotor.rotation.z = elapsed * 1.5;
+      });
 
       renderer.render(scene, camera);
     };
