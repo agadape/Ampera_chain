@@ -460,34 +460,45 @@ export default function ThreePipelineRoadway() {
       stationObjects.push(stationGroup);
     });
 
-    // 6. Traveling Energy Capsule (Driven by scroll) -> Changed to High-Tech Energy Core
+    // 6. PLN Electric Truck (Traveler)
     const capsuleMesh = new THREE.Group();
     
-    // Core
-    const coreGeo = new THREE.OctahedronGeometry(1.5, 0);
-    const coreMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
-    const core = new THREE.Mesh(coreGeo, coreMat);
-    capsuleMesh.add(core);
+    // Truck Body (Base)
+    const bodyGeo = new THREE.BoxGeometry(2.5, 1, 5);
+    const bodyMat = new THREE.MeshStandardMaterial({ color: 0xeeeeee }); // White body
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.position.y = 0.5;
+    capsuleMesh.add(body);
 
-    // Outer Wireframe Shell
-    const shellGeo = new THREE.IcosahedronGeometry(2.5, 1);
-    const shellMat = new THREE.MeshBasicMaterial({ color: 0x00804c, wireframe: true, transparent: true, opacity: 0.6 });
-    const shell = new THREE.Mesh(shellGeo, shellMat);
-    capsuleMesh.add(shell);
+    // Truck Cabin
+    const cabinGeo = new THREE.BoxGeometry(2.3, 1.2, 2);
+    const cabinMat = new THREE.MeshStandardMaterial({ color: 0x00a2e9 }); // PLN Blue/Cyan
+    const cabin = new THREE.Mesh(cabinGeo, cabinMat);
+    cabin.position.set(0, 1.6, 1);
+    capsuleMesh.add(cabin);
 
-    // Spinning Ring 1
-    const ring1Geo = new THREE.TorusGeometry(3.5, 0.1, 16, 32);
-    const ring1Mat = new THREE.MeshBasicMaterial({ color: 0xc6ff33, transparent: true, opacity: 0.8 });
-    const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
-    ring1.rotation.x = Math.PI / 2;
-    capsuleMesh.add(ring1);
+    // Wheels
+    const wheelGeo = new THREE.CylinderGeometry(0.6, 0.6, 0.4, 16);
+    const wheelMat = new THREE.MeshStandardMaterial({ color: 0x111111 });
+    const positions = [
+      [-1.3, 0.6, 1.5], [1.3, 0.6, 1.5], 
+      [-1.3, 0.6, -1.5], [1.3, 0.6, -1.5]
+    ];
+    positions.forEach(pos => {
+      const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+      wheel.rotation.z = Math.PI / 2;
+      wheel.position.set(pos[0], pos[1], pos[2]);
+      capsuleMesh.add(wheel);
+    });
 
-    // Spinning Ring 2
-    const ring2Geo = new THREE.TorusGeometry(4.5, 0.05, 16, 32);
-    const ring2Mat = new THREE.MeshBasicMaterial({ color: 0x001f3f, transparent: true, opacity: 0.8 });
-    const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
-    ring2.rotation.y = Math.PI / 2;
-    capsuleMesh.add(ring2);
+    // Headlights (Glowing green/yellow)
+    const lightGeo = new THREE.BoxGeometry(0.4, 0.3, 0.1);
+    const lightMat = new THREE.MeshBasicMaterial({ color: 0xc6ff33 });
+    const lightL = new THREE.Mesh(lightGeo, lightMat);
+    lightL.position.set(-0.8, 0.8, 2.55);
+    const lightR = new THREE.Mesh(lightGeo, lightMat);
+    lightR.position.set(0.8, 0.8, 2.55);
+    capsuleMesh.add(lightL, lightR);
 
     scene.add(capsuleMesh);
 
@@ -549,11 +560,14 @@ export default function ThreePipelineRoadway() {
 
       // Energy Capsule leads the way exactly at scroll progress
       const capPos = roadCurve.getPointAt(progress);
-      capsuleMesh.position.copy(capPos).add(new THREE.Vector3(0, 3, 0));
+      capsuleMesh.position.copy(capPos);
+      capsuleMesh.position.y += 2.5; // Hover above track (truck wheels touch track)
       
-      // Pulse capsule slightly
-      const pulse = 1 + Math.sin(elapsed * 5) * 0.1;
-      capsuleMesh.scale.set(pulse, pulse, pulse);
+      // Make truck look at the next point on the curve
+      const nextProgress = Math.min(1, progress + 0.01);
+      const capTarget = roadCurve.getPointAt(nextProgress);
+      capTarget.y += 2.5;
+      capsuleMesh.lookAt(capTarget);
 
       // Rotate Station Objects slightly, pop up the active one
       stationObjects.forEach((grp, idx) => {
@@ -574,13 +588,6 @@ export default function ThreePipelineRoadway() {
       updatableRotors.forEach(rotor => {
         rotor.rotation.z = elapsed * 1.5;
       });
-
-      // Rotate High-Tech Energy Drone parts
-      core.rotation.y = elapsed * 1.5;
-      core.rotation.x = elapsed * 0.8;
-      shell.rotation.y = -elapsed * 0.5;
-      ring1.rotation.z = elapsed * 1.2;
-      ring2.rotation.x = elapsed * 0.9;
 
       // Rotate 3D Logos (OJK, IDX, AMP)
       spinners.forEach(spinner => {

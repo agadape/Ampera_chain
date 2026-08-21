@@ -40,19 +40,39 @@ export default function NusantaraMap2D() {
       >
         <Graticule stroke="#ffffff" strokeOpacity={0.03} />
         
+        {/* SHADOW / FAKE 3D DEPTH LAYER */}
+        <Geographies geography={geoUrl} transform="translate(0, 8)">
+          {({ geographies }) =>
+            geographies.map((geo) => (
+              <Geography 
+                key={`shadow-${geo.rsmKey}`} 
+                geography={geo}
+                fill="#000913" 
+                stroke="none"
+                style={{
+                  default: { outline: "none" },
+                  hover: { outline: "none" },
+                  pressed: { outline: "none" },
+                }}
+              />
+            ))
+          }
+        </Geographies>
+
+        {/* MAIN FOREGROUND LAYER */}
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map((geo) => (
               <Geography 
                 key={geo.rsmKey} 
                 geography={geo}
-                fill="rgba(255, 255, 255, 0.03)" 
+                fill="rgba(255, 255, 255, 0.05)" 
                 stroke="#C6FF33"
                 strokeWidth={0.5}
-                strokeOpacity={0.2}
+                strokeOpacity={0.4}
                 style={{
                   default: { outline: "none", transition: "all 0.3s ease" },
-                  hover: { fill: "rgba(198, 255, 51, 0.15)", strokeOpacity: 0.8, outline: "none" },
+                  hover: { fill: "rgba(198, 255, 51, 0.15)", strokeOpacity: 1, outline: "none", transform: "translateY(-2px)" },
                   pressed: { fill: "#C6FF33", outline: "none" },
                 }}
               />
