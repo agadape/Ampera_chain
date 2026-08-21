@@ -21,7 +21,7 @@ import {
   GraduationCap
 } from "@phosphor-icons/react";
 
-import ThreeNusantaraGlobe from "@/components/ThreeNusantaraGlobe";
+import NusantaraMap2D from "@/components/NusantaraMap2D";
 import ThreePipelineRoadway from "@/components/ThreePipelineRoadway";
 
 export default function Home() {
@@ -241,11 +241,11 @@ export default function Home() {
             </div>
 
             <div className="text-xs font-mono text-white/60">
-              * Putar bola 3D dengan kursor & klik simpul desa untuk audit real-time
+              * Arahkan kursor ke titik koordinat untuk melihat data audit desa secara real-time.
             </div>
           </div>
 
-          <ThreeNusantaraGlobe />
+          <NusantaraMap2D />
 
         </div>
       </section>
