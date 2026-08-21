@@ -32,3 +32,12 @@ body {
   background-color: var(--color-paper);
   color: var(--color-black);
 }
+
+/* Hide scrollbar completely to enhance scrollytelling immersion */
+::-webkit-scrollbar {
+  display: none;
+}
+html, body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
