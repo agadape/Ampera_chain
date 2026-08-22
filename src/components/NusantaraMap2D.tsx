@@ -27,7 +27,25 @@ export default function NusantaraMap2D() {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div className="relative w-full aspect-[4/3] sm:aspect-[2/1] md:aspect-[2.5/1] max-w-5xl mx-auto flex items-center justify-center py-6">
+    <div className="relative w-full aspect-[4/3] sm:aspect-[2/1] md:aspect-[2.5/1] max-w-5xl mx-auto flex items-center justify-center py-6 overflow-hidden rounded-[2rem] bg-gradient-to-b from-transparent via-[#001329]/20 to-[#001329]/40 border border-white/5">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes dashFlow {
+          from { stroke-dashoffset: 24; }
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes marquee {
+          0% { transform: translateX(100%); }
+          100% { transform: translateX(-100%); }
+        }
+        .animate-dash-flow {
+          animation: dashFlow 1s linear infinite;
+        }
+        .animate-marquee-text {
+          display: inline-block;
+          animation: marquee 25s linear infinite;
+        }
+      `}} />
+
       <ComposableMap 
         projection="geoMercator" 
         projectionConfig={{
@@ -38,6 +56,14 @@ export default function NusantaraMap2D() {
         height={450}
         style={{ width: "100%", height: "100%" }}
       >
+        {/* Background Tech Dot Grid Pattern */}
+        <defs>
+          <pattern id="dotGrid" width="16" height="16" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1" fill="#C6FF33" opacity="0.05" />
+          </pattern>
+        </defs>
+        <rect width="1000" height="450" fill="url(#dotGrid)" />
+
         <Graticule stroke="#ffffff" strokeOpacity={0.03} />
         
         {/* Decorative Radar in Indian Ocean (Bottom Left) */}
@@ -98,18 +124,19 @@ export default function NusantaraMap2D() {
           }
         </Geographies>
 
-        {/* Network Lines */}
+        {/* Network Lines with Flowing Animation */}
         {MAP_LOCATIONS.map((loc) => (
           <Line
             key={`line-${loc.id}`}
             from={HUB_COORDINATES}
             to={loc.coordinates as [number, number]}
             stroke="#C6FF33"
-            strokeWidth={1}
-            strokeOpacity={0.3}
+            strokeWidth={1.5}
+            strokeOpacity={0.6}
             strokeLinecap="round"
+            className="animate-dash-flow"
             style={{
-              strokeDasharray: "4 4",
+              strokeDasharray: "4 6",
             }}
           />
         ))}
@@ -179,7 +206,7 @@ export default function NusantaraMap2D() {
       </ComposableMap>
 
       {/* Floating Legend / Stats Panel */}
-      <div className="absolute bottom-0 left-4 md:bottom-8 md:left-8 flex flex-col gap-3 pointer-events-none z-20">
+      <div className="absolute bottom-10 left-4 md:bottom-12 md:left-8 flex flex-col gap-3 pointer-events-none z-20">
         
         {/* Network Status */}
         <div className="bg-[#001329]/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 md:p-5 shadow-2xl flex items-start gap-4">
@@ -253,7 +280,7 @@ export default function NusantaraMap2D() {
       </div>
 
       {/* BOTTOM RIGHT DASHBOARD */}
-      <div className="absolute bottom-0 right-4 md:bottom-8 md:right-8 flex flex-col pointer-events-none z-20 text-right">
+      <div className="absolute bottom-10 right-4 md:bottom-12 md:right-8 flex flex-col pointer-events-none z-20 text-right">
         <div className="bg-[#001329]/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 md:p-5 shadow-2xl w-48 md:w-56">
           <div className="text-[10px] font-mono text-white/60 uppercase tracking-widest mb-3">
             Bauran Energi
@@ -288,6 +315,13 @@ export default function NusantaraMap2D() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* LIVE TICKER BAR */}
+      <div className="absolute bottom-0 inset-x-0 h-7 bg-[#001329]/90 border-t border-[#C6FF33]/30 flex items-center z-30 backdrop-blur-md">
+        <div className="animate-marquee-text whitespace-nowrap text-[10px] font-mono text-[#C6FF33] tracking-[0.2em]">
+          [SYS] NODE 01: 50KW ONLINE &nbsp;&nbsp; // &nbsp;&nbsp; [LEDGER] 120 AMP MINTED &nbsp;&nbsp; // &nbsp;&nbsp; [AI TETRIX] SATELLITE YIELD VERIFIED &nbsp;&nbsp; // &nbsp;&nbsp; [ORBIT] SENTINEL-2 DATA INGESTION: OK &nbsp;&nbsp; // &nbsp;&nbsp; [EDGE] ESP32 TELEMETRY SYNCED &nbsp;&nbsp; // &nbsp;&nbsp; [SYS] NODE 02: 120KW ONLINE
         </div>
       </div>
 
