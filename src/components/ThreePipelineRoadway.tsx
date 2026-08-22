@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { motion } from "framer-motion";
 import { 
   Handshake, 
   Broadcast, 
@@ -167,6 +168,114 @@ const STATIONS: StationData[] = [
     pos: [140, 15, -6]
   }
 ];
+
+const renderAIVisualization = (id: number) => {
+  if (id === 1) { // Orbit AI
+    return (
+      <div className="mt-5 rounded-2xl bg-[#000913] border border-white/10 overflow-hidden relative p-4 shadow-inner">
+        <div className="absolute inset-0 bg-[#001329] opacity-80" />
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-[10px] font-mono font-bold text-[#C6FF33] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#C6FF33] animate-pulse" />
+            LIVE SATELLITE FEED
+          </span>
+          <span className="text-[9px] font-mono text-white/50">SENTINEL-2 L2A</span>
+        </div>
+        <div className="h-28 w-full bg-black/40 rounded-lg relative overflow-hidden border border-white/5 flex items-center justify-center">
+          <div className="grid grid-cols-6 gap-1 w-full h-full p-2 opacity-30">
+            {Array.from({length: 24}).map((_, i) => <div key={i} className="bg-white/20 rounded-sm" />)}
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center">
+             <div className="border border-[#C6FF33] w-14 h-14 rounded-sm relative bg-[#C6FF33]/5">
+                <span className="absolute -top-4 -right-10 text-[9px] font-mono text-[#001329] font-bold bg-[#C6FF33] px-1 rounded-sm">YOLOv8: 93.6%</span>
+                <div className="w-2 h-2 bg-[#C6FF33] absolute -bottom-1 -left-1" />
+                <div className="w-2 h-2 bg-[#C6FF33] absolute -top-1 -right-1" />
+             </div>
+          </div>
+        </div>
+        <div className="mt-3 grid grid-cols-2 gap-2 text-[10px] font-mono">
+          <div className="bg-white/5 p-2 rounded-lg border border-white/5">
+            <div className="text-white/40 mb-1">Target</div>
+            <div className="text-white font-bold truncate">Desa Suka Maju</div>
+          </div>
+          <div className="bg-white/5 p-2 rounded-lg border border-white/5">
+            <div className="text-white/40 mb-1">GHI (Solar)</div>
+            <div className="text-[#C6FF33] font-bold truncate">1,980 kWh/m²</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (id === 2) { // Edge Node
+    return (
+      <div className="mt-5 rounded-2xl bg-[#000913] border border-white/10 overflow-hidden relative p-4 shadow-inner">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-[10px] font-mono font-bold text-[#00a2e9] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#00a2e9] animate-pulse" />
+            ESP32 TELEMETRY
+          </span>
+          <span className="text-[9px] font-mono text-white/50">LoRaWAN 923MHz</span>
+        </div>
+        <div className="h-24 w-full bg-black/40 rounded-lg relative overflow-hidden border border-white/5 flex items-end p-2 gap-1.5">
+          {/* Fake bar chart for telemetry */}
+          {[30, 45, 60, 50, 70, 85, 80, 95, 90, 100, 85, 75, 60, 70, 85].map((h, i) => (
+             <motion.div 
+               key={i} 
+               initial={{ height: "10%" }}
+               animate={{ height: `${h}%` }}
+               transition={{ repeat: Infinity, repeatType: 'reverse', duration: 1 + (i * 0.1) }}
+               className="w-full bg-[#00a2e9]/80 rounded-t-sm" 
+             />
+          ))}
+        </div>
+        <div className="mt-3 grid grid-cols-2 gap-2 text-[10px] font-mono">
+          <div className="bg-white/5 p-2 rounded-lg border border-white/5">
+            <div className="text-white/40 mb-1">Water Flow Rate</div>
+            <div className="text-[#00a2e9] font-bold text-sm">2.4 m³/s</div>
+          </div>
+          <div className="bg-white/5 p-2 rounded-lg border border-white/5">
+            <div className="text-white/40 mb-1">Node Status</div>
+            <div className="text-emerald-400 font-bold text-sm">ACTIVE (12ms)</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (id === 4) { // Ledger AI
+    return (
+      <div className="mt-5 rounded-2xl bg-[#000913] border border-white/10 overflow-hidden relative p-4 shadow-inner">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-[10px] font-mono font-bold text-[#7D39EB] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#7D39EB] animate-pulse" />
+            ERC-6909 LEDGER
+          </span>
+          <span className="text-[9px] font-mono text-white/50">SMART CONTRACT</span>
+        </div>
+        <div className="space-y-2">
+           <div className="flex justify-between items-center p-2.5 bg-white/5 rounded-lg border border-white/5 text-[10px] font-mono">
+             <span className="text-white/50">TX Hash</span>
+             <span className="text-[#7D39EB] bg-[#7D39EB]/10 px-2 py-1 rounded">0x4f8B...9a2C</span>
+           </div>
+           <div className="flex justify-between items-center p-2.5 bg-white/5 rounded-lg border border-white/5 text-[10px] font-mono">
+             <span className="text-white/50">Minted $AMP</span>
+             <span className="text-white font-bold text-xs">+1,204 AMP</span>
+           </div>
+           <div className="flex justify-between items-center p-2.5 bg-white/5 rounded-lg border border-white/5 text-[10px] font-mono">
+             <span className="text-white/50">Oracle Verification</span>
+             <span className="text-[#C6FF33] flex items-center gap-1">
+               <ShieldCheck size={14} weight="fill" />
+               1,204 kWh Validated
+             </span>
+           </div>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
 
 export default function ThreePipelineRoadway() {
   const mountRef = useRef<HTMLDivElement | null>(null);
@@ -673,6 +782,9 @@ export default function ThreePipelineRoadway() {
                     </div>
                   ))}
                 </div>
+
+                {/* --- AI TETRIX VISUALIZATION RENDER --- */}
+                {renderAIVisualization(st.id)}
 
               </div>
 
