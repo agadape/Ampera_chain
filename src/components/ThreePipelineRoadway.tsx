@@ -561,12 +561,12 @@ export default function ThreePipelineRoadway() {
       // Energy Capsule leads the way exactly at scroll progress
       const capPos = roadCurve.getPointAt(progress);
       capsuleMesh.position.copy(capPos);
-      capsuleMesh.position.y += 2.5; // Hover above track (truck wheels touch track)
+      capsuleMesh.position.y += 3.6; // Raise truck so wheels sit directly on the track (tube radius is 3)
       
       // Make truck look at the next point on the curve
       const nextProgress = Math.min(1, progress + 0.01);
       const capTarget = roadCurve.getPointAt(nextProgress);
-      capTarget.y += 2.5;
+      capTarget.y += 3.6;
       capsuleMesh.lookAt(capTarget);
 
       // Rotate Station Objects slightly, pop up the active one
